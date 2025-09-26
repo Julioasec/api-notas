@@ -16,7 +16,7 @@ public class CategoriaService {
     }
 
     public Categoria criarCategoria(Categoria categoria){
-        categoria.setIdCategoria((long)(categorias.size() +1));
+        categoria.setIdCategoria((long)categorias.size() +1);
         categorias.add(categoria);
         return categoria;
     }

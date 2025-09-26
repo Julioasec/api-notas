@@ -10,7 +10,7 @@ import java.util.List;
 public class AtributoService {
     private List<Atributo> atributos = new ArrayList<>();
 
-    public List<Atributo> ListarAtributos(){
+    public List<Atributo> listarAtributos(){
         return this.atributos;
     }
 
