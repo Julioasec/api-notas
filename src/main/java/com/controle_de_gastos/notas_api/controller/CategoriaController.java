@@ -16,7 +16,7 @@ public class CategoriaController {
 
     @GetMapping
     public List<Categoria> ListarCategorias(){
-        return categoriaService.ListarCategorias();
+        return categoriaService.listarCategorias();
     }
 
 

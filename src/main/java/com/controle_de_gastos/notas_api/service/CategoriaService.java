@@ -11,7 +11,7 @@ import java.util.List;
 public class CategoriaService {
     private List<Categoria> categorias = new ArrayList<>();
 
-    public List<Categoria> ListarCategorias(){
+    public List<Categoria> listarCategorias(){
         return this.categorias;
     }
 
