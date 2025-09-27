@@ -7,10 +7,10 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Categoria_Estabelecimento")
-public class CategoriaEstabelecimento {
+@Table(name = "Notas_Categoria")
+public class NotasCategoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCategoriaEstabelecimento;
+    private long idCategoria;
     private String nome;
 }

@@ -1,24 +1,33 @@
 package com.controle_de_gastos.notas_api.service;
-
-
+import com.controle_de_gastos.notas_api.Repository.CategoriaEstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.model.CategoriaEstabelecimento;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoriaEstabelecimentoService {
-    private List<CategoriaEstabelecimento> categorias = new ArrayList<>();
+    private final CategoriaEstabelecimentoRepository categoriaEstabelecimentoRepository;
 
-    public CategoriaEstabelecimento criarCategoria(CategoriaEstabelecimento categoria) {
-        categoria.setIdCategoriaEstabelecimento((long) categorias.size() +1);
-        categorias.add(categoria);
-        return categoria;
+    public CategoriaEstabelecimentoService(CategoriaEstabelecimentoRepository categoriaEstabelecimentoRepository){
+        this.categoriaEstabelecimentoRepository = categoriaEstabelecimentoRepository;
     }
 
-    public List<CategoriaEstabelecimento> listarCategorias() {
-        return categorias;
+    public List<CategoriaEstabelecimento> listarTodos(){
+        return categoriaEstabelecimentoRepository.findAll();
     }
+
+    public Optional<CategoriaEstabelecimento> buscarPorId(Integer id){
+        return categoriaEstabelecimentoRepository.findById(id);
+    }
+
+    public CategoriaEstabelecimento salvarCategoria(CategoriaEstabelecimento categoria) {
+        return categoriaEstabelecimentoRepository.save(categoria);
+    }
+
+    public void deletarPorId(Integer id){
+        categoriaEstabelecimentoRepository.deleteById(id);
+    }
+
+
 }
