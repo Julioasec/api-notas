@@ -16,6 +16,7 @@ public class ItemTipoController {
     private ItemTipoRepository itemTipoRepository;
     private ItemTipoService itemTipoService;
 
+    @Autowired
     public ItemTipoController(ItemTipoRepository itemTipoRepository, ItemTipoService itemTipoService) {
         this.itemTipoRepository = itemTipoRepository;
         this.itemTipoService = itemTipoService;

@@ -1,15 +1,17 @@
 package com.controle_de_gastos.notas_api.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.*;
+@Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Marca {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idMarca;
     private String nome;
 }
