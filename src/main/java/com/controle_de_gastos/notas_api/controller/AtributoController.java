@@ -2,6 +2,7 @@ package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.Repository.AtributoRepository;
 import com.controle_de_gastos.notas_api.model.Atributo;
+import com.controle_de_gastos.notas_api.model.Bairro;
 import com.controle_de_gastos.notas_api.service.AtributoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,10 +31,9 @@ public class AtributoController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Atributo> buscarPorId(@PathVariable Long id){
+    public Optional<Atributo> buscarPorId(@PathVariable Integer id){
         return atributoService.buscarPorId(id);
     }
-
 
     @PostMapping
     public Atributo atributoSalvar(@RequestBody Atributo atributo){
@@ -41,7 +41,7 @@ public class AtributoController {
     }
 
     @DeleteMapping
-    public void deletarAtributo(Long id){
+    public void deletarAtributo(Integer id){
          atributoService.deletarPorId(id);
     }
 

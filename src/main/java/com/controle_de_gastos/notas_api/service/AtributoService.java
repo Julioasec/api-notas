@@ -20,7 +20,7 @@ public class AtributoService {
         return atributoRepository.findAll();
     }
 
-    public Optional<Atributo> buscarPorId(Long id) {
+    public Optional<Atributo> buscarPorId(Integer id) {
         return atributoRepository.findById(id);
     }
 
@@ -28,7 +28,7 @@ public class AtributoService {
         return atributoRepository.save(atributo);
     }
 
-    public void deletarPorId(Long id){
+    public void deletarPorId(Integer id){
         atributoRepository.deleteById(id);
     }
 }

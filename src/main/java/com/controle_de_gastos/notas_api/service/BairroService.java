@@ -1,23 +1,35 @@
 package com.controle_de_gastos.notas_api.service;
 
+import com.controle_de_gastos.notas_api.Repository.BairroRepository;
 import com.controle_de_gastos.notas_api.model.Bairro;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BairroService {
-    private List<Bairro> bairros = new ArrayList<>();
+    private final BairroRepository bairroRepository;
 
+    public BairroService(BairroRepository bairroRepository){
+        this.bairroRepository = bairroRepository;
+    };
 
-    public Bairro criarBairro(Bairro bairro){
-        bairro.setId_bairro((long) bairros.size()+1);
-        bairros.add(bairro);
-        return bairro;
+    public List<Bairro> listarTodos() {
+        return bairroRepository.findAll();
     }
 
-    public List<Bairro> listarBairros() {
-        return bairros;
+    public Optional<Bairro> buscarPorId(Integer id){
+        return bairroRepository.findById(id);
     }
+
+    public Bairro salvar(Bairro bairro){
+         return bairroRepository.save(bairro);
+    }
+
+    public void  deletarPorId(Integer id){
+        bairroRepository.deleteById(id);
+    }
+
 }

@@ -13,6 +13,6 @@ import lombok.*;
     public class Atributo {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private long idAtributo;
+        private Integer idAtributo;
         private String nome;
     }
