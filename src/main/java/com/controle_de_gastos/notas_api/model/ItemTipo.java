@@ -11,6 +11,6 @@ import lombok.*;
 public class ItemTipo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idTipo;
+    private Integer idTipo;
     private String nome;
 }

@@ -12,6 +12,6 @@ import lombok.*;
 public class Marca {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idMarca;
+    private Integer idMarca;
     private String nome;
 }

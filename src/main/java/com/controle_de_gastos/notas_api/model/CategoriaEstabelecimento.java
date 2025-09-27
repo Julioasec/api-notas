@@ -1,7 +1,9 @@
 package com.controle_de_gastos.notas_api.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.Set;
 
 @Entity
 @Data
@@ -13,4 +15,7 @@ public class CategoriaEstabelecimento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCategoriaEstabelecimento;
     private String nome;
+    @OneToMany(mappedBy ="categoria", cascade = CascadeType.ALL) // uma Categoria para muitos estabelecimentos
+    @JsonManagedReference //
+    private Set<Estabelecimento> estabelecimentos; // representa os estabelecimentos associados a categoria
 }
