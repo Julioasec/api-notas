@@ -1,16 +1,18 @@
 package com.controle_de_gastos.notas_api.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Notas_Categoria")
-public class NotasCategoria {
+@Table(name = "Metodo_Pagamento")
+public class MetodoPagamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCategoria;
+    private Integer idMetodo;
     private String nome;
 }
