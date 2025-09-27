@@ -1,15 +1,16 @@
 package com.controle_de_gastos.notas_api.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Getter
-@Setter
+@Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+    @Table(name = "Item_Tipo")
 public class ItemTipo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idTipo;
     private String nome;
 }
