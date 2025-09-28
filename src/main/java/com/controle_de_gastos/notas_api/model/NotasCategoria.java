@@ -3,6 +3,8 @@ package com.controle_de_gastos.notas_api.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -13,4 +15,6 @@ public class NotasCategoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCategoria;
     private String nome;
+    @OneToMany(mappedBy = "categoria")
+    private List<Nota> notas;
 }
