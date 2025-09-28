@@ -16,6 +16,5 @@ public class CategoriaEstabelecimento {
     private Integer idCategoriaEstabelecimento;
     private String nome;
     @OneToMany(mappedBy ="categoria", cascade = CascadeType.ALL) // uma Categoria para muitos estabelecimentos
-    @JsonManagedReference //
     private Set<Estabelecimento> estabelecimentos; // representa os estabelecimentos associados a categoria
 }
