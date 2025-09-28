@@ -16,7 +16,7 @@ public class NotaService {
     private NotaRepository notaRepository;
     private NotasCategoriaRepository notasCategoriaRepository;
 
-    private NotaDTO toDTO(Nota nota){
+    public NotaDTO toDTO(Nota nota){
         return new NotaDTO(
                 nota.getIdNota(),
                 nota.getData(),

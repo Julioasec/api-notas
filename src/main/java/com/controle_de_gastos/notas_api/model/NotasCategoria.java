@@ -6,7 +6,8 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "Notas_Categoria")
@@ -15,6 +16,6 @@ public class NotasCategoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCategoria;
     private String nome;
-    @OneToMany(mappedBy = "categoria")
+    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
     private List<Nota> notas;
 }

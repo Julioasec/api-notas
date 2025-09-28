@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -17,4 +20,9 @@ public class Estabelecimento {
     @ManyToOne // indica que vários estabelecimentos podem ter 1 categoria
     @JoinColumn(name = "id_categoria_estabelecimento") // indica a chave estrangeira no banco, que referencia CategoriaEstabelecimento
     private CategoriaEstabelecimento categoria;
+/*
+    @OneToMany(mappedBy = "estabelecimento",  cascade = CascadeType.ALL)
+    private List<Nota> notas;
+*/
 }
+

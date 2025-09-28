@@ -1,10 +1,9 @@
-/*
+
 package com.controle_de_gastos.notas_api.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
@@ -16,14 +15,14 @@ public class Parcelamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idParcelamento;
-
-    @ManyToOne // significa que muitos parcelamentos podem estar associados a 1 nota
-    @JoinColumn(name = 'id_nota')
-    private  idNota;
-    private Integer nParcela;
+    @Column(name = "n_parcela")
+    private Integer parcela;
+    @Column(name = "data_pagamento")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dataPagamento;
-    private boolean pago = false;
-
-
+    private Boolean pago = false;
+    private Double valorParcela;
+    @ManyToOne // significa que muitos parcelamentos podem estar associados a 1 nota
+    @JoinColumn(name = "id_nota")
+    private Nota nota;
 }
-*/

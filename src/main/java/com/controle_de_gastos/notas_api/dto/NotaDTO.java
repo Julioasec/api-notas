@@ -8,6 +8,9 @@ public record NotaDTO(
         Double total,
         Integer qtdeItens,
         Integer idCategoria,
-        String nomeCategoria
+        String nomeCategoria/*,
+        Integer idEstabelecimento,
+        String nomeEstabelecimento
+        */
 ) {
 }

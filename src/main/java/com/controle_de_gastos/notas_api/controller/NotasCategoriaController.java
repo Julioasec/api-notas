@@ -1,6 +1,7 @@
 package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.Repository.NotasCategoriaRepository;
+import com.controle_de_gastos.notas_api.dto.NotasCategoriaDTO;
 import com.controle_de_gastos.notas_api.model.NotasCategoria;
 import com.controle_de_gastos.notas_api.service.NotasCategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,18 +25,19 @@ public class NotasCategoriaController {
 
 
     @GetMapping
-    public List<NotasCategoria> listarCategorias(){
+    public List<NotasCategoriaDTO> listarCategorias(){
         return notasCategoriaService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Optional<NotasCategoria> buscarPorId(@PathVariable Integer id){
-        return notasCategoriaRepository.findById(id);
+    public Optional<NotasCategoriaDTO> buscarPorId(@PathVariable Integer id){
+        return notasCategoriaRepository.findById(id)
+                .map(notasCategoriaService::toDTO);
     }
 
     @PostMapping
-    public NotasCategoria criarCategoria(@RequestBody NotasCategoria notasCategoria){
-        return notasCategoriaService.salvar(notasCategoria);
+    public NotasCategoriaDTO criarCategoria(@RequestBody NotasCategoria notasCategoria){
+        return notasCategoriaService.salvarCategoria(notasCategoria);
     }
 
     @DeleteMapping
