@@ -27,8 +27,7 @@ public class Nota {
     @OneToMany(mappedBy = "nota", cascade = CascadeType.ALL)
     private Set<Parcelamento> parcelamentos;
 
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "id_estabelecimento")
     private Estabelecimento estabelecimento;
-     */
 }

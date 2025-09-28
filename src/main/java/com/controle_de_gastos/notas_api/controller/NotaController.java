@@ -28,8 +28,10 @@ public class NotaController {
     }
 
     @PostMapping
-    public Nota salvarNota(@RequestBody Nota nota, Integer idCategoria){
-        return notaService.salvarNota(nota, idCategoria);
+    public Nota salvarNota(@RequestBody Nota nota,
+                           @RequestParam(name = "idCategoria") Integer idCategoria,
+                           @RequestParam(name = "idEstabelecimento") Integer idEstabelecimento){
+        return notaService.salvarNota(nota, idCategoria, idEstabelecimento);
     }
 
     @DeleteMapping

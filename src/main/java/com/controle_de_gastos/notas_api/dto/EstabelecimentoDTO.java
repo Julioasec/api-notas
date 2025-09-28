@@ -6,8 +6,6 @@ public record EstabelecimentoDTO(
         Integer idEstabelecimento,
         String nome,
         Integer categoriaId,
-        String categoriaNome/*,
-        List<NotaDTO> notas
-         */
+        String categoriaNome
 )
 {}

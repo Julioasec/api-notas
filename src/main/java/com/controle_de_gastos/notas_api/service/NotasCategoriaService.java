@@ -20,19 +20,9 @@ public class NotasCategoriaService {
     private final NotaService notaService;
 
     public NotasCategoriaDTO toDTO(NotasCategoria notasCategoria){
-        List<NotaDTO> notasDTO = notasCategoria.getNotas()
-                .stream()
-                .map(n ->new NotaDTO(
-                        n.getIdNota(),
-                        n.getData(),
-                        n.getTotal(),
-                        n.getQtdeItens(),
-                        n.getCategoria().getIdCategoria(),
-                        n.getCategoria().getNome()
-
-                ))
-                .toList();
-        return new NotasCategoriaDTO(notasCategoria.getIdCategoria(), notasCategoria.getNome(), notasDTO);
+                return new NotasCategoriaDTO(
+                        notasCategoria.getIdCategoria(),
+                        notasCategoria.getNome());
     }
 
     public List<NotasCategoriaDTO> listarTodos(){
