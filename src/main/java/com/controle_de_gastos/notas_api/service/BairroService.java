@@ -1,10 +1,9 @@
 package com.controle_de_gastos.notas_api.service;
 
 import com.controle_de_gastos.notas_api.Repository.BairroRepository;
+import com.controle_de_gastos.notas_api.dto.BairroDTO;
 import com.controle_de_gastos.notas_api.model.Bairro;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,16 +11,27 @@ import java.util.Optional;
 public class BairroService {
     private final BairroRepository bairroRepository;
 
+    public BairroDTO toDTO(Bairro bairro){
+            return new BairroDTO(
+                    bairro.getIdBairro(),
+                    bairro.getNome()
+            );
+    }
+
     public BairroService(BairroRepository bairroRepository){
         this.bairroRepository = bairroRepository;
     };
 
-    public List<Bairro> listarTodos() {
-        return bairroRepository.findAll();
+    public List<BairroDTO> listarTodos() {
+        return bairroRepository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .toList();
     }
 
-    public Optional<Bairro> buscarPorId(Integer id){
-        return bairroRepository.findById(id);
+    public Optional<BairroDTO> buscarPorId(Integer id){
+        return bairroRepository.findById(id)
+                .map(this::toDTO);
     }
 
     public Bairro salvar(Bairro bairro){

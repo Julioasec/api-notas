@@ -1,6 +1,7 @@
 package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.Repository.BairroRepository;
+import com.controle_de_gastos.notas_api.dto.BairroDTO;
 import com.controle_de_gastos.notas_api.model.Bairro;
 import com.controle_de_gastos.notas_api.service.BairroService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,12 @@ public class BairroController {
     }
 
     @GetMapping
-    public List<Bairro> listarBairros() {
+    public List<BairroDTO> listarBairros() {
         return bairroService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Optional<Bairro> buscarPorId(@PathVariable Integer id){
+    public Optional<BairroDTO> buscarPorId(@PathVariable Integer id){
         return bairroService.buscarPorId(id);
     }
 

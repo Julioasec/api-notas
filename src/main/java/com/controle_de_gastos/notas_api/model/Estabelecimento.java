@@ -1,12 +1,14 @@
 package com.controle_de_gastos.notas_api.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -24,5 +26,7 @@ public class Estabelecimento {
     @OneToMany(mappedBy = "estabelecimento",  cascade = CascadeType.ALL)
     private List<Nota> notas;
 
+   @OneToMany(mappedBy = "estabelecimento",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<EstabelecimentoBairroJuncao> estabelecimentoBairroJuncaos = new HashSet<>();
 }
 

@@ -1,5 +1,6 @@
 package com.controle_de_gastos.notas_api.service;
 
+import com.controle_de_gastos.notas_api.Repository.BairroRepository;
 import com.controle_de_gastos.notas_api.Repository.CategoriaEstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.Repository.EstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.dto.EstabelecimentoDTO;
@@ -10,13 +11,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+
 
 @Service
 @RequiredArgsConstructor
 public class EstabelecimentoService {
     private final EstabelecimentoRepository estabelecimentoRepository;
     private final CategoriaEstabelecimentoRepository categoriaEstabelecimentoRepository;
+    private final BairroRepository bairroRepository;
+
     private EstabelecimentoDTO toDTO(Estabelecimento estabelecimento) {
         return new EstabelecimentoDTO(
                 estabelecimento.getIdEstabelecimento(),
