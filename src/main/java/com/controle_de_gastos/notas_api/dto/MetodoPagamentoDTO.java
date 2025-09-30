@@ -1,7 +1,7 @@
 package com.controle_de_gastos.notas_api.dto;
 
 public record MetodoPagamentoDTO(
-        Integer idMetodo,
+        Integer id,
         String nome
 ) {
 }

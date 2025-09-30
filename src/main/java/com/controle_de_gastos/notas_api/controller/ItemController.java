@@ -1,12 +1,10 @@
 package com.controle_de_gastos.notas_api.controller;
 
-import com.controle_de_gastos.notas_api.Repository.ItemRepository;
 import com.controle_de_gastos.notas_api.dto.ItemDTO;
 import com.controle_de_gastos.notas_api.model.Item;
 import com.controle_de_gastos.notas_api.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +12,6 @@ import java.util.Optional;
 @RequestMapping("/api/itens")
 @RequiredArgsConstructor
 public class ItemController {
-    private final ItemRepository itemRepository;
     private final ItemService itemService;
 
 

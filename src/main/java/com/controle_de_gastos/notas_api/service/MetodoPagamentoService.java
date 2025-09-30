@@ -3,11 +3,13 @@ package com.controle_de_gastos.notas_api.service;
 import com.controle_de_gastos.notas_api.Repository.MetodoPagamentoRepository;
 import com.controle_de_gastos.notas_api.dto.MetodoPagamentoDTO;
 import com.controle_de_gastos.notas_api.model.MetodoPagamento;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class MetodoPagamentoService {
 
    private MetodoPagamentoRepository metodoPagamentoRepository;
@@ -16,13 +18,7 @@ public class MetodoPagamentoService {
                metodoPagamento.getIdMetodo(),
                metodoPagamento.getNome());
    }
-
-
-   public MetodoPagamentoService(MetodoPagamentoRepository metodoPagamentoRepository) {
-       this.metodoPagamentoRepository = metodoPagamentoRepository;
-   }
-
-
+   
    public List<MetodoPagamentoDTO> listarTodos(){
       return metodoPagamentoRepository.findAll()
               .stream()

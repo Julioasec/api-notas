@@ -5,7 +5,6 @@ import com.controle_de_gastos.notas_api.model.NotaMetodoPagamentoJuncao;
 import com.controle_de_gastos.notas_api.service.NotaMetodoPagamentoJuncaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 

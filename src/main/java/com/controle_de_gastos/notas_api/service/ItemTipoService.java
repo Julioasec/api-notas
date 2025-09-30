@@ -1,31 +1,39 @@
 package com.controle_de_gastos.notas_api.service;
 
 import com.controle_de_gastos.notas_api.Repository.ItemTipoRepository;
+import com.controle_de_gastos.notas_api.dto.ItemTipoDTO;
 import com.controle_de_gastos.notas_api.model.ItemTipo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ItemTipoService {
-    private ItemTipoRepository itemTipoRepository;
+    private final ItemTipoRepository itemTipoRepository;
 
-    public ItemTipoService(ItemTipoRepository itemTipoRepository){
-        this.itemTipoRepository = itemTipoRepository;
+    public ItemTipoDTO toDTO(ItemTipo itemTipo){
+        return new ItemTipoDTO(
+                itemTipo.getIdTipo(),
+                itemTipo.getNome()
+        );
     }
 
-    public List<ItemTipo> listarTodos(){
-        return itemTipoRepository.findAll();
+    public List<ItemTipoDTO> listarTodos(){
+        return itemTipoRepository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .toList();
     }
 
-    public Optional<ItemTipo> buscarPorId(Integer id){
-        return itemTipoRepository.findById(id);
+    public Optional<ItemTipoDTO> buscarPorId(Integer id){
+        return itemTipoRepository.findById(id)
+                .map(this::toDTO);
     }
 
-    public ItemTipo salvarTipo(ItemTipo tipo){
-       return itemTipoRepository.save(tipo);
+    public ItemTipoDTO salvarTipo(ItemTipo tipo){
+       return toDTO(itemTipoRepository.save(tipo));
     }
 
     public void deletarPorId(Integer id){

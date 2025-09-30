@@ -6,20 +6,21 @@ import com.controle_de_gastos.notas_api.dto.ItemDTO;
 import com.controle_de_gastos.notas_api.model.Item;
 import com.controle_de_gastos.notas_api.model.ItemTipo;
 import com.controle_de_gastos.notas_api.model.Marca;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ItemService {
 
-    private ItemRepository itemRepository;
-    private ItemTipoRepository itemTipoRepository;
-    private MarcaRepository marcaRepository;
+    private final ItemRepository itemRepository;
+    private final ItemTipoRepository itemTipoRepository;
+    private final MarcaRepository marcaRepository;
+    private final ItemTipoService itemTipoService;
+    private final MarcaService marcaService;
 
-    private ItemService(ItemRepository itemRepository){
-        this.itemRepository = itemRepository;
-    }
 
     public ItemDTO toDTO(Item item){
         return new ItemDTO(
@@ -27,10 +28,8 @@ public class ItemService {
                 item.getNome(),
                 item.getPeso(),
                 item.getVersao(),
-                item.getTipo().getIdTipo(),
-                item.getTipo().getNome(),
-                item.getMarca().getIdMarca(),
-                item.getMarca().getNome()
+                itemTipoService.toDTO(item.getTipo()),
+                marcaService.toDTO(item.getMarca())
         );
     }
 

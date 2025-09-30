@@ -5,7 +5,6 @@ import com.controle_de_gastos.notas_api.model.ItemAtributoJuncao;
 import com.controle_de_gastos.notas_api.service.ItemAtributoJuncaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 

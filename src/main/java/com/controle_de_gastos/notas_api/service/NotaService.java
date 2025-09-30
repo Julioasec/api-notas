@@ -7,17 +7,21 @@ import com.controle_de_gastos.notas_api.dto.NotaDTO;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.model.Nota;
 import com.controle_de_gastos.notas_api.model.NotasCategoria;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class NotaService {
 
-    private NotaRepository notaRepository;
-    private NotasCategoriaRepository notasCategoriaRepository;
-    private EstabelecimentoRepository estabelecimentoRepository;
+    private final NotaRepository notaRepository;
+    private final NotasCategoriaRepository notasCategoriaRepository;
+    private final EstabelecimentoRepository estabelecimentoRepository;
+    private final EstabelecimentoService estabelecimentoService;
+    private final NotasCategoriaService notasCategoriaService;
 
     public NotaDTO toDTO(Nota nota){
         return new NotaDTO(
@@ -25,15 +29,9 @@ public class NotaService {
                 nota.getData(),
                 nota.getTotal(),
                 nota.getQtdeItens(),
-                nota.getCategoria().getIdCategoria(),
-                nota.getCategoria().getNome(),
-                nota.getEstabelecimento().getIdEstabelecimento(),
-                nota.getEstabelecimento().getNome()
+                notasCategoriaService.toDTO(nota.getCategoria()),
+                estabelecimentoService.toDTO(nota.getEstabelecimento())
         );
-    }
-
-    public NotaService(NotaRepository notaRepository) {
-        this.notaRepository = notaRepository;
     }
 
     public List<NotaDTO> listarTodos(){

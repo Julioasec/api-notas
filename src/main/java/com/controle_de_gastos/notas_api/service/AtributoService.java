@@ -3,19 +3,16 @@ package com.controle_de_gastos.notas_api.service;
 import com.controle_de_gastos.notas_api.Repository.AtributoRepository;
 import com.controle_de_gastos.notas_api.dto.AtributoDTO;
 import com.controle_de_gastos.notas_api.model.Atributo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AtributoService {
     private final AtributoRepository atributoRepository;
 
-    public AtributoService(AtributoRepository atributoRepository) {
-        this.atributoRepository = atributoRepository;
-    }
 
     public AtributoDTO toDTO(Atributo atributo){
         return new AtributoDTO(

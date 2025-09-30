@@ -5,7 +5,7 @@ import com.controle_de_gastos.notas_api.model.Nota;
 import java.util.List;
 
 public record NotasCategoriaDTO(
-        Integer idCategoria,
+        Integer id,
         String nome
 ) {
 }

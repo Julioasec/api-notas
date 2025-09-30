@@ -1,12 +1,10 @@
 package com.controle_de_gastos.notas_api.controller;
 
-import com.controle_de_gastos.notas_api.Repository.ParcelamentoRepository;
 import com.controle_de_gastos.notas_api.dto.ParcelamentoDTO;
 import com.controle_de_gastos.notas_api.model.Parcelamento;
 import com.controle_de_gastos.notas_api.service.ParcelamentoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +12,6 @@ import java.util.Optional;
 @RequestMapping("/api/parcelamento")
 @RequiredArgsConstructor
 public class ParcelamentoController {
-        private final ParcelamentoRepository parcelamentoRepository;
         private final ParcelamentoService parcelamentoService;
 
         @GetMapping

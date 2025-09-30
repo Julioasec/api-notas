@@ -1,12 +1,10 @@
 package com.controle_de_gastos.notas_api.dto;
 
 public record ItemDTO(
-    Integer idItem,
+    Integer id,
     String nome,
     Double peso,
     String versao,
-    Integer idTipo,
-    String nomeTipo,
-    Integer idMarca,
-    String nomeMarca
+    ItemTipoDTO tipo,
+    MarcaDTO marca
 ) {}

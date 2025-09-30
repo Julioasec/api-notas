@@ -1,39 +1,32 @@
 package com.controle_de_gastos.notas_api.controller;
 
-import com.controle_de_gastos.notas_api.Repository.ItemTipoRepository;
+import com.controle_de_gastos.notas_api.dto.ItemTipoDTO;
 import com.controle_de_gastos.notas_api.model.ItemTipo;
 import com.controle_de_gastos.notas_api.service.ItemTipoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/item-tipo")
+@RequiredArgsConstructor
 public class ItemTipoController {
+    private final ItemTipoService itemTipoService;
 
-    private ItemTipoRepository itemTipoRepository;
-    private ItemTipoService itemTipoService;
-
-    @Autowired
-    public ItemTipoController(ItemTipoRepository itemTipoRepository, ItemTipoService itemTipoService) {
-        this.itemTipoRepository = itemTipoRepository;
-        this.itemTipoService = itemTipoService;
-    }
 
     @GetMapping
-    public List<ItemTipo> listarTodos(){
+    public List<ItemTipoDTO> listarTodos(){
         return this.itemTipoService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Optional<ItemTipo> buscarPorId(@PathVariable Integer id){
+    public Optional<ItemTipoDTO> buscarPorId(@PathVariable Integer id){
         return this.itemTipoService.buscarPorId(id);
     }
 
     @PostMapping
-    public ItemTipo salvarTipo(@RequestBody ItemTipo itemTipo){
+    public ItemTipoDTO salvarTipo(@RequestBody ItemTipo itemTipo){
         return this.itemTipoService.salvarTipo(itemTipo);
     }
 }

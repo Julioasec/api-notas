@@ -11,7 +11,6 @@ import com.controle_de_gastos.notas_api.model.Item;
 import com.controle_de_gastos.notas_api.model.ItemAtributoJuncao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +20,9 @@ public class ItemAtributoJuncaoService {
     private final ItemAtributoJuncaoRepository itemAtributoJuncaoRepository;
     private final AtributoRepository atributoRepository;
     private final ItemRepository itemRepository;
+    private final ItemTipoService itemTipoService;
+    private final MarcaService marcaService;
+
 
     public ItemAtributoJuncaoDTO toDTO(ItemAtributoJuncao iAJuncao){
         AtributoDTO atributoDTO = new AtributoDTO(
@@ -33,10 +35,8 @@ public class ItemAtributoJuncaoService {
                 iAJuncao.getItem().getNome(),
                 iAJuncao.getItem().getPeso(),
                 iAJuncao.getItem().getVersao(),
-                iAJuncao.getItem().getTipo().getIdTipo(),
-                iAJuncao.getItem().getTipo().getNome(),
-                iAJuncao.getItem().getMarca().getIdMarca(),
-                iAJuncao.getItem().getMarca().getNome()
+                itemTipoService.toDTO(iAJuncao.getItem().getTipo()),
+                marcaService.toDTO(iAJuncao.getItem().getMarca())
         );
 
         return new ItemAtributoJuncaoDTO(

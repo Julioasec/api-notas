@@ -1,6 +1,5 @@
 package com.controle_de_gastos.notas_api.service;
 
-import com.controle_de_gastos.notas_api.Repository.BairroRepository;
 import com.controle_de_gastos.notas_api.Repository.CategoriaEstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.Repository.EstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.dto.EstabelecimentoDTO;
@@ -8,7 +7,6 @@ import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.model.CategoriaEstabelecimento;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -18,14 +16,13 @@ import java.util.Optional;
 public class EstabelecimentoService {
     private final EstabelecimentoRepository estabelecimentoRepository;
     private final CategoriaEstabelecimentoRepository categoriaEstabelecimentoRepository;
-    private final BairroRepository bairroRepository;
+    private final CategoriaEstabelecimentoService categoriaEstabelecimentoService;
 
-    private EstabelecimentoDTO toDTO(Estabelecimento estabelecimento) {
+    public EstabelecimentoDTO toDTO(Estabelecimento estabelecimento) {
         return new EstabelecimentoDTO(
                 estabelecimento.getIdEstabelecimento(),
                 estabelecimento.getNome(),
-                estabelecimento.getCategoria().getIdCategoriaEstabelecimento(),
-                estabelecimento.getCategoria().getNome()
+                categoriaEstabelecimentoService.toDTO(estabelecimento.getCategoria())
         );
     }
 

@@ -1,28 +1,38 @@
 package com.controle_de_gastos.notas_api.service;
 import com.controle_de_gastos.notas_api.Repository.CategoriaEstabelecimentoRepository;
+import com.controle_de_gastos.notas_api.dto.CategoriaEstabelecimentoDTO;
 import com.controle_de_gastos.notas_api.model.CategoriaEstabelecimento;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CategoriaEstabelecimentoService {
     private final CategoriaEstabelecimentoRepository categoriaEstabelecimentoRepository;
 
-    public CategoriaEstabelecimentoService(CategoriaEstabelecimentoRepository categoriaEstabelecimentoRepository){
-        this.categoriaEstabelecimentoRepository = categoriaEstabelecimentoRepository;
+    public CategoriaEstabelecimentoDTO toDTO(CategoriaEstabelecimento categoriaEstabelecimento) {
+        return new CategoriaEstabelecimentoDTO(
+                categoriaEstabelecimento.getIdCategoriaEstabelecimento(),
+                categoriaEstabelecimento.getNome()
+        );
     }
 
-    public List<CategoriaEstabelecimento> listarTodos(){
-        return categoriaEstabelecimentoRepository.findAll();
+    public List<CategoriaEstabelecimentoDTO> listarTodos(){
+        return categoriaEstabelecimentoRepository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .toList();
     }
 
-    public Optional<CategoriaEstabelecimento> buscarPorId(Integer id){
-        return categoriaEstabelecimentoRepository.findById(id);
+    public Optional<CategoriaEstabelecimentoDTO> buscarPorId(Integer id){
+        return categoriaEstabelecimentoRepository.findById(id)
+                .map(this::toDTO);
     }
 
-    public CategoriaEstabelecimento salvarCategoria(CategoriaEstabelecimento categoria) {
-        return categoriaEstabelecimentoRepository.save(categoria);
+    public CategoriaEstabelecimentoDTO salvarCategoria(CategoriaEstabelecimento categoria) {
+        return toDTO(categoriaEstabelecimentoRepository.save(categoria));
     }
 
     public void deletarPorId(Integer id){

@@ -1,7 +1,7 @@
 package com.controle_de_gastos.notas_api.dto;
 
 public record ItemAtributoJuncaoDTO(
-        Integer idItemAtributo,
+        Integer id,
         ItemDTO item,
         AtributoDTO atributo
 ) {

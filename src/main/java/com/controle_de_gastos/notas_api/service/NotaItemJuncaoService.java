@@ -11,7 +11,6 @@ import com.controle_de_gastos.notas_api.model.Nota;
 import com.controle_de_gastos.notas_api.model.NotaItemJuncao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 

@@ -4,7 +4,7 @@ import com.controle_de_gastos.notas_api.model.Item;
 import com.controle_de_gastos.notas_api.model.Nota;
 
 public record NotaItemJuncaoDTO(
-        Integer idNotasItens,
+        Integer id,
         Integer quantidade,
         Double valorUnitario,
         NotaDTO nota,

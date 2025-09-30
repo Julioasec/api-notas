@@ -3,9 +3,8 @@ package com.controle_de_gastos.notas_api.dto;
 import java.util.List;
 
 public record EstabelecimentoDTO(
-        Integer idEstabelecimento,
+        Integer id,
         String nome,
-        Integer categoriaId,
-        String categoriaNome
+        CategoriaEstabelecimentoDTO categoria
 )
 {}

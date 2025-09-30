@@ -9,17 +9,19 @@ import com.controle_de_gastos.notas_api.dto.EstabelecimentoDTO;
 import com.controle_de_gastos.notas_api.model.Bairro;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.model.EstabelecimentoBairroJuncao;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class EstabelecimentoBairroJuncaoService {
-    private BairroRepository bairroRepository;
-    private EstabelecimentoRepository estabelecimentoRepository;
-    private EstabelecimentoBairroJuncaoRepository estabelecimentoBairroJuncaoRepository;
-
+    private final BairroRepository bairroRepository;
+    private final EstabelecimentoRepository estabelecimentoRepository;
+    private final EstabelecimentoBairroJuncaoRepository estabelecimentoBairroJuncaoRepository;
+    private final CategoriaEstabelecimentoService categoriaEstabelecimentoService;
 
     public EstabelecimentoBairroJuncaoDTO toDTO(EstabelecimentoBairroJuncao eB){
         BairroDTO bairroDTO = new BairroDTO(
@@ -29,8 +31,7 @@ public class EstabelecimentoBairroJuncaoService {
         EstabelecimentoDTO estabelecimentoDTO = new EstabelecimentoDTO(
                             eB.getEstabelecimento().getIdEstabelecimento(),
                             eB.getEstabelecimento().getNome(),
-                            eB.getEstabelecimento().getCategoria().getIdCategoriaEstabelecimento(),
-                            eB.getEstabelecimento().getCategoria().getNome());
+                            categoriaEstabelecimentoService.toDTO(eB.getEstabelecimento().getCategoria()));
 
 
 
@@ -41,10 +42,7 @@ public class EstabelecimentoBairroJuncaoService {
                eB.getEndereco()
        );
     }
-    public EstabelecimentoBairroJuncaoService(EstabelecimentoBairroJuncaoRepository estabelecimentoBairroJuncaoRepository) {
-        this.estabelecimentoBairroJuncaoRepository = estabelecimentoBairroJuncaoRepository;
-    }
-
+    
     public List<EstabelecimentoBairroJuncaoDTO> listarTodos(){
         return estabelecimentoBairroJuncaoRepository.findAll()
                 .stream()

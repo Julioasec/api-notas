@@ -1,12 +1,10 @@
 package com.controle_de_gastos.notas_api.controller;
 
-import com.controle_de_gastos.notas_api.Repository.NotaRepository;
 import com.controle_de_gastos.notas_api.dto.NotaDTO;
 import com.controle_de_gastos.notas_api.model.Nota;
 import com.controle_de_gastos.notas_api.service.NotaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -14,8 +12,7 @@ import java.util.Optional;
 @RequestMapping("/api/nota")
 @RequiredArgsConstructor
 public class NotaController {
-    private final NotaRepository notaRepository;
-    private final NotaService notaService;
+   private final NotaService notaService;
 
     @GetMapping
     public List<NotaDTO> listarTodos(){

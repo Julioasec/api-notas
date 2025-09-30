@@ -1,33 +1,40 @@
 package com.controle_de_gastos.notas_api.service;
 
 import com.controle_de_gastos.notas_api.Repository.MarcaRepository;
+import com.controle_de_gastos.notas_api.dto.MarcaDTO;
 import com.controle_de_gastos.notas_api.model.Marca;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class MarcaService {
 
-    private MarcaRepository marcaRepository;
+    private final MarcaRepository marcaRepository;
 
-    public MarcaService(MarcaRepository marcaRepository) {
-        this.marcaRepository = marcaRepository;
+    public MarcaDTO toDTO(Marca marca){
+        return new MarcaDTO(
+                marca.getIdMarca(),
+                marca.getNome()
+        );
     }
 
-    public List<Marca> listarTodos(){
-        return marcaRepository.findAll();
+    public List<MarcaDTO> listarTodos(){
+        return marcaRepository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .toList();
     }
 
-    public Optional<Marca> buscarPorId(Integer idMarca){
-        return marcaRepository.findById(idMarca);
+    public Optional<MarcaDTO> buscarPorId(Integer idMarca){
+        return marcaRepository.findById(idMarca)
+                .map(this::toDTO);
     }
 
-    public Marca salvarMarca(Marca marca){
-        return marcaRepository.save(marca);
+    public MarcaDTO salvarMarca(Marca marca){
+        return toDTO(marcaRepository.save(marca));
     }
 
     public void deletarPorId(Integer idMarca){

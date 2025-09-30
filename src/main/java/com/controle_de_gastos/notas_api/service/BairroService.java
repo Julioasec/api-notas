@@ -3,11 +3,13 @@ package com.controle_de_gastos.notas_api.service;
 import com.controle_de_gastos.notas_api.Repository.BairroRepository;
 import com.controle_de_gastos.notas_api.dto.BairroDTO;
 import com.controle_de_gastos.notas_api.model.Bairro;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class BairroService {
     private final BairroRepository bairroRepository;
 
@@ -17,10 +19,6 @@ public class BairroService {
                     bairro.getNome()
             );
     }
-
-    public BairroService(BairroRepository bairroRepository){
-        this.bairroRepository = bairroRepository;
-    };
 
     public List<BairroDTO> listarTodos() {
         return bairroRepository.findAll()

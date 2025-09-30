@@ -1,12 +1,10 @@
 package com.controle_de_gastos.notas_api.controller;
 
-import com.controle_de_gastos.notas_api.Repository.EstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.dto.EstabelecimentoDTO;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.service.EstabelecimentoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +12,6 @@ import java.util.Optional;
 @RequestMapping("/api/estabelecimentos")
 @RequiredArgsConstructor
 public class EstabelecimentoController {
-    private final EstabelecimentoRepository estabelecimentoRepository;
     private final EstabelecimentoService estabelecimentoService;
 
     @GetMapping

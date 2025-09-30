@@ -1,6 +1,6 @@
 package com.controle_de_gastos.notas_api.dto;
 
-public record BairroDTO(
+public record MarcaDTO(
         Integer id,
         String nome
 ) {
