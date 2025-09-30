@@ -1,6 +1,7 @@
 package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.Repository.AtributoRepository;
+import com.controle_de_gastos.notas_api.dto.AtributoDTO;
 import com.controle_de_gastos.notas_api.model.Atributo;
 import com.controle_de_gastos.notas_api.model.Bairro;
 import com.controle_de_gastos.notas_api.service.AtributoService;
@@ -26,12 +27,12 @@ public class AtributoController {
 
 
     @GetMapping
-    public List<Atributo> listarAtributos(){
+    public List<AtributoDTO> listarAtributos(){
         return atributoService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Optional<Atributo> buscarPorId(@PathVariable Integer id){
+    public Optional<AtributoDTO> buscarPorId(@PathVariable Integer id){
         return atributoService.buscarPorId(id);
     }
 

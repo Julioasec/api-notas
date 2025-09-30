@@ -1,6 +1,7 @@
 package com.controle_de_gastos.notas_api.service;
 
 import com.controle_de_gastos.notas_api.Repository.AtributoRepository;
+import com.controle_de_gastos.notas_api.dto.AtributoDTO;
 import com.controle_de_gastos.notas_api.model.Atributo;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,23 @@ public class AtributoService {
         this.atributoRepository = atributoRepository;
     }
 
-    public List<Atributo> listarTodos() {
-        return atributoRepository.findAll();
+    public AtributoDTO toDTO(Atributo atributo){
+        return new AtributoDTO(
+                atributo.getIdAtributo(),
+                atributo.getNome()
+        );
     }
 
-    public Optional<Atributo> buscarPorId(Integer id) {
-        return atributoRepository.findById(id);
+    public List<AtributoDTO> listarTodos() {
+        return atributoRepository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .toList();
+    }
+
+    public Optional<AtributoDTO> buscarPorId(Integer id) {
+        return atributoRepository.findById(id)
+                .map(this::toDTO);
     }
 
     public Atributo salvar(Atributo atributo){

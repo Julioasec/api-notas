@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -20,7 +23,10 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "id_marca")
     private Marca marca;
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ItemAtributoJuncao> itemAtributoJuncaos = new HashSet<>();
     String nome;
     Double peso;
     String versao;
+
 }
