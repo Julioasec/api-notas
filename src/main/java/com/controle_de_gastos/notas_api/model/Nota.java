@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -30,4 +31,8 @@ public class Nota {
     @ManyToOne
     @JoinColumn(name = "id_estabelecimento")
     private Estabelecimento estabelecimento;
+
+    @OneToMany(mappedBy = "nota", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<NotaMetodoPagamentoJuncao> notaMetodoPagamentoJuncaos = new HashSet<>();
+
 }

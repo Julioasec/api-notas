@@ -1,6 +1,6 @@
 package com.controle_de_gastos.notas_api.controller;
 
-import com.controle_de_gastos.notas_api.Repository.MetodoPagamentoRepository;
+import com.controle_de_gastos.notas_api.dto.MetodoPagamentoDTO;
 import com.controle_de_gastos.notas_api.model.MetodoPagamento;
 import com.controle_de_gastos.notas_api.service.MetodoPagamentoService;
 import org.springframework.web.bind.annotation.*;
@@ -12,31 +12,29 @@ import java.util.Optional;
 @RequestMapping("/api/metodo-pagamentos")
 public class MetodoPagamentoController {
 
-    private final MetodoPagamentoRepository metodoPagamentoRepository;
     private final MetodoPagamentoService metodoPagamentoService;
 
-    public MetodoPagamentoController(MetodoPagamentoRepository metodoPagamentoRepository, MetodoPagamentoService metodoPagamentoService) {
-            this.metodoPagamentoRepository = metodoPagamentoRepository;
+    public MetodoPagamentoController(MetodoPagamentoService metodoPagamentoService) {
             this.metodoPagamentoService = metodoPagamentoService;
     }
 
     @GetMapping
-    public List<MetodoPagamento> listarTodos(){
-        return metodoPagamentoRepository.findAll();
+    public List<MetodoPagamentoDTO> listarTodos(){
+        return metodoPagamentoService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Optional<MetodoPagamento> buscarPorId(@PathVariable Integer id){
-        return metodoPagamentoRepository.findById(id);
+    public Optional<MetodoPagamentoDTO> buscarPorId(@PathVariable Integer id){
+        return metodoPagamentoService.buscarPorId(id);
     }
 
     @PostMapping
-    public MetodoPagamento salvarMetodo(@RequestBody MetodoPagamento metodoPagamento){
-        return metodoPagamentoRepository.save(metodoPagamento);
+    public MetodoPagamentoDTO salvarMetodo(@RequestBody MetodoPagamento metodoPagamento){
+        return metodoPagamentoService.salvarMetodo(metodoPagamento);
     }
 
     @DeleteMapping
     public void deletarPorId(Integer id){
-        metodoPagamentoRepository.deleteById(id);
+        metodoPagamentoService.deletarPorId(id);
     }
 }

@@ -1,0 +1,42 @@
+package com.controle_de_gastos.notas_api.controller;
+
+import com.controle_de_gastos.notas_api.dto.NotaMetodoPagamentoJuncaoDTO;
+import com.controle_de_gastos.notas_api.model.NotaMetodoPagamentoJuncao;
+import com.controle_de_gastos.notas_api.service.NotaMetodoPagamentoJuncaoService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/nota-metodo-pagamento")
+@RequiredArgsConstructor
+public class NotasMetodoPagamentoJuncaoController {
+    private final NotaMetodoPagamentoJuncaoService notaMetodoPagamentoJuncaoService;
+
+
+    @GetMapping
+    public List<NotaMetodoPagamentoJuncaoDTO> listarTodos(){
+        return notaMetodoPagamentoJuncaoService.listarTodos();
+
+    }
+
+    @GetMapping("/{id}")
+    public Optional<NotaMetodoPagamentoJuncaoDTO> searchPorId(@PathVariable Integer id){
+        return notaMetodoPagamentoJuncaoService.buscarPorId(id);
+    }
+
+    @PostMapping
+    public NotaMetodoPagamentoJuncaoDTO salvarJuncao(@RequestBody NotaMetodoPagamentoJuncao notaMPJuncao,
+                                                     @RequestParam Integer idNota,
+                                                     @RequestParam Integer idMetodo){
+       return notaMetodoPagamentoJuncaoService.salvarJuncao(notaMPJuncao, idNota, idMetodo);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deletarPorId(@PathVariable Integer id){
+        notaMetodoPagamentoJuncaoService.deletarPorId(id);
+    }
+
+}

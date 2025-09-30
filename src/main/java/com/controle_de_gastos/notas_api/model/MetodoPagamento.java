@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -15,4 +18,7 @@ public class MetodoPagamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idMetodo;
     private String nome;
+
+    @OneToMany(mappedBy = "metodoPagamento", cascade = CascadeType.ALL, orphanRemoval = true)
+    Set<NotaMetodoPagamentoJuncao>  notaMetodoPagamentoJuncaos = new HashSet<>();
 }
