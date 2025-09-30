@@ -35,4 +35,6 @@ public class Nota {
     @OneToMany(mappedBy = "nota", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<NotaMetodoPagamentoJuncao> notaMetodoPagamentoJuncaos = new HashSet<>();
 
+    @OneToMany(mappedBy = "nota", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<NotaItemJuncao> notaItemJuncaos = new HashSet<>();
 }

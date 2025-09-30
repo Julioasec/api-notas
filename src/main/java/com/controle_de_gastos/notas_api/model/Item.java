@@ -25,8 +25,11 @@ public class Item {
     private Marca marca;
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ItemAtributoJuncao> itemAtributoJuncaos = new HashSet<>();
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<NotaItemJuncao>  notaItemJuncaos = new HashSet<>();
     String nome;
     Double peso;
     String versao;
+
 
 }

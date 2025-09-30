@@ -21,7 +21,7 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    private ItemDTO toDTO(Item item){
+    public ItemDTO toDTO(Item item){
         return new ItemDTO(
                 item.getIdItem(),
                 item.getNome(),
