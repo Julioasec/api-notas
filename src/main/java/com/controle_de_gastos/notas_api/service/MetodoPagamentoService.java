@@ -12,13 +12,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MetodoPagamentoService {
 
-   private MetodoPagamentoRepository metodoPagamentoRepository;
+   private final MetodoPagamentoRepository metodoPagamentoRepository;
+
    public MetodoPagamentoDTO toDTO(MetodoPagamento metodoPagamento) {
        return new MetodoPagamentoDTO(
                metodoPagamento.getIdMetodo(),
                metodoPagamento.getNome());
    }
-   
+
    public List<MetodoPagamentoDTO> listarTodos(){
       return metodoPagamentoRepository.findAll()
               .stream()

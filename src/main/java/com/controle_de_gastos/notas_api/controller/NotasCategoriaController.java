@@ -13,7 +13,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class NotasCategoriaController {
 
-    private NotasCategoriaService notasCategoriaService;
+    private final NotasCategoriaService notasCategoriaService;
 
     @GetMapping
     public List<NotasCategoriaDTO> listarCategorias(){

@@ -32,8 +32,8 @@ public class BairroService {
                 .map(this::toDTO);
     }
 
-    public Bairro salvar(Bairro bairro){
-         return bairroRepository.save(bairro);
+    public BairroDTO salvar(Bairro bairro){
+         return toDTO(bairroRepository.save(bairro));
     }
 
     public void  deletarPorId(Integer id){

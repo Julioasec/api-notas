@@ -33,8 +33,10 @@ public class AtributoService {
                 .map(this::toDTO);
     }
 
-    public Atributo salvar(Atributo atributo){
-        return atributoRepository.save(atributo);
+    public AtributoDTO salvar(AtributoDTO atributoDTO){
+        Atributo atributo = new Atributo();
+        atributo.setNome(atributoDTO.nome());
+        return toDTO(atributoRepository.save(atributo));
     }
 
     public void deletarPorId(Integer id){

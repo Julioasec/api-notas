@@ -1,6 +1,5 @@
 package com.controle_de_gastos.notas_api.controller;
 
-import com.controle_de_gastos.notas_api.Repository.AtributoRepository;
 import com.controle_de_gastos.notas_api.dto.AtributoDTO;
 import com.controle_de_gastos.notas_api.model.Atributo;
 import com.controle_de_gastos.notas_api.service.AtributoService;
@@ -15,9 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AtributoController {
 
-
     private final AtributoService atributoService;
-    private final AtributoRepository atributoRepository;
 
     @GetMapping
     public List<AtributoDTO> listarAtributos(){
@@ -30,7 +27,7 @@ public class AtributoController {
     }
 
     @PostMapping
-    public Atributo atributoSalvar(@RequestBody Atributo atributo){
+    public AtributoDTO atributoSalvar(@RequestBody AtributoDTO atributo){
         return atributoService.salvar(atributo);
     }
 
