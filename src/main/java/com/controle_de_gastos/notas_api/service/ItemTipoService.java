@@ -32,7 +32,9 @@ public class ItemTipoService {
                 .map(this::toDTO);
     }
 
-    public ItemTipoDTO salvarTipo(ItemTipo tipo){
+    public ItemTipoDTO salvarTipo(ItemTipoDTO tipoDTO){
+        ItemTipo tipo = new ItemTipo();
+        tipo.setNome(tipoDTO.nome());
        return toDTO(itemTipoRepository.save(tipo));
     }
 

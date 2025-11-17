@@ -26,7 +26,7 @@ public class ItemTipoController {
     }
 
     @PostMapping
-    public ItemTipoDTO salvarTipo(@RequestBody ItemTipo itemTipo){
+    public ItemTipoDTO salvarTipo(@RequestBody ItemTipoDTO itemTipo){
         return this.itemTipoService.salvarTipo(itemTipo);
     }
 }
