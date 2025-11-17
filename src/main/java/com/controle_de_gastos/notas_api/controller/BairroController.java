@@ -26,7 +26,7 @@ public class BairroController {
     }
 
     @PostMapping
-    public BairroDTO bairroSalvar(@RequestBody Bairro bairro) {
+    public BairroDTO bairroSalvar(@RequestBody BairroDTO bairro) {
         return bairroService.salvar(bairro);
     }
 

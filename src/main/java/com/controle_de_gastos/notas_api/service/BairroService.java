@@ -32,7 +32,9 @@ public class BairroService {
                 .map(this::toDTO);
     }
 
-    public BairroDTO salvar(Bairro bairro){
+    public BairroDTO salvar(BairroDTO bairroDTO){
+        Bairro  bairro = new Bairro();
+        bairro.setNome(bairroDTO.nome());
          return toDTO(bairroRepository.save(bairro));
     }
 
