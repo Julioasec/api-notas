@@ -26,7 +26,7 @@ public class CategoriaEstabelecimentoController {
     }
 
     @PostMapping
-    public CategoriaEstabelecimentoDTO criarCategoria(@RequestBody CategoriaEstabelecimento categoria) {
+    public CategoriaEstabelecimentoDTO criarCategoria(@RequestBody CategoriaEstabelecimentoDTO categoria) {
         return categoriaEstabelecimentoService.salvarCategoria(categoria);
     }
 

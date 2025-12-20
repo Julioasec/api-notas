@@ -31,7 +31,9 @@ public class CategoriaEstabelecimentoService {
                 .map(this::toDTO);
     }
 
-    public CategoriaEstabelecimentoDTO salvarCategoria(CategoriaEstabelecimento categoria) {
+    public CategoriaEstabelecimentoDTO salvarCategoria(CategoriaEstabelecimentoDTO categoriaDTO) {
+        CategoriaEstabelecimento categoria = new CategoriaEstabelecimento();
+        categoria.setNome(categoriaDTO.nome());
         return toDTO(categoriaEstabelecimentoRepository.save(categoria));
     }
 
