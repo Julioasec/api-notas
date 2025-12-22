@@ -33,7 +33,11 @@ public class MarcaService {
                 .map(this::toDTO);
     }
 
-    public MarcaDTO salvarMarca(Marca marca){
+    public MarcaDTO salvarMarca(MarcaDTO marcaDTO){
+        Marca marca = new Marca();
+
+        marca.setIdMarca(marcaDTO.id());
+        marca.setNome(marcaDTO.nome());
         return toDTO(marcaRepository.save(marca));
     }
 
