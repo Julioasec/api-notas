@@ -3,6 +3,7 @@ package com.controle_de_gastos.notas_api.service;
 import com.controle_de_gastos.notas_api.Repository.CategoriaEstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.Repository.EstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.dto.EstabelecimentoDTO;
+import com.controle_de_gastos.notas_api.dto.EstabelecimentoRequisicao;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.model.CategoriaEstabelecimento;
 import lombok.RequiredArgsConstructor;
@@ -34,12 +35,13 @@ public class EstabelecimentoService {
                 .toList();
     }
 
-    public Estabelecimento salvarEstabelecimento(Estabelecimento estabelecimento, Integer categoriaId) {
-        CategoriaEstabelecimento categoria = categoriaEstabelecimentoRepository.findById(categoriaId)
+    public EstabelecimentoDTO salvarEstabelecimento(EstabelecimentoRequisicao estabelecimentoReq) {
+        CategoriaEstabelecimento categoria = categoriaEstabelecimentoRepository.findById(estabelecimentoReq.getCategoriaId())
                 .orElseThrow(()-> new RuntimeException("Categoria Inválida"));
-
+        Estabelecimento estabelecimento = new Estabelecimento();
         estabelecimento.setCategoria(categoria);
-        return estabelecimentoRepository.save(estabelecimento);
+        estabelecimento.setNome(estabelecimentoReq.getNome());
+        return toDTO(estabelecimentoRepository.save(estabelecimento));
     }
 
     public Optional<Estabelecimento> buscarPorId(Integer id){
