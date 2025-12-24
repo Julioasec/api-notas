@@ -1,7 +1,6 @@
 package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.dto.MetodoPagamentoDTO;
-import com.controle_de_gastos.notas_api.model.MetodoPagamento;
 import com.controle_de_gastos.notas_api.service.MetodoPagamentoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

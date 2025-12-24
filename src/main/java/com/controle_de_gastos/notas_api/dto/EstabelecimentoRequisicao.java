@@ -1,6 +1,6 @@
 package com.controle_de_gastos.notas_api.dto;
 
-import jakarta.persistence.Entity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
