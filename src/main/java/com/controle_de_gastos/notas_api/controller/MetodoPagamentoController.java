@@ -27,8 +27,8 @@ public class MetodoPagamentoController {
     }
 
     @PostMapping
-    public MetodoPagamentoDTO salvarMetodo(@RequestBody MetodoPagamento metodoPagamento){
-        return metodoPagamentoService.salvarMetodo(metodoPagamento);
+    public MetodoPagamentoDTO salvarMetodo(@RequestBody MetodoPagamentoDTO metodoPagamentoDTO){
+        return metodoPagamentoService.salvarMetodo(metodoPagamentoDTO);
     }
 
     @DeleteMapping
