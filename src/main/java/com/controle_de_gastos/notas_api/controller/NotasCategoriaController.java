@@ -27,8 +27,8 @@ public class NotasCategoriaController {
     }
 
     @PostMapping
-    public NotasCategoriaDTO criarCategoria(@RequestBody NotasCategoria notasCategoria){
-        return notasCategoriaService.salvarCategoria(notasCategoria);
+    public NotasCategoriaDTO criarCategoria(@RequestBody NotasCategoriaDTO notasCategoriaDTO){
+        return notasCategoriaService.salvarCategoria(notasCategoriaDTO);
     }
 
     @DeleteMapping
