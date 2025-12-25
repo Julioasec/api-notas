@@ -32,9 +32,10 @@ public class NotasCategoriaService {
     }
 
 
-    public NotasCategoriaDTO salvarCategoria(NotasCategoria notasCategoria){
-              NotasCategoria categoriaSalva =  notasCategoriaRepository.save(notasCategoria);
-              return toDTO(categoriaSalva);
+    public NotasCategoriaDTO salvarCategoria(NotasCategoriaDTO notasCategoriaDTO){
+              NotasCategoria notasCategoria = new NotasCategoria();
+              notasCategoria.setNome(notasCategoriaDTO.nome());
+              return toDTO(notasCategoriaRepository.save(notasCategoria));
 
     }
 

@@ -32,7 +32,9 @@ public class MetodoPagamentoService {
                .map(this::toDTO);
    }
 
-   public MetodoPagamentoDTO salvarMetodo(MetodoPagamento metodoPagamento){
+   public MetodoPagamentoDTO salvarMetodo(MetodoPagamentoDTO metodoPagamentoDTO){
+       MetodoPagamento metodoPagamento = new MetodoPagamento();
+       metodoPagamento.setNome(metodoPagamentoDTO.nome());
        return toDTO(metodoPagamentoRepository.save(metodoPagamento));
    }
 

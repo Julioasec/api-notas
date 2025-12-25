@@ -26,8 +26,8 @@ public class MarcaController {
     }
 
     @PostMapping
-    public MarcaDTO salvarMarca(@RequestBody Marca marca) {
-        return marcaService.salvarMarca(marca);
+    public MarcaDTO salvarMarca(@RequestBody MarcaDTO marcaDTO) {
+        return marcaService.salvarMarca(marcaDTO);
     }
 
     @DeleteMapping

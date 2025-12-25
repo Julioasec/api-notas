@@ -1,7 +1,6 @@
 package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.dto.NotasCategoriaDTO;
-import com.controle_de_gastos.notas_api.model.NotasCategoria;
 import com.controle_de_gastos.notas_api.service.NotasCategoriaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +26,8 @@ public class NotasCategoriaController {
     }
 
     @PostMapping
-    public NotasCategoriaDTO criarCategoria(@RequestBody NotasCategoria notasCategoria){
-        return notasCategoriaService.salvarCategoria(notasCategoria);
+    public NotasCategoriaDTO criarCategoria(@RequestBody NotasCategoriaDTO notasCategoriaDTO){
+        return notasCategoriaService.salvarCategoria(notasCategoriaDTO);
     }
 
     @DeleteMapping

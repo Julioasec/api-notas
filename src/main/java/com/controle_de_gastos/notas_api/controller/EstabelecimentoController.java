@@ -1,6 +1,7 @@
 package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.dto.EstabelecimentoDTO;
+import com.controle_de_gastos.notas_api.dto.EstabelecimentoRequisicao;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.service.EstabelecimentoService;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +27,8 @@ public class EstabelecimentoController {
 
 
     @PostMapping
-    public Estabelecimento salvarEstabelecimento(@RequestBody Estabelecimento estabelecimento, Integer id_categoria){
-        return estabelecimentoService.salvarEstabelecimento(estabelecimento, id_categoria);
+    public EstabelecimentoDTO salvarEstabelecimento(@RequestBody EstabelecimentoRequisicao estabelecimentoReq){
+        return estabelecimentoService.salvarEstabelecimento(estabelecimentoReq);
     }
 
     @DeleteMapping
