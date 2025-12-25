@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 @Entity
 @Data
@@ -18,9 +19,9 @@ public class Parcelamento {
     @Column(name = "n_parcela")
     private Integer parcela;
     @Column(name = "data_pagamento")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date dataPagamento;
-    private Boolean pago = false;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate dataPagamento;
+    private Boolean pago;
     private Double valorParcela;
     @ManyToOne // significa que muitos parcelamentos podem estar associados a 1 nota
     @JoinColumn(name = "id_nota")

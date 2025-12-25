@@ -3,6 +3,7 @@ package com.controle_de_gastos.notas_api.service;
 import com.controle_de_gastos.notas_api.Repository.NotaRepository;
 import com.controle_de_gastos.notas_api.Repository.ParcelamentoRepository;
 import com.controle_de_gastos.notas_api.dto.ParcelamentoDTO;
+import com.controle_de_gastos.notas_api.dto.ParcelamentoRequisicao;
 import com.controle_de_gastos.notas_api.model.Nota;
 import com.controle_de_gastos.notas_api.model.Parcelamento;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,13 @@ public class ParcelamentoService {
             );
         }
 
+        public List<ParcelamentoDTO> listarParcelamentosDaNota(Integer notaId){
+               return parcelamentoRepository.findByNotaIdNota(notaId)
+                       .stream()
+                       .map(this::toDTO)
+                       .toList();
+        }
+
         public List<ParcelamentoDTO> listarTodos(){
             return parcelamentoRepository.findAll()
                     .stream()
@@ -41,11 +49,16 @@ public class ParcelamentoService {
     }
 
 
-    public ParcelamentoDTO salvarParcelamento(Parcelamento parcelamento, Integer idNota){
+    public ParcelamentoDTO salvarParcelamento(ParcelamentoRequisicao parcelamentoRequisicao, Integer idNota){
             Nota nota = notaRepository.findById(idNota)
                     .orElseThrow(()->new RuntimeException("Nota não encontrada"));
 
+            Parcelamento parcelamento = new Parcelamento();
             parcelamento.setNota(nota);
+            parcelamento.setParcela(parcelamentoRequisicao.getNumeroParcela());
+            parcelamento.setDataPagamento(parcelamentoRequisicao.getDataPagamento());
+            parcelamento.setValorParcela(parcelamentoRequisicao.getValorParcela());
+            parcelamento.setPago(parcelamentoRequisicao.getPago());
             return toDTO(parcelamentoRepository.save(parcelamento));
     }
 
