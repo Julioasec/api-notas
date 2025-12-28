@@ -1,13 +1,11 @@
 package com.controle_de_gastos.notas_api.model;
 
 import jakarta.persistence.*;
-import jdk.jfr.Name;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 
