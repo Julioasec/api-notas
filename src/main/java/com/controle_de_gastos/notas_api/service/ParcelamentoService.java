@@ -3,7 +3,7 @@ package com.controle_de_gastos.notas_api.service;
 import com.controle_de_gastos.notas_api.Repository.NotaRepository;
 import com.controle_de_gastos.notas_api.Repository.ParcelamentoRepository;
 import com.controle_de_gastos.notas_api.dto.ParcelamentoDTO;
-import com.controle_de_gastos.notas_api.dto.ParcelamentoRequisicao;
+import com.controle_de_gastos.notas_api.dto.requisicao.ParcelamentoRequisicao;
 import com.controle_de_gastos.notas_api.model.Nota;
 import com.controle_de_gastos.notas_api.model.Parcelamento;
 import lombok.RequiredArgsConstructor;

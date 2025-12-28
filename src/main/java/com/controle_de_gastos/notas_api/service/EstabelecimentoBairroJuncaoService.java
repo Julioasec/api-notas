@@ -55,7 +55,7 @@ public class EstabelecimentoBairroJuncaoService {
                 .map(this::toDTO);
     }
 
-    public EstabelecimentoBairroJuncao salvarAssociacao(
+    public EstabelecimentoBairroJuncaoDTO associar(
                                                   Integer idEstabelecimento,
                                                   Integer idBairro,
                                                   String endereco){
@@ -74,7 +74,7 @@ public class EstabelecimentoBairroJuncaoService {
 
         estabelecimentoBairroJuncao.setEstabelecimento(estabelecimento);
         estabelecimentoBairroJuncao.setBairro(bairro);
-        return  estabelecimentoBairroJuncaoRepository.save(estabelecimentoBairroJuncao);
+        return  toDTO(estabelecimentoBairroJuncaoRepository.save(estabelecimentoBairroJuncao));
 
     }
 

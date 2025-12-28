@@ -2,8 +2,8 @@ package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.dto.NotaDTO;
 import com.controle_de_gastos.notas_api.dto.ParcelamentoDTO;
-import com.controle_de_gastos.notas_api.dto.ParcelamentoRequisicao;
-import com.controle_de_gastos.notas_api.model.Nota;
+import com.controle_de_gastos.notas_api.dto.requisicao.NotaRequisicao;
+import com.controle_de_gastos.notas_api.dto.requisicao.ParcelamentoRequisicao;
 import com.controle_de_gastos.notas_api.service.NotaService;
 import com.controle_de_gastos.notas_api.service.ParcelamentoService;
 import lombok.RequiredArgsConstructor;
@@ -31,10 +31,8 @@ public class NotaController {
     }
 
     @PostMapping
-    public Nota salvarNota(@RequestBody Nota nota,
-                           @RequestParam(name = "idCategoria") Integer idCategoria,
-                           @RequestParam(name = "idEstabelecimento") Integer idEstabelecimento){
-        return notaService.salvarNota(nota, idCategoria, idEstabelecimento);
+    public NotaDTO salvarNota(@RequestBody NotaRequisicao notaRequisicao){
+        return notaService.salvarNota(notaRequisicao);
     }
 
     @GetMapping("/{notaId}/parcelamentos")

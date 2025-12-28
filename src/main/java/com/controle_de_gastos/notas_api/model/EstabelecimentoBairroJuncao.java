@@ -1,10 +1,16 @@
 package com.controle_de_gastos.notas_api.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "estabelecimento_bairro")
 public class EstabelecimentoBairroJuncao {
     @Id

@@ -1,11 +1,13 @@
-package com.controle_de_gastos.notas_api.dto;
+package com.controle_de_gastos.notas_api.dto.requisicao;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 
-@Data
+@Getter
+@Service
 @AllArgsConstructor
 @NoArgsConstructor
 public class EstabelecimentoBairroRequisicao {

@@ -1,4 +1,4 @@
-package com.controle_de_gastos.notas_api.dto;
+package com.controle_de_gastos.notas_api.dto.requisicao;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

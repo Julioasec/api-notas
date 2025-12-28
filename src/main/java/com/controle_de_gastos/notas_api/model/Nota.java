@@ -1,24 +1,25 @@
 package com.controle_de_gastos.notas_api.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Table(name = "Notas")
 public class Nota {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idNota;
-    private Date data;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate data;
     private Double total;
     private int qtdeItens;
 

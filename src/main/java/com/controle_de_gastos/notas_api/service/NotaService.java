@@ -4,6 +4,7 @@ import com.controle_de_gastos.notas_api.Repository.EstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.Repository.NotaRepository;
 import com.controle_de_gastos.notas_api.Repository.NotasCategoriaRepository;
 import com.controle_de_gastos.notas_api.dto.NotaDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.NotaRequisicao;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.model.Nota;
 import com.controle_de_gastos.notas_api.model.NotasCategoria;
@@ -46,16 +47,21 @@ public class NotaService {
                 .map(this::toDTO);
     }
 
-    public Nota salvarNota(Nota nota, Integer idCategoria, Integer idEstabelecimento){
-        NotasCategoria categoria = notasCategoriaRepository.findById(idCategoria)
+    public NotaDTO salvarNota(NotaRequisicao notaRequisicao){
+        NotasCategoria categoria = notasCategoriaRepository.findById(notaRequisicao.getIdCategoria())
                 .orElseThrow(() -> new RuntimeException("Categoria Não Encontrada"));
 
-        Estabelecimento estabelecimento = estabelecimentoRepository.findById(idEstabelecimento)
+        Estabelecimento estabelecimento = estabelecimentoRepository.findById(notaRequisicao.getIdEstabelecimento())
                         .orElseThrow(()->new RuntimeException("Estabelecimento não encontrado"));
 
+        Nota nota = new Nota();
         nota.setCategoria(categoria);
         nota.setEstabelecimento(estabelecimento);
-        return notaRepository.save(nota);
+        nota.setData(notaRequisicao.getData());
+        nota.setTotal(notaRequisicao.getTotal());
+        nota.setQtdeItens(notaRequisicao.getQtdeItens());
+
+        return toDTO(notaRepository.save(nota));
     }
 
     public void deletarPorId(Integer id){

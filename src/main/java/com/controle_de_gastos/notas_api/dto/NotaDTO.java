@@ -1,13 +1,14 @@
 package com.controle_de_gastos.notas_api.dto;
 
-import com.controle_de_gastos.notas_api.model.Estabelecimento;
-import com.controle_de_gastos.notas_api.model.NotasCategoria;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 public record NotaDTO(
         Integer id,
-        Date data,
+        @JsonFormat(pattern = "dd/MM/yyyy")
+        LocalDate data,
         Double total,
         Integer qtdeItens,
         NotasCategoriaDTO categoria,

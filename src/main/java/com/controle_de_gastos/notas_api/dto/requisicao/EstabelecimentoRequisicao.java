@@ -1,4 +1,4 @@
-package com.controle_de_gastos.notas_api.dto;
+package com.controle_de_gastos.notas_api.dto.requisicao;
 
 
 import lombok.AllArgsConstructor;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EstabelecimentoRequisicao {
-    private int estabelecimentoId;
     private int categoriaId;
     private String nome;
 

@@ -1,7 +1,7 @@
 package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.dto.EstabelecimentoDTO;
-import com.controle_de_gastos.notas_api.dto.EstabelecimentoRequisicao;
+import com.controle_de_gastos.notas_api.dto.requisicao.EstabelecimentoRequisicao;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.service.EstabelecimentoService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,6 @@ public class EstabelecimentoController {
     public Optional<Estabelecimento> buscarPorId(@PathVariable Integer id){
             return estabelecimentoService.buscarPorId(id);
         }
-
 
     @PostMapping
     public EstabelecimentoDTO salvarEstabelecimento(@RequestBody EstabelecimentoRequisicao estabelecimentoReq){
