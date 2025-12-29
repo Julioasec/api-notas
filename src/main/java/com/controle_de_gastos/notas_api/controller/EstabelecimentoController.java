@@ -1,5 +1,6 @@
 package com.controle_de_gastos.notas_api.controller;
 
+import com.controle_de_gastos.notas_api.dto.EstabelecimentoBairroDTO;
 import com.controle_de_gastos.notas_api.dto.EstabelecimentoDTO;
 import com.controle_de_gastos.notas_api.dto.requisicao.EstabelecimentoRequisicao;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
@@ -24,6 +25,11 @@ public class EstabelecimentoController {
     public Optional<Estabelecimento> buscarPorId(@PathVariable Integer id){
             return estabelecimentoService.buscarPorId(id);
         }
+
+    @GetMapping("{id}/bairros")
+    public EstabelecimentoBairroDTO listarBairroPorEstabelecimentoId(@PathVariable Integer id){
+        return estabelecimentoService.listarBairroPorEstabelecimentoId(id);
+    }
 
     @PostMapping
     public EstabelecimentoDTO salvarEstabelecimento(@RequestBody EstabelecimentoRequisicao estabelecimentoReq){

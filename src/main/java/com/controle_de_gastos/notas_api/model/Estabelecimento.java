@@ -16,7 +16,8 @@ import java.util.Set;
 public class Estabelecimento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idEstabelecimento;
+    @Column(name = "id_estabelecimento")
+    private Integer id;
     private String nome;
     @ManyToOne // indica que vários estabelecimentos podem ter 1 categoria
     @JoinColumn(name = "id_categoria_estabelecimento") // indica a chave estrangeira no banco, que referencia CategoriaEstabelecimento

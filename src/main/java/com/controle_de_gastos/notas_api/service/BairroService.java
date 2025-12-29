@@ -68,7 +68,7 @@ public class BairroService {
                         bairro.getEstabelecimentoBairroJuncaos()
                                 .stream()
                                 .map(juncao -> new EstabelecimentoSimplesDTO(
-                                        juncao.getEstabelecimento().getIdEstabelecimento(),
+                                        juncao.getEstabelecimento().getId(),
                                         juncao.getEstabelecimento().getNome(),
                                         juncao.getEndereco()
                                 ))

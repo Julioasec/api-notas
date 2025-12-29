@@ -8,5 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface EstabelecimentoBairroJuncaoRepository extends JpaRepository<EstabelecimentoBairroJuncao,Integer> {
-    List<EstabelecimentoBairroJuncao> findByBairroId(Integer idBairro);
+    List<EstabelecimentoBairroJuncao> findByBairroId(Integer id);
+    List<EstabelecimentoBairroJuncao> findByEstabelecimentoId(Integer id);
 }
