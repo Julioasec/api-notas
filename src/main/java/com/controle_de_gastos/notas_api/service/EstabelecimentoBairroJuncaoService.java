@@ -10,6 +10,7 @@ import com.controle_de_gastos.notas_api.model.Bairro;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.model.EstabelecimentoBairroJuncao;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,27 +19,24 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class EstabelecimentoBairroJuncaoService {
-    private final BairroRepository bairroRepository;
-    private final EstabelecimentoRepository estabelecimentoRepository;
-    private final EstabelecimentoBairroJuncaoRepository estabelecimentoBairroJuncaoRepository;
-    private final CategoriaEstabelecimentoService categoriaEstabelecimentoService;
+    @Autowired
+    private BairroRepository bairroRepository;
+    @Autowired
+    private EstabelecimentoRepository estabelecimentoRepository;
+    @Autowired
+    private EstabelecimentoBairroJuncaoRepository estabelecimentoBairroJuncaoRepository;
+    @Autowired
+    private CategoriaEstabelecimentoService categoriaEstabelecimentoService;
+    @Autowired
+    private BairroService bairroService;
+    @Autowired
+    private EstabelecimentoService estabelecimentoService;
 
     public EstabelecimentoBairroJuncaoDTO toDTO(EstabelecimentoBairroJuncao eB){
-        BairroDTO bairroDTO = new BairroDTO(
-                eB.getBairro().getIdBairro(),
-                eB.getBairro().getNome());
-
-        EstabelecimentoDTO estabelecimentoDTO = new EstabelecimentoDTO(
-                            eB.getEstabelecimento().getIdEstabelecimento(),
-                            eB.getEstabelecimento().getNome(),
-                            categoriaEstabelecimentoService.toDTO(eB.getEstabelecimento().getCategoria()));
-
-
-
         return new EstabelecimentoBairroJuncaoDTO(
-               eB.getIdEstabelecimentoBairro(),
-               bairroDTO,
-               estabelecimentoDTO,
+                eB.getIdEstabelecimentoBairro(),
+                bairroService.toDTO(eB.getBairro()),
+                estabelecimentoService.toDTO(eB.getEstabelecimento()),
                eB.getEndereco()
        );
     }

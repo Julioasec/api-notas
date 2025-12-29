@@ -3,6 +3,7 @@ package com.controle_de_gastos.notas_api.service;
 import com.controle_de_gastos.notas_api.Repository.CategoriaEstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.Repository.EstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.dto.EstabelecimentoDTO;
+import com.controle_de_gastos.notas_api.dto.EstabelecimentoSimplesDTO;
 import com.controle_de_gastos.notas_api.dto.requisicao.EstabelecimentoRequisicao;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.model.CategoriaEstabelecimento;
@@ -28,6 +29,14 @@ public class EstabelecimentoService {
                 estabelecimento.getIdEstabelecimento(),
                 estabelecimento.getNome(),
                 categoriaEstabelecimentoService.toDTO(estabelecimento.getCategoria())
+        );
+    }
+
+    public EstabelecimentoSimplesDTO toEstabSimplesDTO(Estabelecimento estabelecimento, String endereco) {
+        return new EstabelecimentoSimplesDTO(
+                estabelecimento.getIdEstabelecimento(),
+                estabelecimento.getNome(),
+                endereco
         );
     }
 

@@ -14,7 +14,8 @@ import java.util.Set;
 public class Bairro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idBairro;
+    @Column(name = "id_bairro")
+    private Integer id;
     private String nome;
 
     @OneToMany(mappedBy = "bairro", cascade = CascadeType.ALL, orphanRemoval = true)
