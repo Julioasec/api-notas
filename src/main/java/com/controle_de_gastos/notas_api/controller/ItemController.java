@@ -1,7 +1,7 @@
 package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.dto.ItemDTO;
-import com.controle_de_gastos.notas_api.model.Item;
+import com.controle_de_gastos.notas_api.dto.requisicao.ItemRequisicao;
 import com.controle_de_gastos.notas_api.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +25,8 @@ public class ItemController {
     }
 
     @PostMapping
-    public Item salvarItem(@RequestBody Item item, Integer idMarca, Integer idTipo){
-        return itemService.salvarItem(item, idMarca, idTipo);
+    public ItemDTO salvarItem(@RequestBody ItemRequisicao item){
+        return itemService.salvarItem(item);
     }
 
     @DeleteMapping

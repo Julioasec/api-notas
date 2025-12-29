@@ -3,6 +3,7 @@ import com.controle_de_gastos.notas_api.Repository.ItemRepository;
 import com.controle_de_gastos.notas_api.Repository.ItemTipoRepository;
 import com.controle_de_gastos.notas_api.Repository.MarcaRepository;
 import com.controle_de_gastos.notas_api.dto.ItemDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.ItemRequisicao;
 import com.controle_de_gastos.notas_api.model.Item;
 import com.controle_de_gastos.notas_api.model.ItemTipo;
 import com.controle_de_gastos.notas_api.model.Marca;
@@ -46,14 +47,21 @@ public class ItemService {
 
     }
 
-    public Item salvarItem(Item item,Integer idTipo, Integer idMarca ){
-        ItemTipo tipo = itemTipoRepository.findById(idTipo)
+    public ItemDTO salvarItem(ItemRequisicao itemRequisicao){
+        ItemTipo tipo = itemTipoRepository.findById(itemRequisicao.getIdTipo())
                 .orElseThrow(()-> new RuntimeException("Tipo não encontrado"));
-        Marca marca = marcaRepository.findById(idMarca)
+        Marca marca = marcaRepository.findById(itemRequisicao.getIdMarca())
                 .orElseThrow(()-> new RuntimeException("Marca não encontrada"));
+
+        Item item = new Item();
+
         item.setTipo(tipo);
         item.setMarca(marca);
-        return itemRepository.save(item);
+        item.setNome(itemRequisicao.getNome());
+        item.setPeso(itemRequisicao.getPeso());
+        item.setVersao(itemRequisicao.getVersao());
+
+        return toDTO(itemRepository.save(item));
     }
 
     public void deletarPorID(Integer id){
