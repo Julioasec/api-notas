@@ -3,13 +3,12 @@ package com.controle_de_gastos.notas_api.service;
 import com.controle_de_gastos.notas_api.Repository.AtributoRepository;
 import com.controle_de_gastos.notas_api.Repository.ItemAtributoJuncaoRepository;
 import com.controle_de_gastos.notas_api.Repository.ItemRepository;
-import com.controle_de_gastos.notas_api.dto.AtributoDTO;
 import com.controle_de_gastos.notas_api.dto.ItemAtributoJuncaoDTO;
-import com.controle_de_gastos.notas_api.dto.ItemDTO;
 import com.controle_de_gastos.notas_api.model.Atributo;
 import com.controle_de_gastos.notas_api.model.Item;
 import com.controle_de_gastos.notas_api.model.ItemAtributoJuncao;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -17,32 +16,22 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ItemAtributoJuncaoService {
-    private final ItemAtributoJuncaoRepository itemAtributoJuncaoRepository;
-    private final AtributoRepository atributoRepository;
-    private final ItemRepository itemRepository;
-    private final ItemTipoService itemTipoService;
-    private final MarcaService marcaService;
-
+    @Autowired
+    private ItemAtributoJuncaoRepository itemAtributoJuncaoRepository;
+    @Autowired
+    private AtributoRepository atributoRepository;
+    @Autowired
+    private ItemRepository itemRepository;
+    @Autowired
+    private ItemService itemService;
+    @Autowired
+    private AtributoService atributoService;
 
     public ItemAtributoJuncaoDTO toDTO(ItemAtributoJuncao iAJuncao){
-        AtributoDTO atributoDTO = new AtributoDTO(
-                iAJuncao.getAtributo().getIdAtributo(),
-                iAJuncao.getAtributo().getNome()
-        );
-
-        ItemDTO itemDTO = new ItemDTO(
-                iAJuncao.getItem().getIdItem(),
-                iAJuncao.getItem().getNome(),
-                iAJuncao.getItem().getPeso(),
-                iAJuncao.getItem().getVersao(),
-                itemTipoService.toDTO(iAJuncao.getItem().getTipo()),
-                marcaService.toDTO(iAJuncao.getItem().getMarca())
-        );
-
-        return new ItemAtributoJuncaoDTO(
-                iAJuncao.getIdItemAtributo(),
-                itemDTO,
-                atributoDTO
+       return new ItemAtributoJuncaoDTO(
+               iAJuncao.getIdItemAtributo(),
+                itemService.toDTO(iAJuncao.getItem()),
+                atributoService.toDTO(iAJuncao.getAtributo())
         );
     }
 
@@ -53,23 +42,21 @@ public class ItemAtributoJuncaoService {
                 .toList();
     }
 
-    public ItemAtributoJuncaoDTO salvarAtribuicao(ItemAtributoJuncao iAJuncao, Integer idItem, Integer idAtributo){
-        Item item = itemRepository.findById(idItem)
+    public ItemAtributoJuncaoDTO salvarAtribuicao(ItemAtributoJuncao itemAtributoJuncao){
+        Item item = itemRepository.findById(itemAtributoJuncao.getItem().getIdItem())
                 .orElseThrow(()->new RuntimeException("Item não encontrado"));
 
-        Atributo atributo = atributoRepository.findById(idAtributo)
+        Atributo atributo = atributoRepository.findById(itemAtributoJuncao.getAtributo().getIdAtributo())
                 .orElseThrow(()-> new RuntimeException("Atributo não encontrado"));
+
+        ItemAtributoJuncao iAJuncao = new ItemAtributoJuncao();
 
         iAJuncao.setItem(item);
         iAJuncao.setAtributo(atributo);
-
         iAJuncao.getItem().getItemAtributoJuncaos().add(iAJuncao);
         iAJuncao.getAtributo().getItemAtributoJuncaos().add(iAJuncao);
 
-
-        return toDTO(itemAtributoJuncaoRepository.save(iAJuncao))
-
-                ;
+        return toDTO(itemAtributoJuncaoRepository.save(iAJuncao));
     }
 
 

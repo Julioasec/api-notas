@@ -1,27 +1,38 @@
 package com.controle_de_gastos.notas_api.service;
+import com.controle_de_gastos.notas_api.Repository.ItemAtributoJuncaoRepository;
 import com.controle_de_gastos.notas_api.Repository.ItemRepository;
 import com.controle_de_gastos.notas_api.Repository.ItemTipoRepository;
 import com.controle_de_gastos.notas_api.Repository.MarcaRepository;
 import com.controle_de_gastos.notas_api.dto.ItemDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.ItemAtributosDTO;
 import com.controle_de_gastos.notas_api.dto.requisicao.ItemRequisicao;
 import com.controle_de_gastos.notas_api.model.Item;
+import com.controle_de_gastos.notas_api.model.ItemAtributoJuncao;
 import com.controle_de_gastos.notas_api.model.ItemTipo;
 import com.controle_de_gastos.notas_api.model.Marca;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
 public class ItemService {
 
-    private final ItemRepository itemRepository;
-    private final ItemTipoRepository itemTipoRepository;
-    private final MarcaRepository marcaRepository;
-    private final ItemTipoService itemTipoService;
-    private final MarcaService marcaService;
-
+    @Autowired
+    private ItemRepository itemRepository;
+    @Autowired
+    private ItemTipoRepository itemTipoRepository;
+    @Autowired
+    private MarcaRepository marcaRepository;
+    @Autowired
+    private ItemTipoService itemTipoService;
+    @Autowired
+    private MarcaService marcaService;
+    @Autowired
+    private ItemAtributoJuncaoRepository itemAtributoJuncaoRepository;
 
     public ItemDTO toDTO(Item item){
         return new ItemDTO(
@@ -34,10 +45,25 @@ public class ItemService {
         );
     }
 
+    public ItemAtributosDTO toItemAtributoDTO(ItemAtributoJuncao itemAtributoJuncao){
+        return new ItemAtributosDTO(
+                itemAtributoJuncao.getItem().getIdItem(),
+                itemAtributoJuncao.getAtributo().getIdAtributo(),
+                itemAtributoJuncao.getAtributo().getNome()
+        );
+    }
+
     public List<ItemDTO> listartodos(){
         return itemRepository.findAll()
                 .stream()
                 .map(this::toDTO)
+                .toList();
+    }
+
+    public List<ItemAtributosDTO> listarAtributosPorItem(Integer idItem){
+        return itemAtributoJuncaoRepository.findByItemIdItem(idItem)
+                .stream()
+                .map(this::toItemAtributoDTO)
                 .toList();
     }
 
@@ -46,6 +72,7 @@ public class ItemService {
                 .map(this::toDTO);
 
     }
+
 
     public ItemDTO salvarItem(ItemRequisicao itemRequisicao){
         ItemTipo tipo = itemTipoRepository.findById(itemRequisicao.getIdTipo())

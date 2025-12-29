@@ -26,9 +26,7 @@ public class ItemAtributoJuncaoController {
     }
 
     @PostMapping
-    public ItemAtributoJuncaoDTO salvarJuncao(@RequestBody ItemAtributoJuncao itemAtributoJuncao,
-                                              @RequestAttribute(name = "IdItem") Integer idItem,
-                                              @RequestAttribute(name = "idAtributo") Integer idAtributo){
-        return itemAtributoJuncaoService.salvarAtribuicao(itemAtributoJuncao, idItem, idAtributo);
+    public ItemAtributoJuncaoDTO salvarJuncao(@RequestBody ItemAtributoJuncao itemAtributo){
+        return itemAtributoJuncaoService.salvarAtribuicao(itemAtributo);
     }
 }

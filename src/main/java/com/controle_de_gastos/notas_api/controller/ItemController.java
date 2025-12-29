@@ -1,6 +1,8 @@
 package com.controle_de_gastos.notas_api.controller;
 
+
 import com.controle_de_gastos.notas_api.dto.ItemDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.ItemAtributosDTO;
 import com.controle_de_gastos.notas_api.dto.requisicao.ItemRequisicao;
 import com.controle_de_gastos.notas_api.service.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,11 @@ public class ItemController {
     @GetMapping("/{id}")
     public Optional<ItemDTO> buscarPorId(@PathVariable Integer id){
         return itemService.buscarPorId(id);
+    }
+
+    @GetMapping("/{idItem}/atributos")
+    public List<ItemAtributosDTO> listarAtributosPorItem(@PathVariable Integer idItem){
+        return itemService.listarAtributosPorItem(idItem);
     }
 
     @PostMapping
