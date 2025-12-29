@@ -1,6 +1,7 @@
 package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.dto.NotaDTO;
+import com.controle_de_gastos.notas_api.dto.NotaPagamentoDTO;
 import com.controle_de_gastos.notas_api.dto.ParcelamentoDTO;
 import com.controle_de_gastos.notas_api.dto.requisicao.NotaRequisicao;
 import com.controle_de_gastos.notas_api.dto.requisicao.ParcelamentoRequisicao;
@@ -20,6 +21,7 @@ public class NotaController {
     private NotaService notaService;
     @Autowired
     private ParcelamentoService parcelamentoService;
+
     @GetMapping
     public List<NotaDTO> listarTodos(){
         return notaService.listarTodos();
@@ -33,6 +35,11 @@ public class NotaController {
     @PostMapping
     public NotaDTO salvarNota(@RequestBody NotaRequisicao notaRequisicao){
         return notaService.salvarNota(notaRequisicao);
+    }
+
+    @GetMapping("/{idNota}/pagamentos")
+    public List<NotaPagamentoDTO> listarPagamentos(@PathVariable Integer idNota){
+        return notaService.listarPagamentosPorNota(idNota);
     }
 
     @GetMapping("/{notaId}/parcelamentos")
