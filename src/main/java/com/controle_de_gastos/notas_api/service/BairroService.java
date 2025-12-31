@@ -7,10 +7,8 @@ import com.controle_de_gastos.notas_api.dto.BairroEstabDTO;
 import com.controle_de_gastos.notas_api.dto.BairroEstabListDTO;
 import com.controle_de_gastos.notas_api.dto.EstabelecimentoSimplesDTO;
 import com.controle_de_gastos.notas_api.model.Bairro;
-import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.model.EstabelecimentoBairroJuncao;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -18,12 +16,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class BairroService {
-    @Autowired
-    private BairroRepository bairroRepository;
-    @Autowired
-    private EstabelecimentoBairroJuncaoRepository estabelecimentoBairroJuncaoRepository;
-    @Autowired
-    private EstabelecimentoService estabelecimentoService;
+
+    private final BairroRepository bairroRepository;
+    private final EstabelecimentoBairroJuncaoRepository estabelecimentoBairroJuncaoRepository;
+    private final EstabelecimentoService estabelecimentoService;
 
     public BairroDTO toDTO(Bairro bairro){
             return new BairroDTO(

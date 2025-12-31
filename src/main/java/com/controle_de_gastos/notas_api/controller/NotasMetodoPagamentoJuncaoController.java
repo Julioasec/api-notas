@@ -4,6 +4,7 @@ import com.controle_de_gastos.notas_api.dto.NotaMetodoPagamentoJuncaoDTO;
 import com.controle_de_gastos.notas_api.dto.requisicao.NotasMetodoPagamentoRequisicao;
 import com.controle_de_gastos.notas_api.service.NotaMetodoPagamentoJuncaoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,9 @@ import java.util.Optional;
 @RequestMapping("/api/nota-metodo-pagamento")
 @RequiredArgsConstructor
 public class NotasMetodoPagamentoJuncaoController {
-    private final NotaMetodoPagamentoJuncaoService notaMetodoPagamentoJuncaoService;
+
+    @Autowired
+    private NotaMetodoPagamentoJuncaoService notaMetodoPagamentoJuncaoService;
 
 
     @GetMapping

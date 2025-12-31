@@ -11,11 +11,12 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ItemTipoService {
+
     private final ItemTipoRepository itemTipoRepository;
 
     public ItemTipoDTO toDTO(ItemTipo itemTipo){
         return new ItemTipoDTO(
-                itemTipo.getIdTipo(),
+                itemTipo.getId(),
                 itemTipo.getNome()
         );
     }

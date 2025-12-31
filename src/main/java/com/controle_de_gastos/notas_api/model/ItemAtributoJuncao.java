@@ -16,7 +16,7 @@ public class ItemAtributoJuncao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_item_atributo")
-    private Integer idItemAtributo;
+    private Integer id;
     @ManyToOne
     @JoinColumn(name = "id_atributo")
     private Atributo atributo;

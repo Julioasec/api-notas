@@ -14,23 +14,24 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ParcelamentoService {
+
         private final ParcelamentoRepository parcelamentoRepository;
         private final NotaRepository notaRepository;
 
         private ParcelamentoDTO toDTO(Parcelamento parcelamento) {
             return new ParcelamentoDTO(
-                    parcelamento.getIdParcelamento(),
+                    parcelamento.getId(),
                     parcelamento.getParcela(),
                     parcelamento.getDataPagamento(),
                     parcelamento.getValorParcela(),
                     parcelamento.getPago(),
-                    parcelamento.getNota().getIdNota(),
+                    parcelamento.getNota().getId(),
                     parcelamento.getNota().getTotal()
             );
         }
 
         public List<ParcelamentoDTO> listarParcelamentosDaNota(Integer notaId){
-               return parcelamentoRepository.findByNotaIdNota(notaId)
+               return parcelamentoRepository.findByNotaId(notaId)
                        .stream()
                        .map(this::toDTO)
                        .toList();

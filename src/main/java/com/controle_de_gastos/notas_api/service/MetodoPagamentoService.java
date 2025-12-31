@@ -16,7 +16,7 @@ public class MetodoPagamentoService {
 
    public MetodoPagamentoDTO toDTO(MetodoPagamento metodoPagamento) {
        return new MetodoPagamentoDTO(
-               metodoPagamento.getIdMetodo(),
+               metodoPagamento.getId(),
                metodoPagamento.getNome());
    }
 

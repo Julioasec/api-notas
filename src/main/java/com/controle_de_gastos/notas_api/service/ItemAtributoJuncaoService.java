@@ -8,7 +8,6 @@ import com.controle_de_gastos.notas_api.model.Atributo;
 import com.controle_de_gastos.notas_api.model.Item;
 import com.controle_de_gastos.notas_api.model.ItemAtributoJuncao;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -16,20 +15,16 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ItemAtributoJuncaoService {
-    @Autowired
-    private ItemAtributoJuncaoRepository itemAtributoJuncaoRepository;
-    @Autowired
-    private AtributoRepository atributoRepository;
-    @Autowired
-    private ItemRepository itemRepository;
-    @Autowired
-    private ItemService itemService;
-    @Autowired
-    private AtributoService atributoService;
+
+    private final ItemAtributoJuncaoRepository itemAtributoJuncaoRepository;
+    private final AtributoRepository atributoRepository;
+    private final ItemRepository itemRepository;
+    private final ItemService itemService;
+    private final AtributoService atributoService;
 
     public ItemAtributoJuncaoDTO toDTO(ItemAtributoJuncao iAJuncao){
        return new ItemAtributoJuncaoDTO(
-               iAJuncao.getIdItemAtributo(),
+               iAJuncao.getId(),
                 itemService.toDTO(iAJuncao.getItem()),
                 atributoService.toDTO(iAJuncao.getAtributo())
         );
@@ -43,10 +38,10 @@ public class ItemAtributoJuncaoService {
     }
 
     public ItemAtributoJuncaoDTO salvarAtribuicao(ItemAtributoJuncao itemAtributoJuncao){
-        Item item = itemRepository.findById(itemAtributoJuncao.getItem().getIdItem())
+        Item item = itemRepository.findById(itemAtributoJuncao.getItem().getId())
                 .orElseThrow(()->new RuntimeException("Item não encontrado"));
 
-        Atributo atributo = atributoRepository.findById(itemAtributoJuncao.getAtributo().getIdAtributo())
+        Atributo atributo = atributoRepository.findById(itemAtributoJuncao.getAtributo().getId())
                 .orElseThrow(()-> new RuntimeException("Atributo não encontrado"));
 
         ItemAtributoJuncao iAJuncao = new ItemAtributoJuncao();

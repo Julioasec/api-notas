@@ -14,7 +14,7 @@ public class CategoriaEstabelecimentoService {
 
     public CategoriaEstabelecimentoDTO toDTO(CategoriaEstabelecimento categoriaEstabelecimento) {
         return new CategoriaEstabelecimentoDTO(
-                categoriaEstabelecimento.getIdCategoriaEstabelecimento(),
+                categoriaEstabelecimento.getId(),
                 categoriaEstabelecimento.getNome()
         );
     }

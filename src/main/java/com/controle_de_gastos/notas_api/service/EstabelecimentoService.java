@@ -12,7 +12,6 @@ import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.model.CategoriaEstabelecimento;
 import com.controle_de_gastos.notas_api.model.EstabelecimentoBairroJuncao;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -21,14 +20,11 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class EstabelecimentoService {
-    @Autowired
-    private EstabelecimentoRepository estabelecimentoRepository;
-    @Autowired
-    private CategoriaEstabelecimentoRepository categoriaEstabelecimentoRepository;
-    @Autowired
-    private CategoriaEstabelecimentoService categoriaEstabelecimentoService;
-    @Autowired
-    private EstabelecimentoBairroJuncaoRepository estabelecimentoBairroJuncaoRepository;
+
+    private final EstabelecimentoRepository estabelecimentoRepository;
+    private final CategoriaEstabelecimentoRepository categoriaEstabelecimentoRepository;
+    private final CategoriaEstabelecimentoService categoriaEstabelecimentoService;
+    private final EstabelecimentoBairroJuncaoRepository estabelecimentoBairroJuncaoRepository;
 
     public EstabelecimentoDTO toDTO(Estabelecimento estabelecimento) {
         return new EstabelecimentoDTO(

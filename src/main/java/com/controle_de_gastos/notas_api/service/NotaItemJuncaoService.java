@@ -29,7 +29,7 @@ public class NotaItemJuncaoService {
 
 
         return new NotaItemJuncaoDTO(
-                    notaItemJuncao.getIdNotasItens(),
+                    notaItemJuncao.getId(),
                     notaItemJuncao.getQuantidade(),
                     notaItemJuncao.getValorUnitario(),
                     notaDTO,

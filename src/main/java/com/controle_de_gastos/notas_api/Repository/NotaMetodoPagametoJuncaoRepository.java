@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface NotaMetodoPagametoJuncaoRepository extends JpaRepository<NotaMetodoPagamentoJuncao,Integer> {
-    List<NotaMetodoPagamentoJuncao> findByNotaIdNota(Integer notaId);
+    List<NotaMetodoPagamentoJuncao> findByNotaId(Integer notaId);
 }

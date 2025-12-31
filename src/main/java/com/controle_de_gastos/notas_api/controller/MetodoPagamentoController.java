@@ -3,6 +3,7 @@ package com.controle_de_gastos.notas_api.controller;
 import com.controle_de_gastos.notas_api.dto.MetodoPagamentoDTO;
 import com.controle_de_gastos.notas_api.service.MetodoPagamentoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +14,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MetodoPagamentoController {
 
-    private final MetodoPagamentoService metodoPagamentoService;
+    @Autowired
+    private MetodoPagamentoService metodoPagamentoService;
     
     @GetMapping
     public List<MetodoPagamentoDTO> listarTodos(){

@@ -30,7 +30,7 @@ public class NotaService {
 
     public NotaDTO toDTO(Nota nota){
         return new NotaDTO(
-                nota.getIdNota(),
+                nota.getId(),
                 nota.getData(),
                 nota.getTotal(),
                 nota.getQtdeItens(),
@@ -41,7 +41,7 @@ public class NotaService {
 
     public NotaPagamentoDTO toNotaPagamentoDTO(NotaMetodoPagamentoJuncao notaMPJuncao){
         return new NotaPagamentoDTO(
-                notaMPJuncao.getIdNMPagamento(),
+                notaMPJuncao.getId(),
                 notaMPJuncao.getMetodoPagamento().getNome(),
                 notaMPJuncao.getValorPago()
         );
@@ -61,7 +61,7 @@ public class NotaService {
 
 
     public List<NotaPagamentoDTO> listarPagamentosPorNota(Integer idNota){
-        return notaMetodoPagametoJuncaoRepository.findByNotaIdNota(idNota)
+        return notaMetodoPagametoJuncaoRepository.findByNotaId(idNota)
                 .stream()
                 .map(this::toNotaPagamentoDTO)
                 .toList();

@@ -4,6 +4,7 @@ import com.controle_de_gastos.notas_api.dto.NotaItemJuncaoDTO;
 import com.controle_de_gastos.notas_api.model.NotaItemJuncao;
 import com.controle_de_gastos.notas_api.service.NotaItemJuncaoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -12,8 +13,9 @@ import java.util.Optional;
 @RequestMapping("/api/nota-item")
 @RequiredArgsConstructor
 public class NotaItemJuncaoController {
-    private final NotaItemJuncaoService notaItemJuncaoService;
 
+    @Autowired
+    private NotaItemJuncaoService notaItemJuncaoService;
 
     @GetMapping
     public List<NotaItemJuncaoDTO> listarTodos(){

@@ -33,7 +33,7 @@ public class NotaMetodoPagamentoJuncaoService {
            Double valorPago = notaMetodoPagamentoJuncao.getValorPago();
 
             return new NotaMetodoPagamentoJuncaoDTO(
-                    notaMetodoPagamentoJuncao.getIdNMPagamento(),
+                    notaMetodoPagamentoJuncao.getId(),
                     notaDTO,
                     metodoPagamentoDTO,
                     valorPago

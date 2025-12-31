@@ -16,7 +16,7 @@ public class MarcaService {
 
     public MarcaDTO toDTO(Marca marca){
         return new MarcaDTO(
-                marca.getIdMarca(),
+                marca.getId(),
                 marca.getNome()
         );
     }
@@ -36,7 +36,7 @@ public class MarcaService {
     public MarcaDTO salvarMarca(MarcaDTO marcaDTO){
         Marca marca = new Marca();
 
-        marca.setIdMarca(marcaDTO.id());
+        marca.setId(marcaDTO.id());
         marca.setNome(marcaDTO.nome());
         return toDTO(marcaRepository.save(marca));
     }

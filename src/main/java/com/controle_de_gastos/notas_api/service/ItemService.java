@@ -11,7 +11,6 @@ import com.controle_de_gastos.notas_api.model.ItemAtributoJuncao;
 import com.controle_de_gastos.notas_api.model.ItemTipo;
 import com.controle_de_gastos.notas_api.model.Marca;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -21,22 +20,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ItemService {
 
-    @Autowired
-    private ItemRepository itemRepository;
-    @Autowired
-    private ItemTipoRepository itemTipoRepository;
-    @Autowired
-    private MarcaRepository marcaRepository;
-    @Autowired
-    private ItemTipoService itemTipoService;
-    @Autowired
-    private MarcaService marcaService;
-    @Autowired
-    private ItemAtributoJuncaoRepository itemAtributoJuncaoRepository;
+
+    private final ItemRepository itemRepository;
+    private final ItemTipoRepository itemTipoRepository;
+    private final MarcaRepository marcaRepository;
+    private final ItemTipoService itemTipoService;
+    private final MarcaService marcaService;
+    private final ItemAtributoJuncaoRepository itemAtributoJuncaoRepository;
 
     public ItemDTO toDTO(Item item){
         return new ItemDTO(
-                item.getIdItem(),
+                item.getId(),
                 item.getNome(),
                 item.getPeso(),
                 item.getVersao(),
@@ -47,8 +41,8 @@ public class ItemService {
 
     public ItemAtributosDTO toItemAtributoDTO(ItemAtributoJuncao itemAtributoJuncao){
         return new ItemAtributosDTO(
-                itemAtributoJuncao.getItem().getIdItem(),
-                itemAtributoJuncao.getAtributo().getIdAtributo(),
+                itemAtributoJuncao.getItem().getId(),
+                itemAtributoJuncao.getAtributo().getId(),
                 itemAtributoJuncao.getAtributo().getNome()
         );
     }
@@ -61,7 +55,7 @@ public class ItemService {
     }
 
     public List<ItemAtributosDTO> listarAtributosPorItem(Integer idItem){
-        return itemAtributoJuncaoRepository.findByItemIdItem(idItem)
+        return itemAtributoJuncaoRepository.findByItemId(idItem)
                 .stream()
                 .map(this::toItemAtributoDTO)
                 .toList();

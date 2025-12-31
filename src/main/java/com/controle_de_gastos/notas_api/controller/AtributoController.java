@@ -1,9 +1,9 @@
 package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.dto.AtributoDTO;
-import com.controle_de_gastos.notas_api.model.Atributo;
 import com.controle_de_gastos.notas_api.service.AtributoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +14,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AtributoController {
 
-    private final AtributoService atributoService;
+    @Autowired
+    private AtributoService atributoService;
 
     @GetMapping
     public List<AtributoDTO> listarAtributos(){

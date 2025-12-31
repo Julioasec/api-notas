@@ -12,7 +12,8 @@ import java.util.Set;
 public class Marca {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idMarca;
+    @Column(name = "id_marca")
+    private Integer id;
     private String nome;
     @OneToMany(mappedBy = "marca", cascade = CascadeType.ALL)
     private Set<Item> itens;

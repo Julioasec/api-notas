@@ -1,9 +1,9 @@
 package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.dto.ItemTipoDTO;
-import com.controle_de_gastos.notas_api.model.ItemTipo;
 import com.controle_de_gastos.notas_api.service.ItemTipoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +12,9 @@ import java.util.Optional;
 @RequestMapping("/api/item-tipo")
 @RequiredArgsConstructor
 public class ItemTipoController {
-    private final ItemTipoService itemTipoService;
+
+    @Autowired
+    private ItemTipoService itemTipoService;
 
 
     @GetMapping

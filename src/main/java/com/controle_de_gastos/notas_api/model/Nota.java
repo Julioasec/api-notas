@@ -17,7 +17,8 @@ import java.util.Set;
 public class Nota {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idNota;
+    @Column(name = "id_nota")
+    private Integer id;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate data;
     private Double total;

@@ -3,6 +3,7 @@ package com.controle_de_gastos.notas_api.controller;
 import com.controle_de_gastos.notas_api.dto.NotasCategoriaDTO;
 import com.controle_de_gastos.notas_api.service.NotasCategoriaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class NotasCategoriaController {
 
-    private final NotasCategoriaService notasCategoriaService;
+    @Autowired
+    private NotasCategoriaService notasCategoriaService;
 
     @GetMapping
     public List<NotasCategoriaDTO> listarCategorias(){

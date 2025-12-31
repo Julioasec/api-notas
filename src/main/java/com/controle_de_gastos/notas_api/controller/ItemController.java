@@ -6,6 +6,7 @@ import com.controle_de_gastos.notas_api.dto.requisicao.ItemAtributosDTO;
 import com.controle_de_gastos.notas_api.dto.requisicao.ItemRequisicao;
 import com.controle_de_gastos.notas_api.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +15,8 @@ import java.util.Optional;
 @RequestMapping("/api/itens")
 @RequiredArgsConstructor
 public class ItemController {
-    private final ItemService itemService;
+    @Autowired
+    private ItemService itemService;
 
 
     @GetMapping

@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ParcelamentoRepository extends JpaRepository<Parcelamento, Integer> {
-    List<Parcelamento> findByNotaIdNota(Integer notaId);
+    List<Parcelamento> findByNotaId(Integer notaId);
 }

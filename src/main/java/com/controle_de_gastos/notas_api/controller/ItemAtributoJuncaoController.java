@@ -4,6 +4,7 @@ import com.controle_de_gastos.notas_api.dto.ItemAtributoJuncaoDTO;
 import com.controle_de_gastos.notas_api.model.ItemAtributoJuncao;
 import com.controle_de_gastos.notas_api.service.ItemAtributoJuncaoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,8 @@ import java.util.Optional;
 @RequestMapping("/api/item-atributo")
 @RequiredArgsConstructor
 public class ItemAtributoJuncaoController {
-    private final ItemAtributoJuncaoService itemAtributoJuncaoService;
+    @Autowired
+    private ItemAtributoJuncaoService itemAtributoJuncaoService;
 
 
     @GetMapping

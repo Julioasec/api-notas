@@ -4,6 +4,7 @@ import com.controle_de_gastos.notas_api.dto.requisicao.EstabelecimentoBairroRequ
 import com.controle_de_gastos.notas_api.dto.EstabelecimentoBairroJuncaoDTO;
 import com.controle_de_gastos.notas_api.service.EstabelecimentoBairroJuncaoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +14,9 @@ import java.util.Optional;
 @RequestMapping("/api/estabelecimento-bairro")
 @RequiredArgsConstructor
 public class EstabelecimentoBairroJuncaoController {
-    private final EstabelecimentoBairroJuncaoService estabelecimentoBairroService;
+
+    @Autowired
+    private EstabelecimentoBairroJuncaoService estabelecimentoBairroService;
 
     @GetMapping
     public List<EstabelecimentoBairroJuncaoDTO> listarTodos(){

@@ -11,11 +11,12 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class NotasCategoriaService {
+
     private final NotasCategoriaRepository notasCategoriaRepository;
 
     public NotasCategoriaDTO toDTO(NotasCategoria notasCategoria){
                 return new NotasCategoriaDTO(
-                        notasCategoria.getIdCategoria(),
+                        notasCategoria.getId(),
                         notasCategoria.getNome());
     }
 

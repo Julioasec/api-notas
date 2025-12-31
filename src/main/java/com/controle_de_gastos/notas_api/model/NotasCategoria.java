@@ -14,7 +14,8 @@ import java.util.List;
 public class NotasCategoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCategoria;
+    @Column(name = "id_categoria")
+    private Integer id;
     private String nome;
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
     private List<Nota> notas;
