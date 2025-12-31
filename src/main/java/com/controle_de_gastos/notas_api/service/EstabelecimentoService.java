@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -77,7 +78,37 @@ public class EstabelecimentoService {
                 );
     }
 
+    public List<EstabelecimentoBairroDTO> listarTodosBairroPorEstabelecimento(){
+            List<EstabelecimentoBairroDTO> juncaos = estabelecimentoBairroJuncaoRepository.findAll()
+                    .stream()
+                    .collect(Collectors.groupingBy(
+                            data -> data.getEstabelecimento().getId()
+                    ))
+                    .values()
+                    .stream()
+                    .map(data ->{
+                        Estabelecimento estabelecimento = data.get(0).getEstabelecimento();
 
+                                List<BairroEnderecoDTO> bairros = data
+                                        .stream()
+                                        .map( juncao -> new BairroEnderecoDTO(
+                                                    juncao.getBairro().getId(),
+                                                    juncao.getBairro().getNome(),
+                                                    juncao.getEndereco()
+                                            ))
+                                        .toList();
+
+                                        return new EstabelecimentoBairroDTO(
+                                                estabelecimento.getId(),
+                                                estabelecimento.getNome(),
+                                                bairros
+                                        );
+                    })
+                    .toList();
+
+            return juncaos;
+
+    }
 
     public EstabelecimentoDTO salvarEstabelecimento(EstabelecimentoRequisicao estabelecimentoReq) {
         CategoriaEstabelecimento categoria = categoriaEstabelecimentoRepository.findById(estabelecimentoReq.getCategoriaId())

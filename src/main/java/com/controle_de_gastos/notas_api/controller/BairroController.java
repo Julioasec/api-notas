@@ -3,7 +3,6 @@ package com.controle_de_gastos.notas_api.controller;
 import com.controle_de_gastos.notas_api.dto.BairroDTO;
 import com.controle_de_gastos.notas_api.dto.BairroEstabDTO;
 import com.controle_de_gastos.notas_api.dto.BairroEstabListDTO;
-import com.controle_de_gastos.notas_api.model.Bairro;
 import com.controle_de_gastos.notas_api.service.BairroService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
