@@ -1,13 +1,13 @@
 package com.controle_de_gastos.notas_api.service;
 
-import com.controle_de_gastos.notas_api.Repository.CategoriaEstabelecimentoRepository;
-import com.controle_de_gastos.notas_api.Repository.EstabelecimentoBairroJuncaoRepository;
-import com.controle_de_gastos.notas_api.Repository.EstabelecimentoRepository;
-import com.controle_de_gastos.notas_api.dto.BairroEnderecoDTO;
-import com.controle_de_gastos.notas_api.dto.EstabelecimentoBairroDTO;
-import com.controle_de_gastos.notas_api.dto.EstabelecimentoDTO;
-import com.controle_de_gastos.notas_api.dto.EstabelecimentoSimplesDTO;
-import com.controle_de_gastos.notas_api.dto.requisicao.EstabelecimentoRequisicao;
+import com.controle_de_gastos.notas_api.repository.CategoriaEstabelecimentoRepository;
+import com.controle_de_gastos.notas_api.repository.EstabelecimentoBairroJuncaoRepository;
+import com.controle_de_gastos.notas_api.repository.EstabelecimentoRepository;
+import com.controle_de_gastos.notas_api.dto.projecao.BairroComEnderecoProjecaoDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoComBairroRespostaDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoRespostaDTO;
+import com.controle_de_gastos.notas_api.dto.projecao.EstabelecimentoEnderecoProjecaoDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.EstabelecimentoRequisicaoDTO;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.model.CategoriaEstabelecimento;
 import com.controle_de_gastos.notas_api.model.EstabelecimentoBairroJuncao;
@@ -26,16 +26,16 @@ public class EstabelecimentoService {
     private final CategoriaEstabelecimentoService categoriaEstabelecimentoService;
     private final EstabelecimentoBairroJuncaoRepository estabelecimentoBairroJuncaoRepository;
 
-    public EstabelecimentoDTO toDTO(Estabelecimento estabelecimento) {
-        return new EstabelecimentoDTO(
+    public EstabelecimentoRespostaDTO toRespostaDTO(Estabelecimento estabelecimento) {
+        return new EstabelecimentoRespostaDTO(
                 estabelecimento.getId(),
                 estabelecimento.getNome(),
-                categoriaEstabelecimentoService.toDTO(estabelecimento.getCategoria())
+                categoriaEstabelecimentoService.toRespostaDTO(estabelecimento.getCategoria())
         );
     }
 
-    public EstabelecimentoSimplesDTO toEstabSimplesDTO(Estabelecimento estabelecimento, String endereco) {
-        return new EstabelecimentoSimplesDTO(
+    public EstabelecimentoEnderecoProjecaoDTO toEstabSimplesDTO(Estabelecimento estabelecimento, String endereco) {
+        return new EstabelecimentoEnderecoProjecaoDTO(
                 estabelecimento.getId(),
                 estabelecimento.getNome(),
                 endereco
@@ -43,14 +43,14 @@ public class EstabelecimentoService {
     }
 
 
-    public List<EstabelecimentoDTO> listarTodos(){
+    public List<EstabelecimentoRespostaDTO> listarTodos(){
         return estabelecimentoRepository.findAll()
                 .stream()
-                .map(this::toDTO)
+                .map(this::toRespostaDTO)
                 .toList();
     }
 
-    public EstabelecimentoBairroDTO listarBairroPorEstabelecimentoId(Integer id) {
+    public EstabelecimentoComBairroRespostaDTO listarBairroPorEstabelecimentoId(Integer id) {
                List <EstabelecimentoBairroJuncao> juncoes = estabelecimentoBairroJuncaoRepository.findByEstabelecimentoId(id);
 
                if(juncoes.isEmpty()){
@@ -58,15 +58,15 @@ public class EstabelecimentoService {
                }
 
                Estabelecimento estabelecimento = juncoes.get(0).getEstabelecimento();
-               List<BairroEnderecoDTO> bairros = juncoes.stream()
-                       .map(data -> new BairroEnderecoDTO(
+               List<BairroComEnderecoProjecaoDTO> bairros = juncoes.stream()
+                       .map(data -> new BairroComEnderecoProjecaoDTO(
                                data.getBairro().getId(),
                                data.getBairro().getNome(),
                                data.getEndereco()
                        ))
                        .toList();
 
-                return new EstabelecimentoBairroDTO(
+                return new EstabelecimentoComBairroRespostaDTO(
                         estabelecimento.getId(),
                         estabelecimento.getNome(),
                         bairros
@@ -75,18 +75,19 @@ public class EstabelecimentoService {
 
 
 
-    public EstabelecimentoDTO salvarEstabelecimento(EstabelecimentoRequisicao estabelecimentoReq) {
-        CategoriaEstabelecimento categoria = categoriaEstabelecimentoRepository.findById(estabelecimentoReq.getCategoriaId())
+    public EstabelecimentoRespostaDTO criar(EstabelecimentoRequisicaoDTO estabelecimentoDto) {
+        CategoriaEstabelecimento categoria = categoriaEstabelecimentoRepository.findById(estabelecimentoDto.idCategoria())
                 .orElseThrow(()-> new RuntimeException("Categoria Inválida"));
 
         Estabelecimento estabelecimento = new Estabelecimento();
         estabelecimento.setCategoria(categoria);
-        estabelecimento.setNome(estabelecimentoReq.getNome());
-        return toDTO(estabelecimentoRepository.save(estabelecimento));
+        estabelecimento.setNome(estabelecimentoDto.nome());
+        return toRespostaDTO(estabelecimentoRepository.save(estabelecimento));
     }
 
-    public Optional<Estabelecimento> buscarPorId(Integer id){
-        return estabelecimentoRepository.findById(id);
+    public Optional<EstabelecimentoRespostaDTO> buscarPorId(Integer id){
+        return estabelecimentoRepository.findById(id)
+                .map(this::toRespostaDTO);
     }
 
     public void deletarPorId(Integer id){

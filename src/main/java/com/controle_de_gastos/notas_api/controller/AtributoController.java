@@ -1,9 +1,9 @@
 package com.controle_de_gastos.notas_api.controller;
 
-import com.controle_de_gastos.notas_api.dto.AtributoDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.AtributoRequisicaoDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.AtributoRespostaDTO;
 import com.controle_de_gastos.notas_api.service.AtributoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,22 +14,21 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AtributoController {
 
-    @Autowired
-    private AtributoService atributoService;
+    private final AtributoService atributoService;
 
     @GetMapping
-    public List<AtributoDTO> listarAtributos(){
+    public List<AtributoRespostaDTO> listarAtributos(){
         return atributoService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Optional<AtributoDTO> buscarPorId(@PathVariable Integer id){
+    public Optional<AtributoRespostaDTO> buscarPorId(@PathVariable Integer id){
         return atributoService.buscarPorId(id);
     }
 
     @PostMapping
-    public AtributoDTO atributoSalvar(@RequestBody AtributoDTO atributo){
-        return atributoService.salvar(atributo);
+    public AtributoRespostaDTO criar(@RequestBody AtributoRequisicaoDTO atributoDTO){
+        return atributoService.criar(atributoDTO);
     }
 
     @DeleteMapping

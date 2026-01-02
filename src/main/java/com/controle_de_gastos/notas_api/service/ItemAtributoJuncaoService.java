@@ -1,9 +1,10 @@
 package com.controle_de_gastos.notas_api.service;
 
-import com.controle_de_gastos.notas_api.Repository.AtributoRepository;
-import com.controle_de_gastos.notas_api.Repository.ItemAtributoJuncaoRepository;
-import com.controle_de_gastos.notas_api.Repository.ItemRepository;
-import com.controle_de_gastos.notas_api.dto.ItemAtributoJuncaoDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.ItemAtributoRequisicaoDTO;
+import com.controle_de_gastos.notas_api.repository.AtributoRepository;
+import com.controle_de_gastos.notas_api.repository.ItemAtributoJuncaoRepository;
+import com.controle_de_gastos.notas_api.repository.ItemRepository;
+import com.controle_de_gastos.notas_api.dto.resposta.ItemAtributoRespostaDTO;
 import com.controle_de_gastos.notas_api.model.Atributo;
 import com.controle_de_gastos.notas_api.model.Item;
 import com.controle_de_gastos.notas_api.model.ItemAtributoJuncao;
@@ -22,42 +23,45 @@ public class ItemAtributoJuncaoService {
     private final ItemService itemService;
     private final AtributoService atributoService;
 
-    public ItemAtributoJuncaoDTO toDTO(ItemAtributoJuncao iAJuncao){
-       return new ItemAtributoJuncaoDTO(
-               iAJuncao.getId(),
-                itemService.toDTO(iAJuncao.getItem()),
-                atributoService.toDTO(iAJuncao.getAtributo())
+    public ItemAtributoRespostaDTO toRespostaDTO(ItemAtributoJuncao juncao){
+       return new ItemAtributoRespostaDTO(
+               juncao.getId(),
+                itemService.toRespostaDTO(juncao.getItem()),
+                atributoService.toRespostaDTO(juncao.getAtributo())
         );
     }
 
-    public List<ItemAtributoJuncaoDTO> listarTodos(){
+    public List<ItemAtributoRespostaDTO> listarTodos(){
         return itemAtributoJuncaoRepository.findAll()
                 .stream()
-                .map(this::toDTO)
+                .map(this::toRespostaDTO)
                 .toList();
     }
 
-    public ItemAtributoJuncaoDTO salvarAtribuicao(ItemAtributoJuncao itemAtributoJuncao){
-        Item item = itemRepository.findById(itemAtributoJuncao.getItem().getId())
+    public ItemAtributoRespostaDTO associar(ItemAtributoRequisicaoDTO juncao){
+        Item item = itemRepository.findById(juncao.idItem())
                 .orElseThrow(()->new RuntimeException("Item não encontrado"));
 
-        Atributo atributo = atributoRepository.findById(itemAtributoJuncao.getAtributo().getId())
+        Atributo atributo = atributoRepository.findById(juncao.idAtributo())
                 .orElseThrow(()-> new RuntimeException("Atributo não encontrado"));
 
         ItemAtributoJuncao iAJuncao = new ItemAtributoJuncao();
+
+        atributo.getItemAtributoJuncaos().add(iAJuncao);
+        item.getItemAtributoJuncaos().add(iAJuncao);
 
         iAJuncao.setItem(item);
         iAJuncao.setAtributo(atributo);
         iAJuncao.getItem().getItemAtributoJuncaos().add(iAJuncao);
         iAJuncao.getAtributo().getItemAtributoJuncaos().add(iAJuncao);
 
-        return toDTO(itemAtributoJuncaoRepository.save(iAJuncao));
+        return toRespostaDTO(itemAtributoJuncaoRepository.save(iAJuncao));
     }
 
 
-    public Optional<ItemAtributoJuncaoDTO> buscarPorid(Integer idIAJuncao){
-        return itemAtributoJuncaoRepository.findById(idIAJuncao)
-                .map(this::toDTO);
+    public Optional<ItemAtributoRespostaDTO> buscarPorid(Integer id){
+        return itemAtributoJuncaoRepository.findById(id)
+                .map(this::toRespostaDTO);
     }
 
     public void deletePorId(Integer idIAJuncao){

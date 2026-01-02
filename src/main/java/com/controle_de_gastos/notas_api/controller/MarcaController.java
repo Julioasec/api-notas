@@ -1,6 +1,7 @@
 package com.controle_de_gastos.notas_api.controller;
 
-import com.controle_de_gastos.notas_api.dto.MarcaDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.MarcaRequisicaoDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.MarcaRespostaDTO;
 import com.controle_de_gastos.notas_api.service.MarcaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +14,21 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MarcaController {
 
-    @Autowired
-    private MarcaService marcaService;
+    private final MarcaService marcaService;
 
     @GetMapping
-    public List<MarcaDTO> listarMarcas(){
+    public List<MarcaRespostaDTO> listarMarcas(){
         return marcaService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Optional<MarcaDTO> buscarMarcaPorId(@PathVariable Integer id){
+    public Optional<MarcaRespostaDTO> buscarMarcaPorId(@PathVariable Integer id){
         return marcaService.buscarPorId(id);
     }
 
     @PostMapping
-    public MarcaDTO salvarMarca(@RequestBody MarcaDTO marcaDTO) {
-        return marcaService.salvarMarca(marcaDTO);
+    public MarcaRespostaDTO criar(@RequestBody MarcaRequisicaoDTO marcaDTO) {
+        return marcaService.criar(marcaDTO);
     }
 
     @DeleteMapping

@@ -1,10 +1,9 @@
 package com.controle_de_gastos.notas_api.controller;
 
-import com.controle_de_gastos.notas_api.dto.NotaItemJuncaoDTO;
-import com.controle_de_gastos.notas_api.model.NotaItemJuncao;
+import com.controle_de_gastos.notas_api.dto.requisicao.NotaItemRequisicaoDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.NotaItemRespostaDTO;
 import com.controle_de_gastos.notas_api.service.NotaItemJuncaoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -14,25 +13,21 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class NotaItemJuncaoController {
 
-    @Autowired
-    private NotaItemJuncaoService notaItemJuncaoService;
+    private final NotaItemJuncaoService notaItemJuncaoService;
 
     @GetMapping
-    public List<NotaItemJuncaoDTO> listarTodos(){
+    public List<NotaItemRespostaDTO> listarTodos(){
         return notaItemJuncaoService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Optional<NotaItemJuncaoDTO> listarPorId(@PathVariable Integer id){
+    public Optional<NotaItemRespostaDTO> listarPorId(@PathVariable Integer id){
         return notaItemJuncaoService.buscarPorId(id);
     }
 
     @PostMapping
-    public NotaItemJuncaoDTO salvarJuncao(@RequestBody NotaItemJuncao notaItemJuncao,
-                                          @RequestParam(name = "idNota") Integer idNota,
-                                          @RequestParam(name = "idItem") Integer idItem
-                                          ){
-        return notaItemJuncaoService.salvarJuncao(notaItemJuncao, idNota, idItem);
+    public NotaItemRespostaDTO salvarJuncao(NotaItemRequisicaoDTO notaItemDTO){
+        return notaItemJuncaoService.salvarJuncao(notaItemDTO);
     }
 
     @DeleteMapping("/{id}")

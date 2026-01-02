@@ -1,11 +1,12 @@
 package com.controle_de_gastos.notas_api.service;
 
-import com.controle_de_gastos.notas_api.Repository.ItemRepository;
-import com.controle_de_gastos.notas_api.Repository.NotaItemJuncaoRepository;
-import com.controle_de_gastos.notas_api.Repository.NotaRepository;
-import com.controle_de_gastos.notas_api.dto.ItemDTO;
-import com.controle_de_gastos.notas_api.dto.NotaDTO;
-import com.controle_de_gastos.notas_api.dto.NotaItemJuncaoDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.NotaItemRequisicaoDTO;
+import com.controle_de_gastos.notas_api.repository.ItemRepository;
+import com.controle_de_gastos.notas_api.repository.NotaItemJuncaoRepository;
+import com.controle_de_gastos.notas_api.repository.NotaRepository;
+import com.controle_de_gastos.notas_api.dto.resposta.ItemRespostaDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.NotaRespostaDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.NotaItemRespostaDTO;
 import com.controle_de_gastos.notas_api.model.Item;
 import com.controle_de_gastos.notas_api.model.Nota;
 import com.controle_de_gastos.notas_api.model.NotaItemJuncao;
@@ -23,41 +24,41 @@ public class NotaItemJuncaoService {
     private final NotaRepository notaRepository;
     private final ItemRepository itemRepository;
 
-    public NotaItemJuncaoDTO toDTO(NotaItemJuncao notaItemJuncao) {
-        NotaDTO notaDTO = notaService.toDTO(notaItemJuncao.getNota());
-        ItemDTO itemDTO = itemService.toDTO(notaItemJuncao.getItem());
+    public NotaItemRespostaDTO toRespostaDTO(NotaItemJuncao notaItemJuncao) {
+        NotaRespostaDTO notaRespostaDTO = notaService.toRespostaDTO(notaItemJuncao.getNota());
+        ItemRespostaDTO itemRespostaDTO = itemService.toRespostaDTO(notaItemJuncao.getItem());
 
 
-        return new NotaItemJuncaoDTO(
+        return new NotaItemRespostaDTO(
                     notaItemJuncao.getId(),
                     notaItemJuncao.getQuantidade(),
                     notaItemJuncao.getValorUnitario(),
-                    notaDTO,
-                    itemDTO
+                notaRespostaDTO,
+                itemRespostaDTO
             );
     }
 
-    public List<NotaItemJuncaoDTO> listarTodos(){
+    public List<NotaItemRespostaDTO> listarTodos(){
         return notaItemJuncaoRepository.findAll()
                 .stream()
-                .map(this::toDTO)
+                .map(this::toRespostaDTO)
                 .toList();
     }
 
-    public Optional<NotaItemJuncaoDTO> buscarPorId(Integer id){
+    public Optional<NotaItemRespostaDTO> buscarPorId(Integer id){
         return notaItemJuncaoRepository.findById(id)
-                .map(this::toDTO);
+                .map(this::toRespostaDTO);
     }
 
-    public NotaItemJuncaoDTO salvarJuncao(NotaItemJuncao notaItemJuncao,
-                                          Integer idNota,
-                                          Integer idItem){
+    public NotaItemRespostaDTO salvarJuncao(NotaItemRequisicaoDTO notaItemDTO){
 
-        Nota nota = notaRepository.findById(idNota)
+        Nota nota = notaRepository.findById(notaItemDTO.idNota())
                     .orElseThrow(()->new RuntimeException("Nota não encontrada"));
 
-        Item item = itemRepository.findById(idItem)
+        Item item = itemRepository.findById(notaItemDTO.idItem())
                 .orElseThrow(()->new RuntimeException("Item não encontrado"));
+
+        NotaItemJuncao notaItemJuncao = new NotaItemJuncao();
 
         notaItemJuncao.setNota(nota);
         notaItemJuncao.setItem(item);
@@ -65,7 +66,7 @@ public class NotaItemJuncaoService {
         notaItemJuncao.getNota().getNotaItemJuncaos().add(notaItemJuncao);
         notaItemJuncao.getItem().getNotaItemJuncaos().add(notaItemJuncao);
 
-        return toDTO(notaItemJuncaoRepository.save(notaItemJuncao));
+        return toRespostaDTO(notaItemJuncaoRepository.save(notaItemJuncao));
     }
 
     public void deletarPorId(Integer id){

@@ -1,7 +1,8 @@
 package com.controle_de_gastos.notas_api.service;
 
-import com.controle_de_gastos.notas_api.Repository.MarcaRepository;
-import com.controle_de_gastos.notas_api.dto.MarcaDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.MarcaRequisicaoDTO;
+import com.controle_de_gastos.notas_api.repository.MarcaRepository;
+import com.controle_de_gastos.notas_api.dto.resposta.MarcaRespostaDTO;
 import com.controle_de_gastos.notas_api.model.Marca;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,31 +15,30 @@ public class MarcaService {
 
     private final MarcaRepository marcaRepository;
 
-    public MarcaDTO toDTO(Marca marca){
-        return new MarcaDTO(
+    public MarcaRespostaDTO toRespostaDTO(Marca marca){
+        return new MarcaRespostaDTO(
                 marca.getId(),
                 marca.getNome()
         );
     }
 
-    public List<MarcaDTO> listarTodos(){
+    public List<MarcaRespostaDTO> listarTodos(){
         return marcaRepository.findAll()
                 .stream()
-                .map(this::toDTO)
+                .map(this::toRespostaDTO)
                 .toList();
     }
 
-    public Optional<MarcaDTO> buscarPorId(Integer idMarca){
-        return marcaRepository.findById(idMarca)
-                .map(this::toDTO);
+    public Optional<MarcaRespostaDTO> buscarPorId(Integer id){
+        return marcaRepository.findById(id)
+                .map(this::toRespostaDTO);
     }
 
-    public MarcaDTO salvarMarca(MarcaDTO marcaDTO){
+    public MarcaRespostaDTO criar(MarcaRequisicaoDTO marcaDTO){
         Marca marca = new Marca();
 
-        marca.setId(marcaDTO.id());
         marca.setNome(marcaDTO.nome());
-        return toDTO(marcaRepository.save(marca));
+        return toRespostaDTO(marcaRepository.save(marca));
     }
 
     public void deletarPorId(Integer idMarca){
