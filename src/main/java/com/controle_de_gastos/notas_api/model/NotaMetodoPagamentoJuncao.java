@@ -14,7 +14,7 @@ public class NotaMetodoPagamentoJuncao {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id_notas_metodo")
-        private Integer idNMPagamento;
+        private Integer id;
 
         @ManyToOne
         @JoinColumn(name = "id_nota")

@@ -1,16 +1,14 @@
 package com.controle_de_gastos.notas_api.service;
 
-import com.controle_de_gastos.notas_api.Repository.BairroRepository;
-import com.controle_de_gastos.notas_api.Repository.EstabelecimentoBairroJuncaoRepository;
-import com.controle_de_gastos.notas_api.Repository.EstabelecimentoRepository;
-import com.controle_de_gastos.notas_api.dto.BairroDTO;
-import com.controle_de_gastos.notas_api.dto.EstabelecimentoBairroJuncaoDTO;
-import com.controle_de_gastos.notas_api.dto.EstabelecimentoDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.EstabelecimentoBairroRequisicaoDTO;
+import com.controle_de_gastos.notas_api.repository.BairroRepository;
+import com.controle_de_gastos.notas_api.repository.EstabelecimentoBairroJuncaoRepository;
+import com.controle_de_gastos.notas_api.repository.EstabelecimentoRepository;
+import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoBairroRespostaDTO;
 import com.controle_de_gastos.notas_api.model.Bairro;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.model.EstabelecimentoBairroJuncao;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,64 +17,54 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class EstabelecimentoBairroJuncaoService {
-    @Autowired
-    private BairroRepository bairroRepository;
-    @Autowired
-    private EstabelecimentoRepository estabelecimentoRepository;
-    @Autowired
-    private EstabelecimentoBairroJuncaoRepository estabelecimentoBairroJuncaoRepository;
-    @Autowired
-    private CategoriaEstabelecimentoService categoriaEstabelecimentoService;
-    @Autowired
-    private BairroService bairroService;
-    @Autowired
-    private EstabelecimentoService estabelecimentoService;
 
-    public EstabelecimentoBairroJuncaoDTO toDTO(EstabelecimentoBairroJuncao eB){
-        return new EstabelecimentoBairroJuncaoDTO(
-                eB.getIdEstabelecimentoBairro(),
-                bairroService.toDTO(eB.getBairro()),
-                estabelecimentoService.toDTO(eB.getEstabelecimento()),
-               eB.getEndereco()
+    private final BairroRepository bairroRepository;
+    private final EstabelecimentoRepository estabelecimentoRepository;
+    private final EstabelecimentoBairroJuncaoRepository estabelecimentoBairroJuncaoRepository;
+    private final BairroService bairroService;
+    private final EstabelecimentoService estabelecimentoService;
+
+    public EstabelecimentoBairroRespostaDTO toRespostaDTO(EstabelecimentoBairroJuncao juncao){
+        return new EstabelecimentoBairroRespostaDTO(
+                juncao.getId(),
+                bairroService.toRespostaDTO(juncao.getBairro()),
+                estabelecimentoService.toRespostaDTO(juncao.getEstabelecimento()),
+               juncao.getEndereco()
        );
     }
     
-    public List<EstabelecimentoBairroJuncaoDTO> listarTodos(){
+    public List<EstabelecimentoBairroRespostaDTO> listarTodos(){
         return estabelecimentoBairroJuncaoRepository.findAll()
                 .stream()
-                .map(this::toDTO)
+                .map(this::toRespostaDTO)
                 .toList();
     }
 
-    public Optional<EstabelecimentoBairroJuncaoDTO> buscarPorid(Integer idEstabelecimentoBairro){
-        return estabelecimentoBairroJuncaoRepository.findById(idEstabelecimentoBairro)
-                .map(this::toDTO);
+    public Optional<EstabelecimentoBairroRespostaDTO> buscarPorid(Integer id){
+        return estabelecimentoBairroJuncaoRepository.findById(id)
+                .map(this::toRespostaDTO);
     }
 
-    public EstabelecimentoBairroJuncaoDTO associar(
-                                                  Integer idEstabelecimento,
-                                                  Integer idBairro,
-                                                  String endereco){
+    public EstabelecimentoBairroRespostaDTO associar(EstabelecimentoBairroRequisicaoDTO juncao){
 
-        Estabelecimento estabelecimento = estabelecimentoRepository.findById(idEstabelecimento)
+        Estabelecimento estabelecimento = estabelecimentoRepository.findById(juncao.idEstabelecimento())
                 .orElseThrow(()->new RuntimeException("Estabelecimento não encontrado"));
 
-        Bairro bairro = bairroRepository.findById(idBairro)
+        Bairro bairro = bairroRepository.findById(juncao.idBairro())
                 .orElseThrow(()->new RuntimeException("Bairro não encontrado"));
 
-        EstabelecimentoBairroJuncao estabelecimentoBairroJuncao = new EstabelecimentoBairroJuncao();
+        EstabelecimentoBairroJuncao ebJuncao = new EstabelecimentoBairroJuncao();
 
-        estabelecimento.getEstabelecimentoBairroJuncaos().add(estabelecimentoBairroJuncao);
-        bairro.getEstabelecimentoBairroJuncaos().add(estabelecimentoBairroJuncao);
-        estabelecimentoBairroJuncao.setEndereco(endereco);
+        estabelecimento.getEstabelecimentoBairroJuncaos().add(ebJuncao);
+        bairro.getEstabelecimentoBairroJuncaos().add(ebJuncao);
 
-        estabelecimentoBairroJuncao.setEstabelecimento(estabelecimento);
-        estabelecimentoBairroJuncao.setBairro(bairro);
-        return  toDTO(estabelecimentoBairroJuncaoRepository.save(estabelecimentoBairroJuncao));
-
+        ebJuncao.setEndereco(juncao.endereco());
+        ebJuncao.setEstabelecimento(estabelecimento);
+        ebJuncao.setBairro(bairro);
+        return  toRespostaDTO(estabelecimentoBairroJuncaoRepository.save(ebJuncao));
     }
 
-    public void deletarPorId(Integer idEstabelecimentoBairro){
-        estabelecimentoBairroJuncaoRepository.deleteById(idEstabelecimentoBairro);
+    public void deletarPorId(Integer id){
+        estabelecimentoBairroJuncaoRepository.deleteById(id);
     }
 }

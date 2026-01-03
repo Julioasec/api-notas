@@ -1,7 +1,8 @@
 package com.controle_de_gastos.notas_api.service;
 
-import com.controle_de_gastos.notas_api.Repository.AtributoRepository;
-import com.controle_de_gastos.notas_api.dto.AtributoDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.AtributoRequisicaoDTO;
+import com.controle_de_gastos.notas_api.repository.AtributoRepository;
+import com.controle_de_gastos.notas_api.dto.resposta.AtributoRespostaDTO;
 import com.controle_de_gastos.notas_api.model.Atributo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,32 +12,32 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AtributoService {
+
     private final AtributoRepository atributoRepository;
 
-
-    public AtributoDTO toDTO(Atributo atributo){
-        return new AtributoDTO(
-                atributo.getIdAtributo(),
+    public AtributoRespostaDTO toRespostaDTO(Atributo atributo){
+        return new AtributoRespostaDTO(
+                atributo.getId(),
                 atributo.getNome()
         );
     }
 
-    public List<AtributoDTO> listarTodos() {
+    public List<AtributoRespostaDTO> listarTodos() {
         return atributoRepository.findAll()
                 .stream()
-                .map(this::toDTO)
+                .map(this::toRespostaDTO)
                 .toList();
     }
 
-    public Optional<AtributoDTO> buscarPorId(Integer id) {
+    public Optional<AtributoRespostaDTO> buscarPorId(Integer id) {
         return atributoRepository.findById(id)
-                .map(this::toDTO);
+                .map(this::toRespostaDTO);
     }
 
-    public AtributoDTO salvar(AtributoDTO atributoDTO){
+    public AtributoRespostaDTO criar(AtributoRequisicaoDTO atributoRequisicaoDTO){
         Atributo atributo = new Atributo();
-        atributo.setNome(atributoDTO.nome());
-        return toDTO(atributoRepository.save(atributo));
+        atributo.setNome(atributoRequisicaoDTO.nome());
+        return toRespostaDTO(atributoRepository.save(atributo));
     }
 
     public void deletarPorId(Integer id){

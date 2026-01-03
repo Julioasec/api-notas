@@ -16,7 +16,8 @@ import java.util.Set;
 public class MetodoPagamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idMetodo;
+    @Column(name = "id_metodo")
+    private Integer id;
     private String nome;
 
     @OneToMany(mappedBy = "metodoPagamento", cascade = CascadeType.ALL, orphanRemoval = true)

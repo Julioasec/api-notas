@@ -1,11 +1,12 @@
 package com.controle_de_gastos.notas_api.controller;
 
-import com.controle_de_gastos.notas_api.dto.EstabelecimentoBairroDTO;
-import com.controle_de_gastos.notas_api.dto.EstabelecimentoDTO;
-import com.controle_de_gastos.notas_api.dto.requisicao.EstabelecimentoRequisicao;
+import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoComBairroRespostaDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoRespostaDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.EstabelecimentoRequisicaoDTO;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.service.EstabelecimentoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -14,20 +15,21 @@ import java.util.Optional;
 @RequestMapping("/api/estabelecimentos")
 @RequiredArgsConstructor
 public class EstabelecimentoController {
+
     private final EstabelecimentoService estabelecimentoService;
 
     @GetMapping
-    public List<EstabelecimentoDTO> listarTodos(){
+    public List<EstabelecimentoRespostaDTO> listarTodos(){
         return estabelecimentoService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Optional<Estabelecimento> buscarPorId(@PathVariable Integer id){
+    public Optional<EstabelecimentoRespostaDTO> buscarPorId(@PathVariable Integer id){
             return estabelecimentoService.buscarPorId(id);
         }
 
     @GetMapping("{id}/bairros")
-    public EstabelecimentoBairroDTO listarBairroPorEstabelecimentoId(@PathVariable Integer id){
+    public EstabelecimentoComBairroRespostaDTO listarBairroPorEstabelecimentoId(@PathVariable Integer id){
         return estabelecimentoService.listarBairroPorEstabelecimentoId(id);
     }
 
@@ -37,8 +39,8 @@ public class EstabelecimentoController {
     }
 
     @PostMapping
-    public EstabelecimentoDTO salvarEstabelecimento(@RequestBody EstabelecimentoRequisicao estabelecimentoReq){
-        return estabelecimentoService.salvarEstabelecimento(estabelecimentoReq);
+    public EstabelecimentoRespostaDTO criar(@RequestBody EstabelecimentoRequisicaoDTO estabelecimentoDTO){
+        return estabelecimentoService.criar(estabelecimentoDTO);
     }
 
     @DeleteMapping

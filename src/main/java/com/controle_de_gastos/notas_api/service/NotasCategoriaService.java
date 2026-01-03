@@ -1,7 +1,7 @@
 package com.controle_de_gastos.notas_api.service;
 
-import com.controle_de_gastos.notas_api.Repository.NotasCategoriaRepository;
-import com.controle_de_gastos.notas_api.dto.NotasCategoriaDTO;
+import com.controle_de_gastos.notas_api.repository.NotasCategoriaRepository;
+import com.controle_de_gastos.notas_api.dto.resposta.NotasCategoriaRespostaDTO;
 import com.controle_de_gastos.notas_api.model.NotasCategoria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,31 +11,32 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class NotasCategoriaService {
+
     private final NotasCategoriaRepository notasCategoriaRepository;
 
-    public NotasCategoriaDTO toDTO(NotasCategoria notasCategoria){
-                return new NotasCategoriaDTO(
-                        notasCategoria.getIdCategoria(),
+    public NotasCategoriaRespostaDTO toRespostaDTO(NotasCategoria notasCategoria){
+                return new NotasCategoriaRespostaDTO(
+                        notasCategoria.getId(),
                         notasCategoria.getNome());
     }
 
-    public List<NotasCategoriaDTO> listarTodos(){
+    public List<NotasCategoriaRespostaDTO> listarTodos(){
         return notasCategoriaRepository.findAll()
                 .stream()
-                .map(this::toDTO)
+                .map(this::toRespostaDTO)
                 .toList();
     }
 
-    public Optional<NotasCategoriaDTO> buscarPorId(Integer id){
+    public Optional<NotasCategoriaRespostaDTO> buscarPorId(Integer id){
         return notasCategoriaRepository.findById(id)
-                .map(this::toDTO);
+                .map(this::toRespostaDTO);
     }
 
 
-    public NotasCategoriaDTO salvarCategoria(NotasCategoriaDTO notasCategoriaDTO){
+    public NotasCategoriaRespostaDTO criar(NotasCategoriaRespostaDTO notasCategoriaRespostaDTO){
               NotasCategoria notasCategoria = new NotasCategoria();
-              notasCategoria.setNome(notasCategoriaDTO.nome());
-              return toDTO(notasCategoriaRepository.save(notasCategoria));
+              notasCategoria.setNome(notasCategoriaRespostaDTO.nome());
+              return toRespostaDTO(notasCategoriaRepository.save(notasCategoria));
 
     }
 

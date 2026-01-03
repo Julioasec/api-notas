@@ -1,7 +1,8 @@
 package com.controle_de_gastos.notas_api.service;
 
-import com.controle_de_gastos.notas_api.Repository.MetodoPagamentoRepository;
-import com.controle_de_gastos.notas_api.dto.MetodoPagamentoDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.MetodoPagamentoRequisicaoDTO;
+import com.controle_de_gastos.notas_api.repository.MetodoPagamentoRepository;
+import com.controle_de_gastos.notas_api.dto.resposta.MetodoPagamentoRespostaDTO;
 import com.controle_de_gastos.notas_api.model.MetodoPagamento;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,28 +15,28 @@ public class MetodoPagamentoService {
 
    private final MetodoPagamentoRepository metodoPagamentoRepository;
 
-   public MetodoPagamentoDTO toDTO(MetodoPagamento metodoPagamento) {
-       return new MetodoPagamentoDTO(
-               metodoPagamento.getIdMetodo(),
+   public MetodoPagamentoRespostaDTO toRespostaDTO(MetodoPagamento metodoPagamento) {
+       return new MetodoPagamentoRespostaDTO(
+               metodoPagamento.getId(),
                metodoPagamento.getNome());
    }
 
-   public List<MetodoPagamentoDTO> listarTodos(){
+   public List<MetodoPagamentoRespostaDTO> listarTodos(){
       return metodoPagamentoRepository.findAll()
               .stream()
-              .map(this::toDTO)
+              .map(this::toRespostaDTO)
               .toList();
    }
 
-   public Optional<MetodoPagamentoDTO> buscarPorId(Integer id){
+   public Optional<MetodoPagamentoRespostaDTO> buscarPorId(Integer id){
        return metodoPagamentoRepository.findById(id)
-               .map(this::toDTO);
+               .map(this::toRespostaDTO);
    }
 
-   public MetodoPagamentoDTO salvarMetodo(MetodoPagamentoDTO metodoPagamentoDTO){
+   public MetodoPagamentoRespostaDTO criar(MetodoPagamentoRequisicaoDTO metodoDTO){
        MetodoPagamento metodoPagamento = new MetodoPagamento();
-       metodoPagamento.setNome(metodoPagamentoDTO.nome());
-       return toDTO(metodoPagamentoRepository.save(metodoPagamento));
+       metodoPagamento.setNome(metodoDTO.nome());
+       return toRespostaDTO(metodoPagamentoRepository.save(metodoPagamento));
    }
 
    public void deletarPorId(Integer id){

@@ -1,14 +1,13 @@
 package com.controle_de_gastos.notas_api.controller;
 
-import com.controle_de_gastos.notas_api.dto.NotaDTO;
-import com.controle_de_gastos.notas_api.dto.NotaPagamentoDTO;
-import com.controle_de_gastos.notas_api.dto.ParcelamentoDTO;
-import com.controle_de_gastos.notas_api.dto.requisicao.NotaRequisicao;
-import com.controle_de_gastos.notas_api.dto.requisicao.ParcelamentoRequisicao;
+import com.controle_de_gastos.notas_api.dto.resposta.NotaRespostaDTO;
+import com.controle_de_gastos.notas_api.dto._refazer_NotaPagamentoDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.ParcelamentoRespostaDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.NotaRequisicaoDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.ParcelamentoRequisicaoDTO;
 import com.controle_de_gastos.notas_api.service.NotaService;
 import com.controle_de_gastos.notas_api.service.ParcelamentoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -17,39 +16,38 @@ import java.util.Optional;
 @RequestMapping("/api/nota")
 @RequiredArgsConstructor
 public class NotaController {
-   @Autowired
-    private NotaService notaService;
-    @Autowired
-    private ParcelamentoService parcelamentoService;
+
+    private final NotaService notaService;
+    private final ParcelamentoService parcelamentoService;
 
     @GetMapping
-    public List<NotaDTO> listarTodos(){
+    public List<NotaRespostaDTO> listarTodos(){
         return notaService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Optional<NotaDTO> buscarPorId(@PathVariable Integer id){
+    public Optional<NotaRespostaDTO> buscarPorId(@PathVariable Integer id){
         return notaService.buscarPorid(id);
     }
 
     @PostMapping
-    public NotaDTO salvarNota(@RequestBody NotaRequisicao notaRequisicao){
-        return notaService.salvarNota(notaRequisicao);
+    public NotaRespostaDTO criar(@RequestBody NotaRequisicaoDTO notaDTO){
+        return notaService.criar(notaDTO);
     }
 
-    @GetMapping("/{idNota}/pagamentos")
-    public List<NotaPagamentoDTO> listarPagamentos(@PathVariable Integer idNota){
-        return notaService.listarPagamentosPorNota(idNota);
+    @GetMapping("/{id}/pagamentos")
+    public List<_refazer_NotaPagamentoDTO> listarPagamentos(@PathVariable Integer id){
+        return notaService.listarPagamentosPorNota(id);
     }
 
-    @GetMapping("/{notaId}/parcelamentos")
-    public List<ParcelamentoDTO> listarParcelamentos(@PathVariable Integer notaId){
-        return parcelamentoService.listarParcelamentosDaNota(notaId);
+    @GetMapping("/{id}/parcelamentos")
+    public List<ParcelamentoRespostaDTO> listarParcelamentos(@PathVariable Integer id){
+        return parcelamentoService.listarParcelamentosDaNota(id);
     }
 
     @PostMapping("/{notaId}/parcelamento")
-    public ParcelamentoDTO salvarParcelamento(@RequestBody ParcelamentoRequisicao parcelamentoRequisicao, @PathVariable Integer notaId){
-        return parcelamentoService.salvarParcelamento(parcelamentoRequisicao, notaId);
+    public ParcelamentoRespostaDTO associarParcelamento(@RequestBody ParcelamentoRequisicaoDTO parcelamentoDTO, @PathVariable Integer notaId){
+        return parcelamentoService.associar(parcelamentoDTO, notaId);
     }
 
     @DeleteMapping

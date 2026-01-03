@@ -1,6 +1,7 @@
 package com.controle_de_gastos.notas_api.controller;
 
-import com.controle_de_gastos.notas_api.dto.MetodoPagamentoDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.MetodoPagamentoRequisicaoDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.MetodoPagamentoRespostaDTO;
 import com.controle_de_gastos.notas_api.service.MetodoPagamentoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,18 +17,18 @@ public class MetodoPagamentoController {
     private final MetodoPagamentoService metodoPagamentoService;
     
     @GetMapping
-    public List<MetodoPagamentoDTO> listarTodos(){
+    public List<MetodoPagamentoRespostaDTO> listarTodos(){
         return metodoPagamentoService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Optional<MetodoPagamentoDTO> buscarPorId(@PathVariable Integer id){
+    public Optional<MetodoPagamentoRespostaDTO> buscarPorId(@PathVariable Integer id){
         return metodoPagamentoService.buscarPorId(id);
     }
 
     @PostMapping
-    public MetodoPagamentoDTO salvarMetodo(@RequestBody MetodoPagamentoDTO metodoPagamentoDTO){
-        return metodoPagamentoService.salvarMetodo(metodoPagamentoDTO);
+    public MetodoPagamentoRespostaDTO criar(@RequestBody MetodoPagamentoRequisicaoDTO metodoDTO){
+        return metodoPagamentoService.criar(metodoDTO);
     }
 
     @DeleteMapping

@@ -6,16 +6,19 @@ import lombok.*;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
     @Table(name = "Item_Tipo")
 public class ItemTipo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idTipo;
+    @Column(name = "id_tipo")
+    private Integer id;
     private String nome;
 
     @OneToMany(mappedBy = "tipo", cascade = CascadeType.ALL)
     private Set<Item> itens;
+
 }

@@ -1,7 +1,0 @@
-package com.controle_de_gastos.notas_api.Repository;
-
-import com.controle_de_gastos.notas_api.model.Marca;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface MarcaRepository extends JpaRepository<Marca, Integer> {
-}

@@ -16,7 +16,8 @@ import java.util.Set;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idItem;
+    @Column(name = "id_item")
+    private Integer id;
     @ManyToOne
     @JoinColumn(name = "id_tipo")
     private ItemTipo tipo;

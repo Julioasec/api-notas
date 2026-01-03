@@ -1,12 +1,12 @@
 package com.controle_de_gastos.notas_api.service;
 
-import com.controle_de_gastos.notas_api.Repository.EstabelecimentoRepository;
-import com.controle_de_gastos.notas_api.Repository.NotaMetodoPagametoJuncaoRepository;
-import com.controle_de_gastos.notas_api.Repository.NotaRepository;
-import com.controle_de_gastos.notas_api.Repository.NotasCategoriaRepository;
-import com.controle_de_gastos.notas_api.dto.NotaDTO;
-import com.controle_de_gastos.notas_api.dto.NotaPagamentoDTO;
-import com.controle_de_gastos.notas_api.dto.requisicao.NotaRequisicao;
+import com.controle_de_gastos.notas_api.repository.EstabelecimentoRepository;
+import com.controle_de_gastos.notas_api.repository.NotaMetodoPagametoJuncaoRepository;
+import com.controle_de_gastos.notas_api.repository.NotaRepository;
+import com.controle_de_gastos.notas_api.repository.NotasCategoriaRepository;
+import com.controle_de_gastos.notas_api.dto.resposta.NotaRespostaDTO;
+import com.controle_de_gastos.notas_api.dto._refazer_NotaPagamentoDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.NotaRequisicaoDTO;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.model.Nota;
 import com.controle_de_gastos.notas_api.model.NotaMetodoPagamentoJuncao;
@@ -28,60 +28,61 @@ public class NotaService {
     private final NotasCategoriaService notasCategoriaService;
     private final NotaMetodoPagametoJuncaoRepository notaMetodoPagametoJuncaoRepository;
 
-    public NotaDTO toDTO(Nota nota){
-        return new NotaDTO(
-                nota.getIdNota(),
+    public NotaRespostaDTO toRespostaDTO(Nota nota){
+        return new NotaRespostaDTO(
+                nota.getId(),
                 nota.getData(),
                 nota.getTotal(),
                 nota.getQtdeItens(),
-                notasCategoriaService.toDTO(nota.getCategoria()),
-                estabelecimentoService.toDTO(nota.getEstabelecimento())
+                notasCategoriaService.toRespostaDTO(nota.getCategoria()),
+                estabelecimentoService.toRespostaDTO(nota.getEstabelecimento())
         );
     }
 
-    public NotaPagamentoDTO toNotaPagamentoDTO(NotaMetodoPagamentoJuncao notaMPJuncao){
-        return new NotaPagamentoDTO(
-                notaMPJuncao.getIdNMPagamento(),
+    public _refazer_NotaPagamentoDTO toNotaPagamentoDTO(NotaMetodoPagamentoJuncao notaMPJuncao){
+        return new _refazer_NotaPagamentoDTO(
+                notaMPJuncao.getId(),
                 notaMPJuncao.getMetodoPagamento().getNome(),
                 notaMPJuncao.getValorPago()
         );
     }
 
-    public List<NotaDTO> listarTodos(){
+    public List<NotaRespostaDTO> listarTodos(){
         return notaRepository.findAll()
                 .stream()
-                .map(this::toDTO)
+                .map(this::toRespostaDTO)
                 .toList();
     }
 
-    public Optional<NotaDTO> buscarPorid(Integer id){
+    public Optional<NotaRespostaDTO> buscarPorid(Integer id){
         return notaRepository.findById(id)
-                .map(this::toDTO);
+                .map(this::toRespostaDTO);
     }
 
 
-    public List<NotaPagamentoDTO> listarPagamentosPorNota(Integer idNota){
-        return notaMetodoPagametoJuncaoRepository.findByNotaIdNota(idNota)
+    //refazer
+    public List<_refazer_NotaPagamentoDTO> listarPagamentosPorNota(Integer id){
+        return notaMetodoPagametoJuncaoRepository.findByNotaId(id)
                 .stream()
                 .map(this::toNotaPagamentoDTO)
                 .toList();
     }
 
-    public NotaDTO salvarNota(NotaRequisicao notaRequisicao){
-        NotasCategoria categoria = notasCategoriaRepository.findById(notaRequisicao.getIdCategoria())
+    public NotaRespostaDTO criar(NotaRequisicaoDTO notaRequisicaoDTO){
+        NotasCategoria categoria = notasCategoriaRepository.findById(notaRequisicaoDTO.idCategoria())
                 .orElseThrow(() -> new RuntimeException("Categoria Não Encontrada"));
 
-        Estabelecimento estabelecimento = estabelecimentoRepository.findById(notaRequisicao.getIdEstabelecimento())
+        Estabelecimento estabelecimento = estabelecimentoRepository.findById(notaRequisicaoDTO.idEstabelecimento())
                         .orElseThrow(()->new RuntimeException("Estabelecimento não encontrado"));
 
         Nota nota = new Nota();
         nota.setCategoria(categoria);
         nota.setEstabelecimento(estabelecimento);
-        nota.setData(notaRequisicao.getData());
-        nota.setTotal(notaRequisicao.getTotal());
-        nota.setQtdeItens(notaRequisicao.getQtdeItens());
+        nota.setData(notaRequisicaoDTO.data());
+        nota.setTotal(notaRequisicaoDTO.total());
+        nota.setQtdeItens(notaRequisicaoDTO.qtdeItens());
 
-        return toDTO(notaRepository.save(nota));
+        return toRespostaDTO(notaRepository.save(nota));
     }
 
     public void deletarPorId(Integer id){

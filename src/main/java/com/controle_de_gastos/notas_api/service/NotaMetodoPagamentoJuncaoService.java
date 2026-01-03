@@ -1,12 +1,12 @@
 package com.controle_de_gastos.notas_api.service;
 
-import com.controle_de_gastos.notas_api.Repository.MetodoPagamentoRepository;
-import com.controle_de_gastos.notas_api.Repository.NotaMetodoPagametoJuncaoRepository;
-import com.controle_de_gastos.notas_api.Repository.NotaRepository;
-import com.controle_de_gastos.notas_api.dto.MetodoPagamentoDTO;
-import com.controle_de_gastos.notas_api.dto.NotaDTO;
-import com.controle_de_gastos.notas_api.dto.NotaMetodoPagamentoJuncaoDTO;
-import com.controle_de_gastos.notas_api.dto.requisicao.NotasMetodoPagamentoRequisicao;
+import com.controle_de_gastos.notas_api.repository.MetodoPagamentoRepository;
+import com.controle_de_gastos.notas_api.repository.NotaMetodoPagametoJuncaoRepository;
+import com.controle_de_gastos.notas_api.repository.NotaRepository;
+import com.controle_de_gastos.notas_api.dto.resposta.MetodoPagamentoRespostaDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.NotaRespostaDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.NotaMetodoPagamentoRespostaDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.NotasMetodoPagamentoRequisicaoDTO;
 import com.controle_de_gastos.notas_api.model.MetodoPagamento;
 import com.controle_de_gastos.notas_api.model.Nota;
 import com.controle_de_gastos.notas_api.model.NotaMetodoPagamentoJuncao;
@@ -27,31 +27,31 @@ public class NotaMetodoPagamentoJuncaoService {
 
 
 
-    public NotaMetodoPagamentoJuncaoDTO toDTO(NotaMetodoPagamentoJuncao  notaMetodoPagamentoJuncao) {
-           NotaDTO notaDTO = notaService.toDTO(notaMetodoPagamentoJuncao.getNota());
-           MetodoPagamentoDTO metodoPagamentoDTO = metodoPagamentoService.toDTO(notaMetodoPagamentoJuncao.getMetodoPagamento());
+    public NotaMetodoPagamentoRespostaDTO toRespostaDTO(NotaMetodoPagamentoJuncao  notaMetodoPagamentoJuncao) {
+           NotaRespostaDTO notaRespostaDTO = notaService.toRespostaDTO(notaMetodoPagamentoJuncao.getNota());
+           MetodoPagamentoRespostaDTO metodoPagamentoRespostaDTO = metodoPagamentoService.toRespostaDTO(notaMetodoPagamentoJuncao.getMetodoPagamento());
            Double valorPago = notaMetodoPagamentoJuncao.getValorPago();
 
-            return new NotaMetodoPagamentoJuncaoDTO(
-                    notaMetodoPagamentoJuncao.getIdNMPagamento(),
-                    notaDTO,
-                    metodoPagamentoDTO,
+            return new NotaMetodoPagamentoRespostaDTO(
+                    notaMetodoPagamentoJuncao.getId(),
+                    notaRespostaDTO,
+                    metodoPagamentoRespostaDTO,
                     valorPago
             );
     }
 
-    public List<NotaMetodoPagamentoJuncaoDTO> listarTodos(){
+    public List<NotaMetodoPagamentoRespostaDTO> listarTodos(){
         return notaMetodoPagametoJuncaoRepository.findAll()
                 .stream()
-                .map(this::toDTO)
+                .map(this::toRespostaDTO)
                 .toList();
     }
 
-    public NotaMetodoPagamentoJuncaoDTO asssociar(NotasMetodoPagamentoRequisicao notaMPReq) {
-        Nota nota = notaRepository.findById(notaMPReq.getIdNota())
+    public NotaMetodoPagamentoRespostaDTO asssociar(NotasMetodoPagamentoRequisicaoDTO notaMPResposta) {
+        Nota nota = notaRepository.findById(notaMPResposta.idNota())
                 .orElseThrow(()->new RuntimeException("Nota Não Encontrada"));
 
-        MetodoPagamento metodo = metodoPagamentoRepository.findById(notaMPReq.getIdMetodo())
+        MetodoPagamento metodo = metodoPagamentoRepository.findById(notaMPResposta.idMetodo())
                 .orElseThrow(()->new RuntimeException("Método de pagamento não encontrado"));
 
         NotaMetodoPagamentoJuncao notaMPJuncao = new NotaMetodoPagamentoJuncao();
@@ -60,15 +60,15 @@ public class NotaMetodoPagamentoJuncaoService {
 
         notaMPJuncao.getNota().getNotaMetodoPagamentoJuncaos().add(notaMPJuncao);
         notaMPJuncao.getMetodoPagamento().getNotaMetodoPagamentoJuncaos().add(notaMPJuncao);
-        notaMPJuncao.setValorPago(notaMPReq.getValorPago());
+        notaMPJuncao.setValorPago(notaMPResposta.valorPago());
 
 
-        return toDTO(notaMetodoPagametoJuncaoRepository.save(notaMPJuncao));
+        return toRespostaDTO(notaMetodoPagametoJuncaoRepository.save(notaMPJuncao));
     }
 
-    public Optional<NotaMetodoPagamentoJuncaoDTO> buscarPorId(Integer id){
+    public Optional<NotaMetodoPagamentoRespostaDTO> buscarPorId(Integer id){
         return notaMetodoPagametoJuncaoRepository.findById(id)
-                .map(this::toDTO);
+                .map(this::toRespostaDTO);
     }
 
     public void deletarPorId(Integer id){

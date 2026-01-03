@@ -6,14 +6,16 @@ import lombok.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-    @Data
+    @Entity
+    @Setter
+    @Getter
     @AllArgsConstructor
     @NoArgsConstructor
     public class Atributo {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Integer idAtributo;
+        @Column(name = "id_atributo")
+        private Integer id;
         private String nome;
 
         @OneToMany(mappedBy = "atributo", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -16,7 +16,7 @@ public class EstabelecimentoBairroJuncao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_estabelecimento_bairro")
-    private Integer idEstabelecimentoBairro;
+    private Integer id;
     private String endereco;
     @ManyToOne
     @JoinColumn(name = "id_estabelecimento")

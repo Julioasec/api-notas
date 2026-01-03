@@ -12,7 +12,8 @@ import java.util.Set;
 public class CategoriaEstabelecimento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCategoriaEstabelecimento;
+    @Column(name = "id_categoria_estabelecimento")
+    private Integer id;
     private String nome;
     @OneToMany(mappedBy ="categoria", cascade = CascadeType.ALL) // uma Categoria para muitos estabelecimentos
     private Set<Estabelecimento> estabelecimentos; // representa os estabelecimentos associados a categoria

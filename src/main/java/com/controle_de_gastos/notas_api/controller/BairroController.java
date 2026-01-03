@@ -1,11 +1,11 @@
 package com.controle_de_gastos.notas_api.controller;
 
-import com.controle_de_gastos.notas_api.dto.BairroDTO;
-import com.controle_de_gastos.notas_api.dto.BairroEstabDTO;
-import com.controle_de_gastos.notas_api.dto.BairroEstabListDTO;
+import com.controle_de_gastos.notas_api.dto.requisicao.BairroRequisicaoDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.BairroRespostaDTO;
+import com.controle_de_gastos.notas_api.dto._refazer_BairroComEstabRespostaDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.BairroComEstabListRespostaDTO;
 import com.controle_de_gastos.notas_api.service.BairroService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -15,32 +15,32 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BairroController {
 
-    @Autowired
-    private BairroService bairroService;
+    private final BairroService bairroService;
 
     @GetMapping
-    public List<BairroDTO> listarBairros() {
+    public List<BairroRespostaDTO> listarBairros() {
         return bairroService.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Optional<BairroDTO> buscarPorId(@PathVariable Integer id){
+    public Optional<BairroRespostaDTO> buscarPorId(@PathVariable Integer id){
         return bairroService.buscarPorId(id);
     }
 
+    // Corrigir
     @GetMapping("/{id}/estabelecimentos")
-    public List<BairroEstabDTO> listarEstabPorBairroId(@PathVariable Integer id){
+    public List<_refazer_BairroComEstabRespostaDTO> listarEstabPorBairroId(@PathVariable Integer id){
         return bairroService.listarEstabPorBairroId(id);
     }
 
     @GetMapping("/estabelecimentos")
-    public List<BairroEstabListDTO> listarEstabPorBairro(){
+    public List<BairroComEstabListRespostaDTO> listarEstabPorBairro(){
         return bairroService.listarTodosEstabPorBairro();
     }
 
     @PostMapping
-    public BairroDTO bairroSalvar(@RequestBody BairroDTO bairro) {
-        return bairroService.salvar(bairro);
+    public BairroRespostaDTO criar(@RequestBody BairroRequisicaoDTO bairroDTO) {
+        return bairroService.criar(bairroDTO);
     }
 
     @DeleteMapping

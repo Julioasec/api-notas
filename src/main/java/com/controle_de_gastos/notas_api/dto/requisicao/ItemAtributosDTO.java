@@ -1,8 +1,0 @@
-package com.controle_de_gastos.notas_api.dto.requisicao;
-
-public record ItemAtributosDTO(
-        Integer idItem,
-        Integer idAtributo,
-        String nomeAtributo
-) {
-}

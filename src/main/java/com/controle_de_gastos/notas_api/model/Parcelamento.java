@@ -15,7 +15,8 @@ import java.time.LocalDate;
 public class Parcelamento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idParcelamento;
+    @Column(name = "id_parcelamento")
+    private Integer id;
     @Column(name = "n_parcela")
     private Integer parcela;
     @Column(name = "data_pagamento")
