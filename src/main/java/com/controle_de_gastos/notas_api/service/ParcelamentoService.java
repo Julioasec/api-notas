@@ -1,5 +1,6 @@
 package com.controle_de_gastos.notas_api.service;
 
+import com.controle_de_gastos.notas_api.dto.projecao.NotaSimplesProjecaoDTO;
 import com.controle_de_gastos.notas_api.repository.NotaRepository;
 import com.controle_de_gastos.notas_api.repository.ParcelamentoRepository;
 import com.controle_de_gastos.notas_api.dto.resposta.ParcelamentoRespostaDTO;
@@ -25,8 +26,11 @@ public class ParcelamentoService {
                     parcelamento.getDataPagamento(),
                     parcelamento.getValorParcela(),
                     parcelamento.getPago(),
-                    parcelamento.getNota().getId(),
-                    parcelamento.getNota().getTotal()
+                    new NotaSimplesProjecaoDTO(
+                            parcelamento.getNota().getId(),
+                            parcelamento.getNota().getData(),
+                            parcelamento.getNota().getTotal()
+                    )
             );
         }
 

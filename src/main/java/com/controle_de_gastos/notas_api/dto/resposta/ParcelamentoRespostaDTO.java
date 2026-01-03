@@ -1,5 +1,6 @@
 package com.controle_de_gastos.notas_api.dto.resposta;
 
+import com.controle_de_gastos.notas_api.dto.projecao.NotaSimplesProjecaoDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
@@ -12,7 +13,6 @@ public record ParcelamentoRespostaDTO(
         LocalDate dataPagamento,
         Double valorParcela,
         Boolean pago,
-        Integer idNota,
-        Double total
+        NotaSimplesProjecaoDTO nota
 ) {
 }
