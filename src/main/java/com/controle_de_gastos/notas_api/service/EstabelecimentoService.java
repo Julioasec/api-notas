@@ -1,5 +1,6 @@
 package com.controle_de_gastos.notas_api.service;
 
+import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoBairroRespostaDTO;
 import com.controle_de_gastos.notas_api.repository.CategoriaEstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.repository.EstabelecimentoBairroJuncaoRepository;
 import com.controle_de_gastos.notas_api.repository.EstabelecimentoRepository;
@@ -74,8 +75,8 @@ public class EstabelecimentoService {
                 );
     }
 
-    public List<EstabelecimentoBairroDTO> listarTodosBairroPorEstabelecimento(){
-            List<EstabelecimentoBairroDTO> juncaos = estabelecimentoBairroJuncaoRepository.findAll()
+    public List<EstabelecimentoComBairroRespostaDTO> listarTodosBairroPorEstabelecimento(){
+            List<EstabelecimentoComBairroRespostaDTO> juncaos = estabelecimentoBairroJuncaoRepository.findAll()
                     .stream()
                     .collect(Collectors.groupingBy(
                             data -> data.getEstabelecimento().getId()
@@ -85,16 +86,16 @@ public class EstabelecimentoService {
                     .map(data ->{
                         Estabelecimento estabelecimento = data.get(0).getEstabelecimento();
 
-                                List<BairroEnderecoDTO> bairros = data
+                                List<BairroComEnderecoProjecaoDTO> bairros = data
                                         .stream()
-                                        .map( juncao -> new BairroEnderecoDTO(
+                                        .map( juncao -> new BairroComEnderecoProjecaoDTO(
                                                     juncao.getBairro().getId(),
                                                     juncao.getBairro().getNome(),
                                                     juncao.getEndereco()
                                             ))
                                         .toList();
 
-                                        return new EstabelecimentoBairroDTO(
+                                        return new EstabelecimentoComBairroRespostaDTO(
                                                 estabelecimento.getId(),
                                                 estabelecimento.getNome(),
                                                 bairros

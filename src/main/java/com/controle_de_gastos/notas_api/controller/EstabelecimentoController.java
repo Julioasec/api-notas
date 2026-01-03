@@ -34,7 +34,7 @@ public class EstabelecimentoController {
     }
 
     @GetMapping("/bairros")
-    public List<EstabelecimentoBairroDTO> listarTodosBairrosPorEstabelecimentos(){
+    public List<EstabelecimentoComBairroRespostaDTO> listarTodosBairrosPorEstabelecimentos(){
         return estabelecimentoService.listarTodosBairroPorEstabelecimento();
     }
 
