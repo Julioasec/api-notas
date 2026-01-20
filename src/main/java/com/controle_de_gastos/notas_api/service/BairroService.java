@@ -4,9 +4,8 @@ import com.controle_de_gastos.notas_api.dto.requisicao.BairroRequisicaoDTO;
 import com.controle_de_gastos.notas_api.repository.BairroRepository;
 import com.controle_de_gastos.notas_api.repository.EstabelecimentoBairroJuncaoRepository;
 import com.controle_de_gastos.notas_api.dto.resposta.BairroRespostaDTO;
-import com.controle_de_gastos.notas_api.dto._refazer_BairroComEstabRespostaDTO;
-import com.controle_de_gastos.notas_api.dto.resposta.BairroComEstabListRespostaDTO;
-import com.controle_de_gastos.notas_api.dto.projecao.EstabelecimentoEnderecoProjecaoDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.BairroComEstabRespostaDTO;
+import com.controle_de_gastos.notas_api.dto.projecao.EstabelecimentoComEnderecoProjecaoDTO;
 import com.controle_de_gastos.notas_api.model.Bairro;
 import com.controle_de_gastos.notas_api.model.EstabelecimentoBairroJuncao;
 import lombok.RequiredArgsConstructor;
@@ -29,14 +28,6 @@ public class BairroService {
             );
     }
 
-    public _refazer_BairroComEstabRespostaDTO toBairroComEstabRespostaDTO(EstabelecimentoBairroJuncao estabBairro){
-        return new _refazer_BairroComEstabRespostaDTO(
-                estabBairro.getBairro().getId(),
-                estabBairro.getBairro().getNome(),
-                estabelecimentoService.toEstabSimplesDTO(estabBairro.getEstabelecimento(), estabBairro.getEndereco())
-        );
-    }
-
     public List<BairroRespostaDTO> listarTodos() {
         return bairroRepository.findAll()
                 .stream()
@@ -49,23 +40,39 @@ public class BairroService {
                 .map(this::toRespostaDTO);
     }
 
-    // Corrigir
-    public List<_refazer_BairroComEstabRespostaDTO> listarEstabPorBairroId(Integer id){
-        return estabelecimentoBairroJuncaoRepository.findByBairroId(id)
+    public BairroComEstabRespostaDTO listarEstabPorBairroId(Integer id){
+        List<EstabelecimentoBairroJuncao> juncao =  estabelecimentoBairroJuncaoRepository.findByBairroId(id);
+
+        if(juncao.isEmpty()){
+            return null;
+        }
+
+        List<EstabelecimentoComEnderecoProjecaoDTO> estabelecimentos = juncao
                 .stream()
-                .map(this::toBairroComEstabRespostaDTO)
+                .map(data -> new EstabelecimentoComEnderecoProjecaoDTO(
+                                data.getEstabelecimento().getId(),
+                                data.getEstabelecimento().getNome(),
+                                data.getEndereco()
+                        )
+                        )
                 .toList();
+        return new BairroComEstabRespostaDTO(
+                juncao.get(0).getBairro().getId(),
+                juncao.get(0).getBairro().getNome(),
+                estabelecimentos
+        );
+
     }
 
-    public List<BairroComEstabListRespostaDTO> listarTodosEstabPorBairro(){
+    public List<BairroComEstabRespostaDTO> listarTodosEstabPorBairro(){
         return bairroRepository.findAll()
                 .stream()
-                .map(bairro -> new BairroComEstabListRespostaDTO(
+                .map(bairro -> new BairroComEstabRespostaDTO(
                         bairro.getId(),
                         bairro.getNome(),
                         bairro.getEstabelecimentoBairroJuncaos()
                                 .stream()
-                                .map(juncao -> new EstabelecimentoEnderecoProjecaoDTO(
+                                .map(juncao -> new EstabelecimentoComEnderecoProjecaoDTO(
                                         juncao.getEstabelecimento().getId(),
                                         juncao.getEstabelecimento().getNome(),
                                         juncao.getEndereco()

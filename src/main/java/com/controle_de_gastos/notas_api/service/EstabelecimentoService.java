@@ -6,7 +6,7 @@ import com.controle_de_gastos.notas_api.repository.EstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.dto.projecao.BairroComEnderecoProjecaoDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoComBairroRespostaDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoRespostaDTO;
-import com.controle_de_gastos.notas_api.dto.projecao.EstabelecimentoEnderecoProjecaoDTO;
+import com.controle_de_gastos.notas_api.dto.projecao.EstabelecimentoComEnderecoProjecaoDTO;
 import com.controle_de_gastos.notas_api.dto.requisicao.EstabelecimentoRequisicaoDTO;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.model.CategoriaEstabelecimento;
@@ -34,8 +34,8 @@ public class EstabelecimentoService {
         );
     }
 
-    public EstabelecimentoEnderecoProjecaoDTO toEstabSimplesDTO(Estabelecimento estabelecimento, String endereco) {
-        return new EstabelecimentoEnderecoProjecaoDTO(
+    public EstabelecimentoComEnderecoProjecaoDTO toEstabSimplesDTO(Estabelecimento estabelecimento, String endereco) {
+        return new EstabelecimentoComEnderecoProjecaoDTO(
                 estabelecimento.getId(),
                 estabelecimento.getNome(),
                 endereco

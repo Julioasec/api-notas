@@ -2,8 +2,7 @@ package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.dto.requisicao.BairroRequisicaoDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.BairroRespostaDTO;
-import com.controle_de_gastos.notas_api.dto._refazer_BairroComEstabRespostaDTO;
-import com.controle_de_gastos.notas_api.dto.resposta.BairroComEstabListRespostaDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.BairroComEstabRespostaDTO;
 import com.controle_de_gastos.notas_api.service.BairroService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -29,12 +28,12 @@ public class BairroController {
 
     // Corrigir
     @GetMapping("/{id}/estabelecimentos")
-    public List<_refazer_BairroComEstabRespostaDTO> listarEstabPorBairroId(@PathVariable Integer id){
+    public BairroComEstabRespostaDTO listarEstabPorBairroId(@PathVariable Integer id){
         return bairroService.listarEstabPorBairroId(id);
     }
 
     @GetMapping("/estabelecimentos")
-    public List<BairroComEstabListRespostaDTO> listarEstabPorBairro(){
+    public List<BairroComEstabRespostaDTO> listarEstabPorBairro(){
         return bairroService.listarTodosEstabPorBairro();
     }
 
