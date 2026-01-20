@@ -33,6 +33,11 @@ public class EstabelecimentoController {
         return estabelecimentoService.listarBairroPorEstabelecimentoId(id);
     }
 
+    @GetMapping("/bairros")
+    public List<EstabelecimentoComBairroRespostaDTO> listarTodosBairrosPorEstabelecimentos(){
+        return estabelecimentoService.listarTodosBairroPorEstabelecimento();
+    }
+
     @PostMapping
     public EstabelecimentoRespostaDTO criar(@RequestBody EstabelecimentoRequisicaoDTO estabelecimentoDTO){
         return estabelecimentoService.criar(estabelecimentoDTO);

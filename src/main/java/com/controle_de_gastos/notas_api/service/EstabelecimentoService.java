@@ -1,5 +1,6 @@
 package com.controle_de_gastos.notas_api.service;
 
+import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoBairroRespostaDTO;
 import com.controle_de_gastos.notas_api.repository.CategoriaEstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.repository.EstabelecimentoBairroJuncaoRepository;
 import com.controle_de_gastos.notas_api.repository.EstabelecimentoRepository;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -73,7 +75,37 @@ public class EstabelecimentoService {
                 );
     }
 
+    public List<EstabelecimentoComBairroRespostaDTO> listarTodosBairroPorEstabelecimento(){
+            List<EstabelecimentoComBairroRespostaDTO> juncaos = estabelecimentoBairroJuncaoRepository.findAll()
+                    .stream()
+                    .collect(Collectors.groupingBy(
+                            data -> data.getEstabelecimento().getId()
+                    ))
+                    .values()
+                    .stream()
+                    .map(data ->{
+                        Estabelecimento estabelecimento = data.get(0).getEstabelecimento();
 
+                                List<BairroComEnderecoProjecaoDTO> bairros = data
+                                        .stream()
+                                        .map( juncao -> new BairroComEnderecoProjecaoDTO(
+                                                    juncao.getBairro().getId(),
+                                                    juncao.getBairro().getNome(),
+                                                    juncao.getEndereco()
+                                            ))
+                                        .toList();
+
+                                        return new EstabelecimentoComBairroRespostaDTO(
+                                                estabelecimento.getId(),
+                                                estabelecimento.getNome(),
+                                                bairros
+                                        );
+                    })
+                    .toList();
+
+            return juncaos;
+
+    }
 
     public EstabelecimentoRespostaDTO criar(EstabelecimentoRequisicaoDTO estabelecimentoDto) {
         CategoriaEstabelecimento categoria = categoriaEstabelecimentoRepository.findById(estabelecimentoDto.idCategoria())
