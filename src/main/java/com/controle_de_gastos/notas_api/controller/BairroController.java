@@ -5,6 +5,7 @@ import com.controle_de_gastos.notas_api.dto.resposta.BairroRespostaDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.BairroComEstabRespostaDTO;
 import com.controle_de_gastos.notas_api.service.BairroService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -42,8 +43,15 @@ public class BairroController {
         return bairroService.criar(bairroDTO);
     }
 
-    @DeleteMapping
-    public void deletarBairro(Integer id){
-        bairroService.deletarPorId(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarBairro(@PathVariable Integer id){
+        boolean isDeletado = bairroService.deletarPorId(id);
+
+        if(isDeletado){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.notFound().build();
+
     }
 }

@@ -89,8 +89,15 @@ public class BairroService {
          return toRespostaDTO(bairroRepository.save(bairro));
     }
 
-    public void  deletarPorId(Integer id){
-        bairroRepository.deleteById(id);
+    public boolean deletarPorId(Integer id){
+           Optional<Bairro> bairro = bairroRepository.findById(id);
+
+           if(!bairro.isPresent()){
+               return false;
+           }
+
+            bairroRepository.deleteById(id);
+            return true;
     }
 
 }
