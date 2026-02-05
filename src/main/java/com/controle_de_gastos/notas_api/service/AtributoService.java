@@ -40,7 +40,14 @@ public class AtributoService {
         return toRespostaDTO(atributoRepository.save(atributo));
     }
 
-    public void deletarPorId(Integer id){
+    public boolean deletarPorId(Integer id){
+        Optional<Atributo> atributo = atributoRepository.findById(id);
+
+        if(!atributo.isPresent()){
+            return false;
+        }
+
         atributoRepository.deleteById(id);
+        return true;
     }
 }

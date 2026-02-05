@@ -4,6 +4,7 @@ import com.controle_de_gastos.notas_api.dto.requisicao.AtributoRequisicaoDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.AtributoRespostaDTO;
 import com.controle_de_gastos.notas_api.service.AtributoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,9 +32,14 @@ public class AtributoController {
         return atributoService.criar(atributoDTO);
     }
 
-    @DeleteMapping
-    public void deletarAtributo(Integer id){
-         atributoService.deletarPorId(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarAtributo(@PathVariable Integer id){
+        boolean isDeletado = atributoService.deletarPorId(id);
+
+        if(!isDeletado){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
     }
 
 }
