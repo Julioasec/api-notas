@@ -1,5 +1,6 @@
 package com.controle_de_gastos.notas_api.controller;
 
+import com.controle_de_gastos.notas_api.dto.requisicao.NotasCategoriaRequisicaoDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.NotasCategoriaRespostaDTO;
 import com.controle_de_gastos.notas_api.service.NotasCategoriaService;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,8 @@ public class NotasCategoriaController {
     }
 
     @PostMapping
-    public NotasCategoriaRespostaDTO criarCategoria(@RequestBody NotasCategoriaRespostaDTO notasCategoriaRespostaDTO){
-        return notasCategoriaService.criar(notasCategoriaRespostaDTO);
+    public NotasCategoriaRespostaDTO criarCategoria(@RequestBody NotasCategoriaRequisicaoDTO notasCategoriaDTO){
+        return notasCategoriaService.criar(notasCategoriaDTO);
     }
 
     @DeleteMapping

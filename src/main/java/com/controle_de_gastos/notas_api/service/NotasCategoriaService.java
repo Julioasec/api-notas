@@ -1,5 +1,6 @@
 package com.controle_de_gastos.notas_api.service;
 
+import com.controle_de_gastos.notas_api.dto.requisicao.NotasCategoriaRequisicaoDTO;
 import com.controle_de_gastos.notas_api.repository.NotasCategoriaRepository;
 import com.controle_de_gastos.notas_api.dto.resposta.NotasCategoriaRespostaDTO;
 import com.controle_de_gastos.notas_api.model.NotasCategoria;
@@ -33,9 +34,9 @@ public class NotasCategoriaService {
     }
 
 
-    public NotasCategoriaRespostaDTO criar(NotasCategoriaRespostaDTO notasCategoriaRespostaDTO){
+    public NotasCategoriaRespostaDTO criar(NotasCategoriaRequisicaoDTO notasCategoriaDTO){
               NotasCategoria notasCategoria = new NotasCategoria();
-              notasCategoria.setNome(notasCategoriaRespostaDTO.nome());
+              notasCategoria.setNome(notasCategoriaDTO.nome());
               return toRespostaDTO(notasCategoriaRepository.save(notasCategoria));
 
     }
