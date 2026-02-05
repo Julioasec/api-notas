@@ -5,6 +5,7 @@ import com.controle_de_gastos.notas_api.dto.resposta.CategoriaEstabelecimentoRes
 import com.controle_de_gastos.notas_api.service.CategoriaEstabelecimentoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +32,14 @@ public class CategoriaEstabelecimentoController {
         return categoriaEstabelecimentoService.criar(categoriaDTO);
     }
 
-    @DeleteMapping
-    public void deletarCategoria(@RequestParam Integer id){
-        categoriaEstabelecimentoService.deletarPorId(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarCategoria(@PathVariable Integer id){
+        boolean isDeletado = categoriaEstabelecimentoService.deletarPorId(id);
+
+        if(isDeletado){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.notFound().build();
     }
 }

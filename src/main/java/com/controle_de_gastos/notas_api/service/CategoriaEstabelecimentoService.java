@@ -39,8 +39,14 @@ public class CategoriaEstabelecimentoService {
         return toRespostaDTO(categoriaEstabelecimentoRepository.save(categoria));
     }
 
-    public void deletarPorId(Integer id){
-        categoriaEstabelecimentoRepository.deleteById(id);
+    public boolean deletarPorId(Integer id){
+        Optional<CategoriaEstabelecimento> catEstab = categoriaEstabelecimentoRepository.findById(id);
+
+        if(catEstab.isPresent()){
+            categoriaEstabelecimentoRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
 
