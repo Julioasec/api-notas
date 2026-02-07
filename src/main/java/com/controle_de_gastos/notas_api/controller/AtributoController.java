@@ -46,7 +46,12 @@ public class AtributoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
-        boolean isDeletado = atributoService.deletarPorId(id);
+        boolean isDeletado;
+        try {
+            isDeletado = atributoService.deletarPorId(id);
+        }catch (Exception ex){
+            return ResponseEntity.status(409).build();
+        }
 
         if(!isDeletado){
             return ResponseEntity.notFound().build();

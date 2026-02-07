@@ -35,8 +35,9 @@ public class AtributoService {
     }
 
     public AtributoRespostaDTO criar(AtributoRequisicaoDTO atributoRequisicaoDTO){
-        Atributo atributo = new Atributo();
-        atributo.setNome(atributoRequisicaoDTO.nome());
+        Atributo atributo = Atributo.builder()
+                        .nome(atributoRequisicaoDTO.nome())
+                        .build();
         return toRespostaDTO(atributoRepository.save(atributo));
     }
 
@@ -52,8 +53,10 @@ public class AtributoService {
     public boolean deletarPorId(Integer id){
         Optional<Atributo> atributo = atributoRepository.findById(id);
 
-        if(atributo.isEmpty()){
-            return false;
+        if(atributo.isEmpty())  return false;
+
+        if(!atributo.get().getItemAtributoJuncaos().isEmpty()){
+            throw new IllegalStateException("Não é possível deletar, existem dependências");
         }
 
         atributoRepository.deleteById(id);

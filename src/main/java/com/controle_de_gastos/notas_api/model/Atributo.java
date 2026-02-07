@@ -9,6 +9,7 @@ import java.util.Set;
     @Entity
     @Setter
     @Getter
+    @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public class Atributo {
@@ -18,6 +19,7 @@ import java.util.Set;
         private Integer id;
         private String nome;
 
+        @Builder.Default
         @OneToMany(mappedBy = "atributo", cascade = CascadeType.ALL, orphanRemoval = true)
         private Set<ItemAtributoJuncao> itemAtributoJuncaos = new HashSet<>();
     }
