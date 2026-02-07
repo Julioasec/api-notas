@@ -59,7 +59,13 @@ public class BairroController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarBairro(@PathVariable Integer id){
-        boolean isDeletado = bairroService.deletarPorId(id);
+        boolean isDeletado;
+
+        try{
+            isDeletado = bairroService.deletarPorId(id);
+        }catch (Exception ex){
+            return ResponseEntity.status(409).build();
+        }
 
         if(isDeletado){
             return ResponseEntity.noContent().build();

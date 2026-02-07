@@ -19,7 +19,6 @@ public class BairroService {
 
     private final BairroRepository bairroRepository;
     private final EstabelecimentoBairroJuncaoRepository estabelecimentoBairroJuncaoRepository;
-    private final EstabelecimentoService estabelecimentoService;
 
     public BairroRespostaDTO toRespostaDTO(Bairro bairro){
             return new BairroRespostaDTO(
@@ -83,21 +82,26 @@ public class BairroService {
                 .toList();
 
     }
-    public BairroRespostaDTO criar(BairroRequisicaoDTO bairroRequisicaoDTO){
-        Bairro  bairro = new Bairro();
-        bairro.setNome(bairroRequisicaoDTO.nome());
+    public BairroRespostaDTO criar(BairroRequisicaoDTO bairroDTO){
+        Bairro  bairro = Bairro.builder()
+                .nome(bairroDTO.nome())
+                .build();
          return toRespostaDTO(bairroRepository.save(bairro));
     }
 
+
+
     public boolean deletarPorId(Integer id){
-           Optional<Bairro> bairro = bairroRepository.findById(id);
+        Optional<Bairro> bairro = bairroRepository.findById(id);
 
-           if(!bairro.isPresent()){
-               return false;
-           }
+        if(bairro.isEmpty()) return false;
 
-            bairroRepository.deleteById(id);
-            return true;
+        if(!bairro.get().getEstabelecimentoBairroJuncaos().isEmpty()){
+               throw new IllegalStateException("Não é possivel deletar, existem dependências");
+        }
+
+        bairroRepository.deleteById(id);
+        return true;
     }
 
 }
