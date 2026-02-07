@@ -18,22 +18,34 @@ public class AtributoController {
     private final AtributoService atributoService;
 
     @GetMapping
-    public List<AtributoRespostaDTO> listarAtributos(){
-        return atributoService.listarTodos();
+    public ResponseEntity<List<AtributoRespostaDTO>> listarTodos(){
+        return ResponseEntity.ok(atributoService.listarTodos());
     }
 
     @GetMapping("/{id}")
-    public Optional<AtributoRespostaDTO> buscarPorId(@PathVariable Integer id){
-        return atributoService.buscarPorId(id);
+    public ResponseEntity<AtributoRespostaDTO> buscarPorId(@PathVariable Integer id){
+        return atributoService.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(()-> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public AtributoRespostaDTO criar(@RequestBody AtributoRequisicaoDTO atributoDTO){
-        return atributoService.criar(atributoDTO);
+    public ResponseEntity<AtributoRespostaDTO> criar(@RequestBody AtributoRequisicaoDTO atributoDTO){
+        AtributoRespostaDTO criado = atributoService.criar(atributoDTO);
+        return ResponseEntity.status(201).body(criado);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AtributoRespostaDTO> atualizarTudo(@PathVariable Integer id, @RequestBody AtributoRequisicaoDTO atributoDTO){
+        Optional<AtributoRespostaDTO> atualizado = atributoService.atualizarTudo(id, atributoDTO);
+
+        return atualizado
+                .map(ResponseEntity::ok)
+                .orElseGet(()-> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarAtributo(@PathVariable Integer id){
+    public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
         boolean isDeletado = atributoService.deletarPorId(id);
 
         if(!isDeletado){
