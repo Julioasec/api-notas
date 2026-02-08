@@ -34,19 +34,23 @@ public class CategoriaEstabelecimentoService {
     }
 
     public CategoriaEstabelecimentoRespostaDTO criar(CategoriaEstabelecimentoRequisicaoDTO categoriaDTO) {
-        CategoriaEstabelecimento categoria = new CategoriaEstabelecimento();
-        categoria.setNome(categoriaDTO.nome());
+        CategoriaEstabelecimento categoria = CategoriaEstabelecimento.builder()
+                .nome(categoriaDTO.nome())
+                .build();
         return toRespostaDTO(categoriaEstabelecimentoRepository.save(categoria));
     }
 
     public boolean deletarPorId(Integer id){
         Optional<CategoriaEstabelecimento> catEstab = categoriaEstabelecimentoRepository.findById(id);
 
-        if(catEstab.isPresent()){
-            categoriaEstabelecimentoRepository.deleteById(id);
-            return true;
+        if(catEstab.isEmpty()) return false;
+
+        if(!catEstab.get().getEstabelecimentos().isEmpty()){
+            throw new IllegalStateException("Não é possível deletar, existem dependências");
         }
-        return false;
+
+        categoriaEstabelecimentoRepository.deleteById(id);
+        return true;
     }
 
 
