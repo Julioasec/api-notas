@@ -18,29 +18,43 @@ public class BairroController {
     private final BairroService bairroService;
 
     @GetMapping
-    public List<BairroRespostaDTO> listarBairros() {
-        return bairroService.listarTodos();
+    public ResponseEntity<List<BairroRespostaDTO>> listarTodos() {
+        return ResponseEntity.ok(bairroService.listarTodos());
     }
 
     @GetMapping("/{id}")
-    public Optional<BairroRespostaDTO> buscarPorId(@PathVariable Integer id){
-        return bairroService.buscarPorId(id);
+    public ResponseEntity<BairroRespostaDTO> buscarPorId(@PathVariable Integer id){
+        return bairroService.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(()->ResponseEntity.notFound().build());
     }
 
     // Corrigir
     @GetMapping("/{id}/estabelecimentos")
-    public BairroComEstabRespostaDTO listarEstabPorBairroId(@PathVariable Integer id){
-        return bairroService.listarEstabPorBairroId(id);
+    public ResponseEntity<BairroComEstabRespostaDTO> listarEstabPorBairroId(@PathVariable Integer id){
+        Optional<BairroComEstabRespostaDTO> resposta = bairroService.listarEstabPorBairroId(id);
+
+        return resposta
+                .map(ResponseEntity::ok)
+                .orElseGet(()->ResponseEntity.notFound().build());
     }
 
     @GetMapping("/estabelecimentos")
-    public List<BairroComEstabRespostaDTO> listarEstabPorBairro(){
-        return bairroService.listarTodosEstabPorBairro();
+    public ResponseEntity<List<BairroComEstabRespostaDTO>> listarTodosEstabPorBairro(){
+            return ResponseEntity.ok(bairroService.listarTodosEstabPorBairro());
     }
 
     @PostMapping
-    public BairroRespostaDTO criar(@RequestBody BairroRequisicaoDTO bairroDTO) {
-        return bairroService.criar(bairroDTO);
+    public ResponseEntity<BairroRespostaDTO> criar(@RequestBody BairroRequisicaoDTO bairroDTO) {
+        return ResponseEntity.status(201).body(bairroService.criar(bairroDTO));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BairroRespostaDTO> atualizarTudo(@PathVariable Integer id, @RequestBody BairroRequisicaoDTO bairroDTO) {
+        Optional<BairroRespostaDTO> atualizado = bairroService.atualizarTudo(id, bairroDTO);
+        return atualizado
+                .map(ResponseEntity::ok)
+                .orElseGet(()-> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
