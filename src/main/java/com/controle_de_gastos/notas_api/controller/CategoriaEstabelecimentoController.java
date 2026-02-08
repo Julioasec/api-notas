@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/categoria-estabelecimento")
@@ -30,6 +31,14 @@ public class CategoriaEstabelecimentoController {
     @PostMapping
     public ResponseEntity<CategoriaEstabelecimentoRespostaDTO> criar(@RequestBody CategoriaEstabelecimentoRequisicaoDTO categoriaDTO) {
         return ResponseEntity.status(201).body(categoriaEstabelecimentoService.criar(categoriaDTO));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoriaEstabelecimentoRespostaDTO> atualizarTudo(@PathVariable Integer id, @RequestBody CategoriaEstabelecimentoRequisicaoDTO categoriaDTO) {
+        Optional<CategoriaEstabelecimentoRespostaDTO> atualizado = categoriaEstabelecimentoService.atualizarTudo(id,categoriaDTO);
+        return atualizado
+                .map(ResponseEntity::ok)
+                .orElseGet(()-> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")

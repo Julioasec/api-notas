@@ -40,6 +40,16 @@ public class CategoriaEstabelecimentoService {
         return toRespostaDTO(categoriaEstabelecimentoRepository.save(categoria));
     }
 
+    public Optional<CategoriaEstabelecimentoRespostaDTO> atualizarTudo(Integer id,  CategoriaEstabelecimentoRequisicaoDTO categoriaDTO) {
+        CategoriaEstabelecimento catEstab = categoriaEstabelecimentoRepository.findById(id).orElse(null);
+
+        if(catEstab ==null) return Optional.empty();
+
+        catEstab.setNome(categoriaDTO.nome());
+        return Optional.of(toRespostaDTO(categoriaEstabelecimentoRepository.save(catEstab)));
+
+    }
+
     public boolean deletarPorId(Integer id){
         Optional<CategoriaEstabelecimento> catEstab = categoriaEstabelecimentoRepository.findById(id);
 
