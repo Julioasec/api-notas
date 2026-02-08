@@ -39,14 +39,14 @@ public class BairroService {
                 .map(this::toRespostaDTO);
     }
 
-    public BairroComEstabRespostaDTO listarEstabPorBairroId(Integer id){
-        List<EstabelecimentoBairroJuncao> juncao =  estabelecimentoBairroJuncaoRepository.findByBairroId(id);
+    public Optional<BairroComEstabRespostaDTO> listarEstabPorBairroId(Integer id){
+        Bairro bairro = bairroRepository.findById(id).orElse(null);
 
-        if(juncao.isEmpty()){
-            return null;
+        if(bairro == null){
+            return Optional.empty();
         }
 
-        List<EstabelecimentoComEnderecoProjecaoDTO> estabelecimentos = juncao
+        List<EstabelecimentoComEnderecoProjecaoDTO> estabelecimentos = estabelecimentoBairroJuncaoRepository.findByBairroId(id)
                 .stream()
                 .map(data -> new EstabelecimentoComEnderecoProjecaoDTO(
                                 data.getEstabelecimento().getId(),
@@ -55,11 +55,11 @@ public class BairroService {
                         )
                         )
                 .toList();
-        return new BairroComEstabRespostaDTO(
-                juncao.get(0).getBairro().getId(),
-                juncao.get(0).getBairro().getNome(),
+        return Optional.of( new BairroComEstabRespostaDTO(
+                bairro.getId(),
+                bairro.getNome(),
                 estabelecimentos
-        );
+        ));
 
     }
 
@@ -89,7 +89,13 @@ public class BairroService {
          return toRespostaDTO(bairroRepository.save(bairro));
     }
 
+    public Optional<BairroRespostaDTO> atualizarTudo(Integer id, BairroRequisicaoDTO bairroDTO){
+        Bairro bairro = bairroRepository.findById(id).orElse(null);
+        if(bairro == null) return Optional.empty();
 
+        bairro.setNome(bairroDTO.nome());
+        return Optional.of(toRespostaDTO(bairroRepository.save(bairro)));
+    }
 
     public boolean deletarPorId(Integer id){
         Optional<Bairro> bairro = bairroRepository.findById(id);
