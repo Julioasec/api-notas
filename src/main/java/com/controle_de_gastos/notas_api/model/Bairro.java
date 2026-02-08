@@ -10,6 +10,7 @@ import java.util.Set;
 @Entity
 @Setter
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Bairro {
@@ -19,6 +20,7 @@ public class Bairro {
     private Integer id;
     private String nome;
 
+    @Builder.Default
     @OneToMany(mappedBy = "bairro", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<EstabelecimentoBairroJuncao> estabelecimentoBairroJuncaos =  new HashSet<>();
 }
