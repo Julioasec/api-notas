@@ -6,6 +6,7 @@ import com.controle_de_gastos.notas_api.dto.resposta.ItemAtributosRespostaDTO;
 import com.controle_de_gastos.notas_api.dto.requisicao.ItemRequisicaoDTO;
 import com.controle_de_gastos.notas_api.service.ItemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -18,22 +19,25 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping
-    public List<ItemRespostaDTO> listarTodos(){
-        return itemService.listartodos();
+    public ResponseEntity<List<ItemRespostaDTO>> listarTodos(){
+        return ResponseEntity.ok(itemService.listartodos());
     }
     @GetMapping("/{id}")
-    public Optional<ItemRespostaDTO> buscarPorId(@PathVariable Integer id){
-        return itemService.buscarPorId(id);
+    public ResponseEntity<ItemRespostaDTO> buscarPorId(@PathVariable Integer id){
+
+        return itemService.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(()->ResponseEntity.notFound().build());
     }
 
     @GetMapping("/{id}/atributos")
-    public List<ItemAtributosRespostaDTO> listarAtributosPorItem(@PathVariable Integer id){
-        return itemService.listarAtributosPorItem(id);
+    public ResponseEntity<List<ItemAtributosRespostaDTO>> listarAtributosPorItem(@PathVariable Integer id){
+        return ResponseEntity.ok(itemService.listarAtributosPorItem(id));
     }
 
     @PostMapping
-    public ItemRespostaDTO criar(@RequestBody ItemRequisicaoDTO itemDTO){
-        return itemService.salvarItem(itemDTO);
+    public ResponseEntity<ItemRespostaDTO> criar(@RequestBody ItemRequisicaoDTO itemDTO){
+        return ResponseEntity.status(201).body(itemService.criarItem(itemDTO));
     }
 
     @DeleteMapping

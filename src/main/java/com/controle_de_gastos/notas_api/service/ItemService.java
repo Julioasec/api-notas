@@ -68,7 +68,7 @@ public class ItemService {
     }
 
 
-    public ItemRespostaDTO salvarItem(ItemRequisicaoDTO itemDTO){
+    public ItemRespostaDTO criarItem(ItemRequisicaoDTO itemDTO){
         ItemTipo tipo = itemTipoRepository.findById(itemDTO.idTipo())
                 .orElseThrow(()-> new RuntimeException("Tipo não encontrado"));
         Marca marca = marcaRepository.findById(itemDTO.idMarca())
