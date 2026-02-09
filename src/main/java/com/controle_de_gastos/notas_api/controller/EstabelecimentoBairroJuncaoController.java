@@ -2,9 +2,10 @@ package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.dto.requisicao.EstabelecimentoBairroRequisicaoDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoBairroRespostaDTO;
+import com.controle_de_gastos.notas_api.model.EstabelecimentoBairroJuncao;
 import com.controle_de_gastos.notas_api.service.EstabelecimentoBairroJuncaoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,22 +19,32 @@ public class EstabelecimentoBairroJuncaoController {
     private final EstabelecimentoBairroJuncaoService estabelecimentoBairroService;
 
     @GetMapping
-    public List<EstabelecimentoBairroRespostaDTO> listarTodos(){
-        return estabelecimentoBairroService.listarTodos();
+    public ResponseEntity<List<EstabelecimentoBairroRespostaDTO>> listarTodos(){
+        return ResponseEntity.ok(estabelecimentoBairroService.listarTodos());
     }
 
     @GetMapping("/{id}")
-    public Optional<EstabelecimentoBairroRespostaDTO> buscarPorId(@PathVariable Integer id){
-        return estabelecimentoBairroService.buscarPorid(id);
+    public ResponseEntity<EstabelecimentoBairroRespostaDTO> buscarPorId(@PathVariable Integer id){
+        return estabelecimentoBairroService.buscarPorid(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(()-> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public EstabelecimentoBairroRespostaDTO associar(@RequestBody EstabelecimentoBairroRequisicaoDTO juncao){
-            return estabelecimentoBairroService.associar(juncao);
+    public ResponseEntity<EstabelecimentoBairroRespostaDTO> associar(@RequestBody EstabelecimentoBairroRequisicaoDTO juncao){
+        return ResponseEntity
+                .status(201)
+                .body(estabelecimentoBairroService.associar(juncao));
     }
 
-    @DeleteMapping
-    public void deletarPorId(Integer id){
-        estabelecimentoBairroService.deletarPorId(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
+        boolean isDeletado =  estabelecimentoBairroService.deletarPorId(id);
+
+        if (isDeletado) return ResponseEntity.noContent().build();
+
+        return ResponseEntity.notFound().build();
     }
+
+
 }

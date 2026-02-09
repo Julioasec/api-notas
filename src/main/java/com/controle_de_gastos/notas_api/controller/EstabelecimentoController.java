@@ -3,10 +3,9 @@ package com.controle_de_gastos.notas_api.controller;
 import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoComBairroRespostaDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoRespostaDTO;
 import com.controle_de_gastos.notas_api.dto.requisicao.EstabelecimentoRequisicaoDTO;
-import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.service.EstabelecimentoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -19,32 +18,62 @@ public class EstabelecimentoController {
     private final EstabelecimentoService estabelecimentoService;
 
     @GetMapping
-    public List<EstabelecimentoRespostaDTO> listarTodos(){
-        return estabelecimentoService.listarTodos();
+    public ResponseEntity<List<EstabelecimentoRespostaDTO>> listarTodos(){
+        return ResponseEntity.ok(estabelecimentoService.listarTodos());
     }
 
     @GetMapping("/{id}")
-    public Optional<EstabelecimentoRespostaDTO> buscarPorId(@PathVariable Integer id){
-            return estabelecimentoService.buscarPorId(id);
+    public ResponseEntity<EstabelecimentoRespostaDTO> buscarPorId(@PathVariable Integer id){
+            return estabelecimentoService.buscarPorId(id)
+                    .map(ResponseEntity::ok)
+                    .orElseGet(()->ResponseEntity.notFound().build());
         }
 
     @GetMapping("{id}/bairros")
-    public EstabelecimentoComBairroRespostaDTO listarBairroPorEstabelecimentoId(@PathVariable Integer id){
-        return estabelecimentoService.listarBairroPorEstabelecimentoId(id);
+    public ResponseEntity<EstabelecimentoComBairroRespostaDTO> listarBairroPorEstabelecimentoId(@PathVariable Integer id){
+        return estabelecimentoService.listarBairroPorEstabelecimentoId(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(()->ResponseEntity.notFound().build());
     }
 
     @GetMapping("/bairros")
-    public List<EstabelecimentoComBairroRespostaDTO> listarTodosBairrosPorEstabelecimentos(){
-        return estabelecimentoService.listarTodosBairroPorEstabelecimento();
+    public ResponseEntity<List<EstabelecimentoComBairroRespostaDTO>> listarTodosBairrosPorEstabelecimentos(){
+        return ResponseEntity.ok(estabelecimentoService.listarTodosBairroPorEstabelecimento());
     }
 
     @PostMapping
-    public EstabelecimentoRespostaDTO criar(@RequestBody EstabelecimentoRequisicaoDTO estabelecimentoDTO){
-        return estabelecimentoService.criar(estabelecimentoDTO);
+    public ResponseEntity<EstabelecimentoRespostaDTO> criar(@RequestBody EstabelecimentoRequisicaoDTO estabelecimentoDTO){
+        return ResponseEntity.ok(estabelecimentoService.criar(estabelecimentoDTO));
     }
 
-    @DeleteMapping
-    public void deletarEstabelecimento(Integer id){
-        estabelecimentoService.deletarPorId(id);
+    @PutMapping("/{id}")
+    public ResponseEntity<EstabelecimentoRespostaDTO> atualizarTudo(@PathVariable Integer id, @RequestBody EstabelecimentoRequisicaoDTO estabelecimentoDTO){
+        try {
+            return estabelecimentoService.atualizarTudo(id, estabelecimentoDTO)
+                    .map(ResponseEntity::ok)
+                    .orElseGet(()-> ResponseEntity.notFound().build() );
+        }catch (RuntimeException ex){
+            return ResponseEntity.notFound().build();
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarEstabelecimento(@PathVariable Integer id){
+        boolean isDeletado;
+
+        try {
+            isDeletado = estabelecimentoService.deletarPorId(id);
+        }catch (Exception ex){
+            return ResponseEntity.status(409).build();
+        }
+
+        if (isDeletado){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+
     }
 }
