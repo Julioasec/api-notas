@@ -1,13 +1,11 @@
 package com.controle_de_gastos.notas_api.service;
 
-import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoBairroRespostaDTO;
 import com.controle_de_gastos.notas_api.repository.CategoriaEstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.repository.EstabelecimentoBairroJuncaoRepository;
 import com.controle_de_gastos.notas_api.repository.EstabelecimentoRepository;
 import com.controle_de_gastos.notas_api.dto.projecao.BairroComEnderecoProjecaoDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoComBairroRespostaDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoRespostaDTO;
-import com.controle_de_gastos.notas_api.dto.projecao.EstabelecimentoComEnderecoProjecaoDTO;
 import com.controle_de_gastos.notas_api.dto.requisicao.EstabelecimentoRequisicaoDTO;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.model.CategoriaEstabelecimento;
@@ -36,15 +34,6 @@ public class EstabelecimentoService {
         );
     }
 
-    public EstabelecimentoComEnderecoProjecaoDTO toEstabSimplesDTO(Estabelecimento estabelecimento, String endereco) {
-        return new EstabelecimentoComEnderecoProjecaoDTO(
-                estabelecimento.getId(),
-                estabelecimento.getNome(),
-                endereco
-        );
-    }
-
-
     public List<EstabelecimentoRespostaDTO> listarTodos(){
         return estabelecimentoRepository.findAll()
                 .stream()
@@ -52,7 +41,7 @@ public class EstabelecimentoService {
                 .toList();
     }
 
-    public EstabelecimentoComBairroRespostaDTO listarBairroPorEstabelecimentoId(Integer id) {
+    public Optional<EstabelecimentoComBairroRespostaDTO> listarBairroPorEstabelecimentoId(Integer id) {
                List <EstabelecimentoBairroJuncao> juncoes = estabelecimentoBairroJuncaoRepository.findByEstabelecimentoId(id);
 
                if(juncoes.isEmpty()){
@@ -68,11 +57,11 @@ public class EstabelecimentoService {
                        ))
                        .toList();
 
-                return new EstabelecimentoComBairroRespostaDTO(
+                return Optional.of(new EstabelecimentoComBairroRespostaDTO(
                         estabelecimento.getId(),
                         estabelecimento.getNome(),
                         bairros
-                );
+                ));
     }
 
     public List<EstabelecimentoComBairroRespostaDTO> listarTodosBairroPorEstabelecimento(){
@@ -104,7 +93,6 @@ public class EstabelecimentoService {
                     .toList();
 
             return juncaos;
-
     }
 
     public EstabelecimentoRespostaDTO criar(EstabelecimentoRequisicaoDTO estabelecimentoDto) {
