@@ -31,9 +31,12 @@ public class ItemAtributoJuncaoController {
     public ResponseEntity<ItemAtributoRespostaDTO> associar(@RequestBody ItemAtributoRequisicaoDTO juncao){
         return ResponseEntity.status(201).body(itemAtributoJuncaoService.associar(juncao));
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
+        boolean isDeletado =  itemAtributoJuncaoService.deletarPorId(id);
+
+        if(isDeletado) return ResponseEntity.noContent().build();
+        else return ResponseEntity.notFound().build();
+    }
 }
 
-//    @DeleteMapping
-//    public ResponseEntity<Void> deletarPorId(@RequestParam Integer id){
-//        boolean isDeletado =
-//    }
