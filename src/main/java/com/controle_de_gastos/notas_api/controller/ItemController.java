@@ -46,7 +46,7 @@ public class ItemController {
         try{
            isDeletado = itemService.deletarPorID(id);
         }catch(Exception ex){
-            return ResponseEntity.status(403).build();
+            return ResponseEntity.status(409).build();
         }
 
         if(isDeletado){
