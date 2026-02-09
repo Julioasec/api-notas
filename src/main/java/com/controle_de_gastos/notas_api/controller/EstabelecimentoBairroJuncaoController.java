@@ -37,8 +37,14 @@ public class EstabelecimentoBairroJuncaoController {
                 .body(estabelecimentoBairroService.associar(juncao));
     }
 
-    @DeleteMapping
-    public void deletarPorId(Integer id){
-        estabelecimentoBairroService.deletarPorId(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
+        boolean isDeletado =  estabelecimentoBairroService.deletarPorId(id);
+
+        if (isDeletado) return ResponseEntity.noContent().build();
+
+        return ResponseEntity.notFound().build();
     }
+
+
 }

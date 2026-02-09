@@ -66,8 +66,11 @@ public class EstabelecimentoBairroJuncaoService {
         return toRespostaDTO(estabelecimentoBairroJuncaoRepository.save(ebJuncao));
     }
 
-    public void deletarPorId(Integer id){
-
+    public boolean deletarPorId(Integer id){
+        Optional<EstabelecimentoBairroJuncao> isDeletado = estabelecimentoBairroJuncaoRepository.findById(id);
+        if(isDeletado.isEmpty()) return false;
         estabelecimentoBairroJuncaoRepository.deleteById(id);
+        return true;
     }
+
 }
