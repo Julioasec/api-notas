@@ -8,6 +8,7 @@ import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoBairroRespos
 import com.controle_de_gastos.notas_api.model.Bairro;
 import com.controle_de_gastos.notas_api.model.Estabelecimento;
 import com.controle_de_gastos.notas_api.model.EstabelecimentoBairroJuncao;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -53,18 +54,20 @@ public class EstabelecimentoBairroJuncaoService {
         Bairro bairro = bairroRepository.findById(juncao.idBairro())
                 .orElseThrow(()->new RuntimeException("Bairro não encontrado"));
 
-        EstabelecimentoBairroJuncao ebJuncao = new EstabelecimentoBairroJuncao();
+        EstabelecimentoBairroJuncao ebJuncao = EstabelecimentoBairroJuncao.builder()
+                .endereco(juncao.endereco())
+                .estabelecimento(estabelecimento)
+                .bairro(bairro)
+                .build();
 
         estabelecimento.getEstabelecimentoBairroJuncaos().add(ebJuncao);
         bairro.getEstabelecimentoBairroJuncaos().add(ebJuncao);
 
-        ebJuncao.setEndereco(juncao.endereco());
-        ebJuncao.setEstabelecimento(estabelecimento);
-        ebJuncao.setBairro(bairro);
-        return  toRespostaDTO(estabelecimentoBairroJuncaoRepository.save(ebJuncao));
+        return toRespostaDTO(estabelecimentoBairroJuncaoRepository.save(ebJuncao));
     }
 
     public void deletarPorId(Integer id){
+
         estabelecimentoBairroJuncaoRepository.deleteById(id);
     }
 }

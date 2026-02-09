@@ -2,6 +2,7 @@ package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.dto.requisicao.EstabelecimentoBairroRequisicaoDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.EstabelecimentoBairroRespostaDTO;
+import com.controle_de_gastos.notas_api.model.EstabelecimentoBairroJuncao;
 import com.controle_de_gastos.notas_api.service.EstabelecimentoBairroJuncaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +32,10 @@ public class EstabelecimentoBairroJuncaoController {
 
     @PostMapping
     public ResponseEntity<EstabelecimentoBairroRespostaDTO> associar(@RequestBody EstabelecimentoBairroRequisicaoDTO juncao){
-            return ResponseEntity.status(201).body(estabelecimentoBairroService.associar(juncao));
+        return ResponseEntity
+                .status(201)
+                .body(estabelecimentoBairroService.associar(juncao));
     }
-
-
 
     @DeleteMapping
     public void deletarPorId(Integer id){
