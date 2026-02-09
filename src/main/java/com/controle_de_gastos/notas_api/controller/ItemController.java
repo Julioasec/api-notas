@@ -40,9 +40,20 @@ public class ItemController {
         return ResponseEntity.status(201).body(itemService.criarItem(itemDTO));
     }
 
-    @DeleteMapping
-    public void excluirPorId(Integer id){
-        itemService.deletarPorID(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirPorId(@PathVariable Integer id){
+        boolean isDeletado;
+        try{
+           isDeletado = itemService.deletarPorID(id);
+        }catch(Exception ex){
+            return ResponseEntity.status(403).build();
+        }
+
+        if(isDeletado){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
 }

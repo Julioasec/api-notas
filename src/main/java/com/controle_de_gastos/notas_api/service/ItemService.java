@@ -85,7 +85,15 @@ public class ItemService {
         return toRespostaDTO(itemRepository.save(item));
     }
 
-    public void deletarPorID(Integer id){
-        itemRepository.deleteById(id);
+    public boolean deletarPorID(Integer id){
+        Optional<Item> item = itemRepository.findById(id);
+
+        if(item.isEmpty())  return false;
+
+        if(!item.get().getItemAtributoJuncaos().isEmpty() || !item.get().getNotaItemJuncaos().isEmpty()){
+            throw new RuntimeException("Não é possível deletar, existem dependências");
+        }
+                       itemRepository.deleteById(id);
+               return true;
     }
 }
