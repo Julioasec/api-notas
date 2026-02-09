@@ -45,7 +45,7 @@ public class EstabelecimentoService {
                List <EstabelecimentoBairroJuncao> juncoes = estabelecimentoBairroJuncaoRepository.findByEstabelecimentoId(id);
 
                if(juncoes.isEmpty()){
-                   return null;
+                   return Optional.empty();
                }
 
                Estabelecimento estabelecimento = juncoes.get(0).getEstabelecimento();
@@ -111,7 +111,17 @@ public class EstabelecimentoService {
                 .map(this::toRespostaDTO);
     }
 
+    public Optional<EstabelecimentoRespostaDTO> atualizarTudo(Integer id, EstabelecimentoRequisicaoDTO estabelecimentoDto) {
+        Estabelecimento estabelecimento = estabelecimentoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Estabelecimento não encontrado"));
 
+        CategoriaEstabelecimento catEstab = categoriaEstabelecimentoRepository.findById(estabelecimentoDto.idCategoria())
+                .orElseThrow(()-> new RuntimeException("Categoria não Encontrada"));
+
+        estabelecimento.setNome(estabelecimentoDto.nome());
+        estabelecimento.setCategoria(catEstab);
+        return Optional.of(toRespostaDTO(estabelecimentoRepository.save(estabelecimento)));
+    }
 
     public boolean deletarPorId(Integer id){
         Optional<Estabelecimento> estabelecimento = estabelecimentoRepository.findById(id);

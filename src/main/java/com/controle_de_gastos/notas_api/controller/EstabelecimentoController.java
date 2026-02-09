@@ -46,6 +46,19 @@ public class EstabelecimentoController {
         return ResponseEntity.ok(estabelecimentoService.criar(estabelecimentoDTO));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<EstabelecimentoRespostaDTO> atualizarTudo(@PathVariable Integer id, @RequestBody EstabelecimentoRequisicaoDTO estabelecimentoDTO){
+        try {
+            return estabelecimentoService.atualizarTudo(id, estabelecimentoDTO)
+                    .map(ResponseEntity::ok)
+                    .orElseGet(()-> ResponseEntity.notFound().build() );
+        }catch (RuntimeException ex){
+            return ResponseEntity.notFound().build();
+        }catch (Exception ex){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarEstabelecimento(@PathVariable Integer id){
         boolean isDeletado;
