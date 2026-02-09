@@ -46,8 +46,21 @@ public class EstabelecimentoController {
         return ResponseEntity.ok(estabelecimentoService.criar(estabelecimentoDTO));
     }
 
-    @DeleteMapping
-    public void deletarEstabelecimento(Integer id){
-        estabelecimentoService.deletarPorId(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarEstabelecimento(@PathVariable Integer id){
+        boolean isDeletado;
+
+        try {
+            isDeletado = estabelecimentoService.deletarPorId(id);
+        }catch (Exception ex){
+            return ResponseEntity.status(409).build();
+        }
+
+        if (isDeletado){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+
     }
 }

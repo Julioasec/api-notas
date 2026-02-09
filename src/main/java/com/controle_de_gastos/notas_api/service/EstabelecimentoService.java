@@ -99,9 +99,10 @@ public class EstabelecimentoService {
         CategoriaEstabelecimento categoria = categoriaEstabelecimentoRepository.findById(estabelecimentoDto.idCategoria())
                 .orElseThrow(()-> new RuntimeException("Categoria Inválida"));
 
-        Estabelecimento estabelecimento = new Estabelecimento();
-        estabelecimento.setCategoria(categoria);
-        estabelecimento.setNome(estabelecimentoDto.nome());
+        Estabelecimento estabelecimento = Estabelecimento.builder()
+                .categoria(categoria)
+                .nome(estabelecimentoDto.nome())
+                .build();
         return toRespostaDTO(estabelecimentoRepository.save(estabelecimento));
     }
 
@@ -110,8 +111,17 @@ public class EstabelecimentoService {
                 .map(this::toRespostaDTO);
     }
 
-    public void deletarPorId(Integer id){
-        estabelecimentoRepository.deleteById(id);
+
+
+    public boolean deletarPorId(Integer id){
+        Optional<Estabelecimento> estabelecimento = estabelecimentoRepository.findById(id);
+        if (estabelecimento.isEmpty()) return false;
+
+        if(!estabelecimento.get().getEstabelecimentoBairroJuncaos().isEmpty()){
+            throw new IllegalStateException("Não é possível deletar, existem dependências");
+        }
+                estabelecimentoRepository.deleteById(id);
+        return true;
     }
 
 
