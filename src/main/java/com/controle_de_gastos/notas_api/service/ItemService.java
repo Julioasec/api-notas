@@ -85,6 +85,33 @@ public class ItemService {
         return toRespostaDTO(itemRepository.save(item));
     }
 
+    public Optional<ItemRespostaDTO> atualizarTudo(Integer id, ItemRequisicaoDTO itemDTO){
+        Item item = itemRepository.findById(id).orElse(null);
+
+        if(item == null) return Optional.empty();
+
+        ItemTipo novoTipo = itemTipoRepository.findById(itemDTO.idTipo())
+                .orElseThrow(()->new IllegalStateException("Item não encontrado"));
+
+        Marca novaMarca = marcaRepository.findById(itemDTO.idMarca())
+                .orElseThrow(()-> new IllegalStateException("Marca não encontrada"));
+
+        if(!item.getTipo().getId().equals(novoTipo)){
+            item.setTipo(novoTipo);
+        }
+
+        if (!item.getMarca().getId().equals(novaMarca)){
+            item.setMarca(novaMarca);
+        }
+
+        item.setNome(itemDTO.nome());
+        item.setPeso(itemDTO.peso());
+        item.setVersao(itemDTO.versao());
+
+        return Optional.of(toRespostaDTO(itemRepository.save(item)));
+
+    }
+
     public boolean deletarPorID(Integer id){
         Optional<Item> item = itemRepository.findById(id);
 

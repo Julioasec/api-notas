@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/itens")
@@ -40,8 +39,15 @@ public class ItemController {
         return ResponseEntity.status(201).body(itemService.criarItem(itemDTO));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ItemRespostaDTO> atualizarTudo(@PathVariable Integer id, @RequestBody ItemRequisicaoDTO itemDTO){
+        return itemService.atualizarTudo(id, itemDTO)
+                .map(ResponseEntity::ok)
+                .orElseGet(()->ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluirPorId(@PathVariable Integer id){
+    public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
         boolean isDeletado;
         try{
            isDeletado = itemService.deletarPorID(id);
