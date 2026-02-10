@@ -1,13 +1,13 @@
 package com.controle_de_gastos.notas_api.service;
+import com.controle_de_gastos.notas_api.dto.projecao.AtributoSimplesProjecaoDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.ItemComAtributoListRespostaDTO;
 import com.controle_de_gastos.notas_api.repository.ItemAtributoJuncaoRepository;
 import com.controle_de_gastos.notas_api.repository.ItemRepository;
 import com.controle_de_gastos.notas_api.repository.ItemTipoRepository;
 import com.controle_de_gastos.notas_api.repository.MarcaRepository;
 import com.controle_de_gastos.notas_api.dto.resposta.ItemRespostaDTO;
-import com.controle_de_gastos.notas_api.dto.resposta.ItemAtributosRespostaDTO;
 import com.controle_de_gastos.notas_api.dto.requisicao.ItemRequisicaoDTO;
 import com.controle_de_gastos.notas_api.model.Item;
-import com.controle_de_gastos.notas_api.model.ItemAtributoJuncao;
 import com.controle_de_gastos.notas_api.model.ItemTipo;
 import com.controle_de_gastos.notas_api.model.Marca;
 import lombok.RequiredArgsConstructor;
@@ -39,13 +39,6 @@ public class ItemService {
         );
     }
 
-    public ItemAtributosRespostaDTO toItemComAtributoDTO(ItemAtributoJuncao itemAtributoJuncao){
-        return new ItemAtributosRespostaDTO(
-                itemAtributoJuncao.getItem().getId(),
-                itemAtributoJuncao.getAtributo().getId(),
-                itemAtributoJuncao.getAtributo().getNome()
-        );
-    }
 
     public List<ItemRespostaDTO> listartodos(){
         return itemRepository.findAll()
@@ -54,11 +47,21 @@ public class ItemService {
                 .toList();
     }
 
-    public List<ItemAtributosRespostaDTO> listarAtributosPorItem(Integer id){
-        return itemAtributoJuncaoRepository.findByItemId(id)
+    public Optional<ItemComAtributoListRespostaDTO> listarAtributosPorItemId(Integer id){
+        Optional<Item> item =  itemRepository.findById(id);
+        if(item.isEmpty()) return Optional.empty();
+
+        List<AtributoSimplesProjecaoDTO> atributos = itemAtributoJuncaoRepository.findByItemId(id)
                 .stream()
-                .map(this::toItemComAtributoDTO)
+                .map(juncao -> new AtributoSimplesProjecaoDTO(
+                        juncao.getAtributo().getId(),
+                        juncao.getAtributo().getNome()
+                ))
                 .toList();
+        return Optional.of(new ItemComAtributoListRespostaDTO(
+                item.get().getId(),
+                atributos
+        ));
     }
 
     public Optional<ItemRespostaDTO> buscarPorId(Integer id){

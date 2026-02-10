@@ -1,8 +1,8 @@
 package com.controle_de_gastos.notas_api.controller;
 
 
+import com.controle_de_gastos.notas_api.dto.resposta.ItemComAtributoListRespostaDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.ItemRespostaDTO;
-import com.controle_de_gastos.notas_api.dto.resposta.ItemAtributosRespostaDTO;
 import com.controle_de_gastos.notas_api.dto.requisicao.ItemRequisicaoDTO;
 import com.controle_de_gastos.notas_api.service.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +30,10 @@ public class ItemController {
     }
 
     @GetMapping("/{id}/atributos")
-    public ResponseEntity<List<ItemAtributosRespostaDTO>> listarAtributosPorItem(@PathVariable Integer id){
-        return ResponseEntity.ok(itemService.listarAtributosPorItem(id));
+    public ResponseEntity<ItemComAtributoListRespostaDTO> listarAtributosPorItemId(@PathVariable Integer id){
+        return itemService.listarAtributosPorItemId(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(()->ResponseEntity.notFound().build());
     }
 
     @PostMapping
