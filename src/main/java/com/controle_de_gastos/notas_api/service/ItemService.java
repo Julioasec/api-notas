@@ -96,11 +96,11 @@ public class ItemService {
         Marca novaMarca = marcaRepository.findById(itemDTO.idMarca())
                 .orElseThrow(()-> new IllegalStateException("Marca não encontrada"));
 
-        if(!item.getTipo().getId().equals(novoTipo)){
+        if(!item.getTipo().getId().equals(novoTipo.getId())){
             item.setTipo(novoTipo);
         }
 
-        if (!item.getMarca().getId().equals(novaMarca)){
+        if (!item.getMarca().getId().equals(novaMarca.getId())){
             item.setMarca(novaMarca);
         }
 
