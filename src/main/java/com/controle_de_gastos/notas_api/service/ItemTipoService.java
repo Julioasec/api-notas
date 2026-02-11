@@ -40,8 +40,12 @@ public class ItemTipoService {
        return toRespostaDTO(itemTipoRepository.save(tipo));
     }
 
-    public void deletarPorId(Integer id){
+    public boolean deletarPorId(Integer id){
+        Optional<ItemTipo> itemTipo = itemTipoRepository.findById(id);
+        if(itemTipo.isEmpty()) return false;
+
         itemTipoRepository.deleteById(id);
+        return true;
     }
 
 }

@@ -29,7 +29,22 @@ public class ItemTipoController {
 
     @PostMapping
     public ResponseEntity<ItemTipoRespostaDTO> criar(@RequestBody ItemTipoRequisicaoDTO tipoDTO){
-        return ResponseEntity.ok(itemTipoService.criar(tipoDTO));
+        return ResponseEntity.status(201).body(itemTipoService.criar(tipoDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
+        boolean isDeletado;
+        try {
+          isDeletado  = itemTipoService.deletarPorId(id);
+        }catch (Exception ex){
+            return ResponseEntity.notFound().build();
+        }
+
+        if (isDeletado) return ResponseEntity.noContent().build();
+        
+        return ResponseEntity.noContent().build();
+
     }
 
 
