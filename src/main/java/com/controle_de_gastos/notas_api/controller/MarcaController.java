@@ -4,7 +4,6 @@ import com.controle_de_gastos.notas_api.dto.requisicao.MarcaRequisicaoDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.MarcaRespostaDTO;
 import com.controle_de_gastos.notas_api.service.MarcaService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;

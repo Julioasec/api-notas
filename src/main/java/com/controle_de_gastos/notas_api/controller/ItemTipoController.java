@@ -4,10 +4,9 @@ import com.controle_de_gastos.notas_api.dto.requisicao.ItemTipoRequisicaoDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.ItemTipoRespostaDTO;
 import com.controle_de_gastos.notas_api.service.ItemTipoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/item-tipo")
@@ -16,19 +15,22 @@ public class ItemTipoController {
 
     private final ItemTipoService itemTipoService;
 
-
     @GetMapping
-    public List<ItemTipoRespostaDTO> listarTodos(){
-        return this.itemTipoService.listarTodos();
+    public ResponseEntity<List<ItemTipoRespostaDTO>> listarTodos(){
+        return ResponseEntity.ok(itemTipoService.listarTodos());
     }
 
     @GetMapping("/{id}")
-    public Optional<ItemTipoRespostaDTO> buscarPorId(@PathVariable Integer id){
-        return this.itemTipoService.buscarPorId(id);
+    public ResponseEntity<ItemTipoRespostaDTO> buscarPorId(@PathVariable Integer id){
+        return itemTipoService.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(()->ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ItemTipoRespostaDTO criar(@RequestBody ItemTipoRequisicaoDTO tipoDTO){
-        return this.itemTipoService.criar(tipoDTO);
+    public ResponseEntity<ItemTipoRespostaDTO> criar(@RequestBody ItemTipoRequisicaoDTO tipoDTO){
+        return ResponseEntity.ok(itemTipoService.criar(tipoDTO));
     }
+
+
 }
