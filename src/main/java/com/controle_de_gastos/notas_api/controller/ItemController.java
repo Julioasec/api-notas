@@ -36,6 +36,11 @@ public class ItemController {
                 .orElseGet(()->ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/atributos")
+    public ResponseEntity<List<ItemComAtributoListRespostaDTO>> listarAtributosPorItemTodos(){
+        return ResponseEntity.ok(itemService.listarAtributosPorItemTodos());
+    }
+
     @PostMapping
     public ResponseEntity<ItemRespostaDTO> criar(@RequestBody ItemRequisicaoDTO itemDTO){
         return ResponseEntity.status(201).body(itemService.criarItem(itemDTO));
