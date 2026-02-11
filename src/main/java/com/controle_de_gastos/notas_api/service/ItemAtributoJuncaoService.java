@@ -45,16 +45,13 @@ public class ItemAtributoJuncaoService {
         Atributo atributo = atributoRepository.findById(juncao.idAtributo())
                 .orElseThrow(()-> new RuntimeException("Atributo não encontrado"));
 
-        ItemAtributoJuncao iAJuncao = new ItemAtributoJuncao();
+        ItemAtributoJuncao iAJuncao = ItemAtributoJuncao.builder()
+                .item(item)
+                .atributo(atributo)
+                .build();
 
         atributo.getItemAtributoJuncaos().add(iAJuncao);
         item.getItemAtributoJuncaos().add(iAJuncao);
-
-        iAJuncao.setItem(item);
-        iAJuncao.setAtributo(atributo);
-        iAJuncao.getItem().getItemAtributoJuncaos().add(iAJuncao);
-        iAJuncao.getAtributo().getItemAtributoJuncaos().add(iAJuncao);
-
         return toRespostaDTO(itemAtributoJuncaoRepository.save(iAJuncao));
     }
 
