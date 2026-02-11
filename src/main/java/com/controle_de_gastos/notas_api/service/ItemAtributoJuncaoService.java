@@ -64,8 +64,14 @@ public class ItemAtributoJuncaoService {
                 .map(this::toRespostaDTO);
     }
 
-    public void deletePorId(Integer idIAJuncao){
-        itemAtributoJuncaoRepository.deleteById(idIAJuncao);
+    public boolean deletarPorId(Integer id){
+        ItemAtributoJuncao itemAtributoJuncao =  itemAtributoJuncaoRepository.findById(id).orElse(null);
+
+        if(itemAtributoJuncao == null) return false;
+
+        itemAtributoJuncaoRepository.delete(itemAtributoJuncao);
+        return true;
     }
+
 
 }

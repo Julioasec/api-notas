@@ -4,10 +4,9 @@ import com.controle_de_gastos.notas_api.dto.requisicao.ItemAtributoRequisicaoDTO
 import com.controle_de_gastos.notas_api.dto.resposta.ItemAtributoRespostaDTO;
 import com.controle_de_gastos.notas_api.service.ItemAtributoJuncaoService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/item-atributo")
@@ -16,19 +15,28 @@ public class ItemAtributoJuncaoController {
 
     private final ItemAtributoJuncaoService itemAtributoJuncaoService;
 
-
     @GetMapping
-    public List<ItemAtributoRespostaDTO> listarTodos(){
-        return itemAtributoJuncaoService.listarTodos();
+    public ResponseEntity<List<ItemAtributoRespostaDTO>> listarTodos(){
+        return ResponseEntity.ok(itemAtributoJuncaoService.listarTodos());
     }
 
     @GetMapping("/{id}")
-    public Optional<ItemAtributoRespostaDTO> listarPorId(@RequestParam Integer id){
-        return itemAtributoJuncaoService.buscarPorid(id);
+    public ResponseEntity<ItemAtributoRespostaDTO> listarPorId(@RequestParam Integer id){
+        return itemAtributoJuncaoService.buscarPorid(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(()-> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ItemAtributoRespostaDTO associar(@RequestBody ItemAtributoRequisicaoDTO juncao){
-        return itemAtributoJuncaoService.associar(juncao);
+    public ResponseEntity<ItemAtributoRespostaDTO> associar(@RequestBody ItemAtributoRequisicaoDTO juncao){
+        return ResponseEntity.status(201).body(itemAtributoJuncaoService.associar(juncao));
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
+        boolean isDeletado =  itemAtributoJuncaoService.deletarPorId(id);
+
+        if(isDeletado) return ResponseEntity.noContent().build();
+        else return ResponseEntity.notFound().build();
     }
 }
+
