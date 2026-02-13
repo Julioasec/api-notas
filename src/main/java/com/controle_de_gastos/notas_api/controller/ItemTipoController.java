@@ -38,12 +38,12 @@ public class ItemTipoController {
         try {
           isDeletado  = itemTipoService.deletarPorId(id);
         }catch (Exception ex){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(409).build();
         }
 
         if (isDeletado) return ResponseEntity.noContent().build();
-        
-        return ResponseEntity.noContent().build();
+
+        return ResponseEntity.notFound().build();
 
     }
 

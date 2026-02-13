@@ -44,6 +44,8 @@ public class ItemTipoService {
         Optional<ItemTipo> itemTipo = itemTipoRepository.findById(id);
         if(itemTipo.isEmpty()) return false;
 
+        if (!itemTipo.get().getItens().isEmpty()) throw new IllegalStateException("Não é possível deletar, existem dependências");
+
         itemTipoRepository.deleteById(id);
         return true;
     }
