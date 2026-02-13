@@ -32,6 +32,8 @@ public class ItemTipoController {
         return ResponseEntity.status(201).body(itemTipoService.criar(tipoDTO));
     }
 
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
         boolean isDeletado;

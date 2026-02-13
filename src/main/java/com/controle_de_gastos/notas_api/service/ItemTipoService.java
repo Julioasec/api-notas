@@ -35,8 +35,9 @@ public class ItemTipoService {
     }
 
     public ItemTipoRespostaDTO criar(ItemTipoRequisicaoDTO tipoDTO){
-        ItemTipo tipo = new ItemTipo();
-        tipo.setNome(tipoDTO.nome());
+        ItemTipo tipo = ItemTipo.builder()
+                .nome(tipoDTO.nome())
+                .build();
        return toRespostaDTO(itemTipoRepository.save(tipo));
     }
 
