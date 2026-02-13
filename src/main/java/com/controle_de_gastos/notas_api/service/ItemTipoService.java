@@ -41,6 +41,14 @@ public class ItemTipoService {
        return toRespostaDTO(itemTipoRepository.save(tipo));
     }
 
+    public Optional<ItemTipoRespostaDTO> atualizarTudo(Integer id, ItemTipoRequisicaoDTO tipoDTO){
+        return itemTipoRepository.findById(id)
+                .map(tipo -> {
+                    tipo.setNome(tipoDTO.nome());
+                    return toRespostaDTO(itemTipoRepository.save(tipo));
+                });
+    }
+
     public boolean deletarPorId(Integer id){
         Optional<ItemTipo> itemTipo = itemTipoRepository.findById(id);
         if(itemTipo.isEmpty()) return false;

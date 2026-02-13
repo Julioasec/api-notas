@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/item-tipo")
@@ -32,7 +33,13 @@ public class ItemTipoController {
         return ResponseEntity.status(201).body(itemTipoService.criar(tipoDTO));
     }
 
-
+    @PutMapping("/{id}")
+    public ResponseEntity<ItemTipoRespostaDTO> atualizarTudo(@PathVariable Integer id, @RequestBody ItemTipoRequisicaoDTO tipoDTO){
+        Optional<ItemTipoRespostaDTO> atualizado = itemTipoService.atualizarTudo(id, tipoDTO);
+        return atualizado
+                .map(ResponseEntity::ok)
+                .orElseGet(()->ResponseEntity.notFound().build());
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
