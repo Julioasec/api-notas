@@ -110,7 +110,13 @@ public class ItemService {
         Marca marca = marcaRepository.findById(itemDTO.idMarca())
                 .orElseThrow(()-> new RuntimeException("Marca não encontrada"));
 
-        Item item = new Item();
+        Item item = Item.builder()
+                .tipo(tipo)
+                .marca(marca)
+                .nome(itemDTO.nome())
+                .peso(itemDTO.peso())
+                .versao(itemDTO.versao())
+                .build();
 
         item.setTipo(tipo);
         item.setMarca(marca);
