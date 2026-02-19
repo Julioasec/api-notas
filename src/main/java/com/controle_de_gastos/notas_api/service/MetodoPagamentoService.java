@@ -77,8 +77,9 @@ public class MetodoPagamentoService {
    }
 
    public MetodoPagamentoRespostaDTO criar(MetodoPagamentoRequisicaoDTO metodoDTO){
-       MetodoPagamento metodoPagamento = new MetodoPagamento();
-       metodoPagamento.setNome(metodoDTO.nome());
+       MetodoPagamento metodoPagamento = MetodoPagamento.builder()
+               .nome(metodoDTO.nome())
+               .build();
        return toRespostaDTO(metodoPagamentoRepository.save(metodoPagamento));
    }
 
