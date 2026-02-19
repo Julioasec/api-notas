@@ -35,9 +35,9 @@ public class MarcaService {
     }
 
     public MarcaRespostaDTO criar(MarcaRequisicaoDTO marcaDTO){
-        Marca marca = new Marca();
-
-        marca.setNome(marcaDTO.nome());
+        Marca marca = Marca.builder()
+                .nome(marcaDTO.nome())
+                .build();
         return toRespostaDTO(marcaRepository.save(marca));
     }
 
