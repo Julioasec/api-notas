@@ -1,11 +1,17 @@
 package com.controle_de_gastos.notas_api.service;
 
+import com.controle_de_gastos.notas_api.dto.projecao.ItemSimplesProjecaoDTO;
 import com.controle_de_gastos.notas_api.dto.requisicao.ItemTipoRequisicaoDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.ItemTipoComItemRespostaDTO;
+import com.controle_de_gastos.notas_api.model.Item;
 import com.controle_de_gastos.notas_api.repository.ItemTipoRepository;
 import com.controle_de_gastos.notas_api.dto.resposta.ItemTipoRespostaDTO;
 import com.controle_de_gastos.notas_api.model.ItemTipo;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +54,51 @@ public class ItemTipoService {
                     return toRespostaDTO(itemTipoRepository.save(tipo));
                 });
     }
+
+    public List<ItemTipoComItemRespostaDTO> listarItensPorItemTipoTodos(){
+        return itemTipoRepository.findAll()
+                .stream()
+                .map(tipo ->{
+                    return new ItemTipoComItemRespostaDTO(
+                       tipo.getId(),
+                       tipo.getNome(),
+                       tipo.getItens()
+                               .stream()
+                               .map(item->{
+                                   return new ItemSimplesProjecaoDTO(
+                                           item.getId(),
+                                           item.getNome(),
+                                           item.getPeso(),
+                                           item.getVersao()
+                                   );
+                                       }).toList()
+               );
+                })
+                .toList();
+
+    }
+
+    public Optional<ItemTipoComItemRespostaDTO> listarItensPorItemTipoId(Integer id){
+        return itemTipoRepository.findById(id)
+                .map(tipo -> {
+                   return new ItemTipoComItemRespostaDTO(
+                            tipo.getId(),
+                            tipo.getNome(),
+                            tipo.getItens()
+                                    .stream()
+                                    .map(item ->{
+                                        return new ItemSimplesProjecaoDTO(
+                                                item.getId(),
+                                                item.getNome(),
+                                                item.getPeso(),
+                                                item.getVersao()
+                                        );
+                                    })
+                                    .toList()
+                    );
+                });
+    }
+
 
     public boolean deletarPorId(Integer id){
         Optional<ItemTipo> itemTipo = itemTipoRepository.findById(id);

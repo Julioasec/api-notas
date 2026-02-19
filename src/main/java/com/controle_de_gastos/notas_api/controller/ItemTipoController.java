@@ -1,6 +1,7 @@
 package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.dto.requisicao.ItemTipoRequisicaoDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.ItemTipoComItemRespostaDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.ItemTipoRespostaDTO;
 import com.controle_de_gastos.notas_api.service.ItemTipoService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,18 @@ public class ItemTipoController {
         return itemTipoService.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(()->ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/itens")
+    public ResponseEntity<List<ItemTipoComItemRespostaDTO>> listarItensPotItemTipoTodos(){
+        return ResponseEntity.ok(itemTipoService.listarItensPorItemTipoTodos());
+    }
+
+    @GetMapping("/{id}/itens")
+    public ResponseEntity<ItemTipoComItemRespostaDTO> listarItensPorItemTipoId(@PathVariable Integer id){
+        return itemTipoService.listarItensPorItemTipoId(id)
+                .map(ResponseEntity::ok)
+                .orElseGet((()-> ResponseEntity.notFound().build()));
     }
 
     @PostMapping
