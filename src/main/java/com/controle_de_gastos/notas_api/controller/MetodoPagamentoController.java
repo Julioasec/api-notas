@@ -36,8 +36,19 @@ public class MetodoPagamentoController {
 
 
 
-    @DeleteMapping
-    public void deletarPorId(Integer id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
+        boolean isDeletado;
+
+        try{
+            isDeletado = metodoPagamentoService.deletarPorId(id);
+        }catch (Exception ex){
+          return ResponseEntity.status(409).build();
+        }
+
+        if (!isDeletado) return ResponseEntity.notFound().build();
+
         metodoPagamentoService.deletarPorId(id);
+        return ResponseEntity.noContent().build();
     }
 }

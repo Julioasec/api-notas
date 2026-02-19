@@ -39,7 +39,13 @@ public class MetodoPagamentoService {
        return toRespostaDTO(metodoPagamentoRepository.save(metodoPagamento));
    }
 
-   public void deletarPorId(Integer id){
+   public boolean deletarPorId(Integer id){
+       MetodoPagamento metodoPagamento = metodoPagamentoRepository.findById(id).orElse(null);
+       if (metodoPagamento == null) return false;
+
+       if(!metodoPagamento.getNotaMetodoPagamentoJuncaos().isEmpty()) throw new IllegalStateException("Não é possível deletar, existem dependências");
+
        metodoPagamentoRepository.deleteById(id);
+       return true;
    }
 }
