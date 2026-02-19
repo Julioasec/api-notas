@@ -4,6 +4,7 @@ import com.controle_de_gastos.notas_api.dto.requisicao.MetodoPagamentoRequisicao
 import com.controle_de_gastos.notas_api.dto.resposta.MetodoPagamentoRespostaDTO;
 import com.controle_de_gastos.notas_api.service.MetodoPagamentoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,14 +23,18 @@ public class MetodoPagamentoController {
     }
 
     @GetMapping("/{id}")
-    public Optional<MetodoPagamentoRespostaDTO> buscarPorId(@PathVariable Integer id){
-        return metodoPagamentoService.buscarPorId(id);
+    public ResponseEntity<MetodoPagamentoRespostaDTO> buscarPorId(@PathVariable Integer id){
+        return metodoPagamentoService.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public MetodoPagamentoRespostaDTO criar(@RequestBody MetodoPagamentoRequisicaoDTO metodoDTO){
-        return metodoPagamentoService.criar(metodoDTO);
+    public ResponseEntity<MetodoPagamentoRespostaDTO> criar(@RequestBody MetodoPagamentoRequisicaoDTO metodoDTO){
+        return ResponseEntity.status(201).body(metodoPagamentoService.criar(metodoDTO));
     }
+
+
 
     @DeleteMapping
     public void deletarPorId(Integer id){
