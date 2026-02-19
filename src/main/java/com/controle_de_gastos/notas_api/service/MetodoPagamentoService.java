@@ -39,6 +39,14 @@ public class MetodoPagamentoService {
        return toRespostaDTO(metodoPagamentoRepository.save(metodoPagamento));
    }
 
+   public Optional<MetodoPagamentoRespostaDTO> atualizarTudo(Integer id, MetodoPagamentoRequisicaoDTO metodoDTO){
+       return metodoPagamentoRepository.findById(id)
+               .map(metodo -> {
+                   metodo.setNome(metodoDTO.nome());
+                   return toRespostaDTO(metodoPagamentoRepository.save(metodo));
+               });
+   }
+
    public boolean deletarPorId(Integer id){
        MetodoPagamento metodoPagamento = metodoPagamentoRepository.findById(id).orElse(null);
        if (metodoPagamento == null) return false;

@@ -34,6 +34,12 @@ public class MetodoPagamentoController {
         return ResponseEntity.status(201).body(metodoPagamentoService.criar(metodoDTO));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<MetodoPagamentoRespostaDTO> atualizarTudo(@PathVariable Integer id, @RequestBody MetodoPagamentoRequisicaoDTO metodoDTO){
+        return metodoPagamentoService.atualizarTudo(id, metodoDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
 
     @DeleteMapping("/{id}")
