@@ -41,6 +41,14 @@ public class MarcaService {
         return toRespostaDTO(marcaRepository.save(marca));
     }
 
+    public Optional<MarcaRespostaDTO> atualizarTudo(Integer id, MarcaRequisicaoDTO marcaDTO){
+            return marcaRepository.findById(id)
+                    .map(marca -> {
+                        marca.setNome(marcaDTO.nome());
+                        return toRespostaDTO(marcaRepository.save(marca));
+                    });
+    }
+
     public boolean deletarPorId(Integer id){
         Marca marca = marcaRepository.findById(id).orElse(null);
         if(marca == null) return false;

@@ -33,6 +33,13 @@ public class MarcaController {
         return ResponseEntity.status(201).body(marcaService.criar(marcaDTO));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<MarcaRespostaDTO> atualizarTudo(@PathVariable Integer id, @RequestBody MarcaRequisicaoDTO marcaDTO) {
+        return marcaService.atualizarTudo(id, marcaDTO)
+                .map(ResponseEntity::ok)
+                .orElseGet(()->ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
         boolean isDeletado;
