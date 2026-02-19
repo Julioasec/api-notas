@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface NotaMetodoPagametoJuncaoRepository extends JpaRepository<NotaMetodoPagamentoJuncao,Integer> {
     List<NotaMetodoPagamentoJuncao> findByNotaId(Integer notaId);
+    List<NotaMetodoPagamentoJuncao> findByMetodoPagamentoId(Integer id);
 }
