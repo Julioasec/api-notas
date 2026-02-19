@@ -1,9 +1,11 @@
 package com.controle_de_gastos.notas_api.controller;
 
 import com.controle_de_gastos.notas_api.dto.requisicao.MetodoPagamentoRequisicaoDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.MetodoPagamentoComNotaRespostaDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.MetodoPagamentoRespostaDTO;
 import com.controle_de_gastos.notas_api.service.MetodoPagamentoService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +29,18 @@ public class MetodoPagamentoController {
         return metodoPagamentoService.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/{id}/notas")
+    public ResponseEntity<MetodoPagamentoComNotaRespostaDTO> listarNotasPorMetodoPagamentoId(@PathVariable Integer id){
+        return metodoPagamentoService.listarNotasPorMetodoId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/notas")
+    public ResponseEntity<List<MetodoPagamentoComNotaRespostaDTO>> listarNotasPorMetodoPagamentoTodos(){
+        return ResponseEntity.ok(metodoPagamentoService.listarNotasPorMetodoPagamentoTodos());
     }
 
     @PostMapping
