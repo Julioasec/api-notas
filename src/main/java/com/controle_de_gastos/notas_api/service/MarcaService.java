@@ -41,7 +41,13 @@ public class MarcaService {
         return toRespostaDTO(marcaRepository.save(marca));
     }
 
-    public void deletarPorId(Integer idMarca){
-        marcaRepository.deleteById(idMarca);
+    public boolean deletarPorId(Integer id){
+        Marca marca = marcaRepository.findById(id).orElse(null);
+        if(marca == null) return false;
+
+        if(!marca.getItens().isEmpty()) throw new IllegalStateException("Não é possivel deletar, existem dependências");
+
+        marcaRepository.deleteById(id);
+        return true;
     }
 }
