@@ -1,6 +1,8 @@
 package com.controle_de_gastos.notas_api.service;
 
+import com.controle_de_gastos.notas_api.dto.projecao.ItemSimplesProjecaoDTO;
 import com.controle_de_gastos.notas_api.dto.requisicao.MarcaRequisicaoDTO;
+import com.controle_de_gastos.notas_api.dto.resposta.MarcaComItemRespostaDTO;
 import com.controle_de_gastos.notas_api.repository.MarcaRepository;
 import com.controle_de_gastos.notas_api.dto.resposta.MarcaRespostaDTO;
 import com.controle_de_gastos.notas_api.model.Marca;
@@ -40,6 +42,44 @@ public class MarcaService {
                 .build();
         return toRespostaDTO(marcaRepository.save(marca));
     }
+
+    public Optional<MarcaComItemRespostaDTO> listarItensPorMarcaId(Integer id){
+        return marcaRepository.findById(id)
+                .map(marca -> new MarcaComItemRespostaDTO(
+                        marca.getId(),
+                        marca.getNome(),
+                        marca.getItens()
+                                .stream()
+                                .map(item -> new ItemSimplesProjecaoDTO(
+                                        item.getId(),
+                                        item.getNome(),
+                                        item.getPeso(),
+                                        item.getVersao()
+                                ))
+                                .toList()
+                ));
+
+    }
+
+    public List<MarcaComItemRespostaDTO> listarItensPorMarcaTodos(){
+            return marcaRepository.findAll()
+                    .stream()
+                    .map(marca -> new MarcaComItemRespostaDTO(
+                            marca.getId(),
+                            marca.getNome(),
+                            marca.getItens()
+                                    .stream()
+                                    .map(item -> new ItemSimplesProjecaoDTO(
+                                            item.getId(),
+                                            item.getNome(),
+                                            item.getPeso(),
+                                            item.getVersao()
+                                    ))
+                                    .toList()
+                    ))
+                    .toList();
+        }
+
 
     public Optional<MarcaRespostaDTO> atualizarTudo(Integer id, MarcaRequisicaoDTO marcaDTO){
             return marcaRepository.findById(id)
