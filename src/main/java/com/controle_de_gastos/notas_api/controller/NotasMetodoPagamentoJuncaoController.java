@@ -5,6 +5,7 @@ import com.controle_de_gastos.notas_api.dto.requisicao.NotasMetodoPagamentoRequi
 import com.controle_de_gastos.notas_api.service.NotaMetodoPagamentoJuncaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -18,24 +19,32 @@ public class NotasMetodoPagamentoJuncaoController {
 
 
     @GetMapping
-    public List<NotaMetodoPagamentoRespostaDTO> listarTodos(){
-        return notaMetodoPagamentoJuncaoService.listarTodos();
+    public ResponseEntity<List<NotaMetodoPagamentoRespostaDTO>> listarTodos(){
+        return ResponseEntity.ok(notaMetodoPagamentoJuncaoService.listarTodos());
 
     }
 
     @GetMapping("/{id}")
-    public Optional<NotaMetodoPagamentoRespostaDTO> searchPorId(@PathVariable Integer id){
-        return notaMetodoPagamentoJuncaoService.buscarPorId(id);
+    public ResponseEntity<NotaMetodoPagamentoRespostaDTO> buscarPorId(@PathVariable Integer id){
+        return notaMetodoPagamentoJuncaoService.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public NotaMetodoPagamentoRespostaDTO associar(@RequestBody NotasMetodoPagamentoRequisicaoDTO notaMetodoPagamentoDTO){
-       return notaMetodoPagamentoJuncaoService.asssociar(notaMetodoPagamentoDTO);
+    public ResponseEntity<NotaMetodoPagamentoRespostaDTO> associar(@RequestBody NotasMetodoPagamentoRequisicaoDTO notaMetodoPagamentoDTO){
+       return ResponseEntity.status(201).body(notaMetodoPagamentoJuncaoService.asssociar(notaMetodoPagamentoDTO));
     }
 
     @DeleteMapping("/{id}")
-    public void deletarPorId(@PathVariable Integer id){
-        notaMetodoPagamentoJuncaoService.deletarPorId(id);
+    public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
+        boolean isDeletado = notaMetodoPagamentoJuncaoService.deletarPorId(id);
+        if (isDeletado){
+            return ResponseEntity.noContent().build();
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
 }
