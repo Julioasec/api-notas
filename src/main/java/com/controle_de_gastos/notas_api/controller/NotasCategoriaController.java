@@ -5,6 +5,7 @@ import com.controle_de_gastos.notas_api.dto.resposta.NotasCategoriaRespostaDTO;
 import com.controle_de_gastos.notas_api.service.NotasCategoriaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -14,23 +15,25 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class NotasCategoriaController {
 
-    @Autowired
-    private NotasCategoriaService notasCategoriaService;
+
+    private final NotasCategoriaService notasCategoriaService;
 
     @GetMapping
-    public List<NotasCategoriaRespostaDTO> listarCategorias(){
-        return notasCategoriaService.listarTodos();
+    public ResponseEntity<List<NotasCategoriaRespostaDTO>> listarCategorias(){
+        return ResponseEntity.ok(notasCategoriaService.listarTodos());
     }
 
     @GetMapping("/{id}")
-    public Optional<NotasCategoriaRespostaDTO> buscarPorId(@PathVariable Integer id){
-        return notasCategoriaService.buscarPorId(id);
+    public ResponseEntity<NotasCategoriaRespostaDTO> buscarPorId(@PathVariable Integer id){
+        return notasCategoriaService.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
 
     }
 
     @PostMapping
-    public NotasCategoriaRespostaDTO criarCategoria(@RequestBody NotasCategoriaRequisicaoDTO notasCategoriaDTO){
-        return notasCategoriaService.criar(notasCategoriaDTO);
+    public ResponseEntity<NotasCategoriaRespostaDTO> criarCategoria(@RequestBody NotasCategoriaRequisicaoDTO notasCategoriaDTO){
+        return ResponseEntity.ok(notasCategoriaService.criar(notasCategoriaDTO));
     }
 
     @DeleteMapping
