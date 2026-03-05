@@ -48,7 +48,12 @@ public class NotasCategoriaService {
             notasCategoria.get().setNome(categoriaDTO.nome());
             return Optional.of(toRespostaDTO(notasCategoriaRepository.save(notasCategoria.get())));
     }
-    public void deletarPorId(Integer id){
+    public boolean deletarPorId(Integer id){
+        Optional<NotasCategoria> notasCategoria = notasCategoriaRepository.findById(id);
+        if(notasCategoria.isEmpty()) return false;
+        if(!notasCategoria.get().getNotas().isEmpty()) throw new IllegalStateException("Nao é possível deletar, existem dependências");
+
         notasCategoriaRepository.deleteById(id);
+        return true;
     }
 }

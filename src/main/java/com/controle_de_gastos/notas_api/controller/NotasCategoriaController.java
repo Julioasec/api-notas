@@ -43,8 +43,21 @@ public class NotasCategoriaController {
         return ResponseEntity.ok(notasCategoriaService.criar(notasCategoriaDTO));
     }
 
-    @DeleteMapping
-    public void deletarPorId(@RequestParam Integer id){
-        notasCategoriaService.deletarPorId(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
+        boolean isDeletado;
+
+        try{
+            isDeletado = notasCategoriaService.deletarPorId(id);
+
+        }catch (Exception ex){
+            return  ResponseEntity.status(409).build();
+        }
+
+        if(isDeletado) return ResponseEntity.noContent().build();
+
+        return ResponseEntity.notFound().build();
+
     }
+
 }
