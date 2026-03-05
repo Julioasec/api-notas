@@ -58,15 +58,15 @@ public class NotaMetodoPagamentoJuncaoService {
         MetodoPagamento metodo = metodoPagamentoRepository.findById(notaMPResposta.idMetodo())
                 .orElseThrow(()->new RuntimeException("Método de pagamento não encontrado"));
 
-        NotaMetodoPagamentoJuncao notaMPJuncao = new NotaMetodoPagamentoJuncao();
-        notaMPJuncao.setNota(nota);
-        notaMPJuncao.setMetodoPagamento(metodo);
+        NotaMetodoPagamentoJuncao notaMPJuncao = NotaMetodoPagamentoJuncao.builder()
+                .nota(nota)
+                .metodoPagamento(metodo)
+                .build();
 
         notaMPJuncao.getNota().getNotaMetodoPagamentoJuncaos().add(notaMPJuncao);
         notaMPJuncao.getMetodoPagamento().getNotaMetodoPagamentoJuncaos().add(notaMPJuncao);
         notaMPJuncao.setValorPago(notaMPResposta.valorPago());
-
-
+        
         return toRespostaDTO(notaMetodoPagametoJuncaoRepository.save(notaMPJuncao));
     }
 
