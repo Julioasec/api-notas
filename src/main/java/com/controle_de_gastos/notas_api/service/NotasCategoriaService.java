@@ -41,6 +41,13 @@ public class NotasCategoriaService {
 
     }
 
+    public Optional<NotasCategoriaRespostaDTO> atualizarTudo(Integer id, NotasCategoriaRequisicaoDTO categoriaDTO){
+            Optional<NotasCategoria> notasCategoria = notasCategoriaRepository.findById(id);
+            if(notasCategoria.isEmpty()) return Optional.empty();
+
+            notasCategoria.get().setNome(categoriaDTO.nome());
+            return Optional.of(toRespostaDTO(notasCategoriaRepository.save(notasCategoria.get())));
+    }
     public void deletarPorId(Integer id){
         notasCategoriaRepository.deleteById(id);
     }

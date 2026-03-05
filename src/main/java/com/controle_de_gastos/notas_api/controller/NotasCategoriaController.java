@@ -19,7 +19,7 @@ public class NotasCategoriaController {
     private final NotasCategoriaService notasCategoriaService;
 
     @GetMapping
-    public ResponseEntity<List<NotasCategoriaRespostaDTO>> listarCategorias(){
+    public ResponseEntity<List<NotasCategoriaRespostaDTO>> listarTodos(){
         return ResponseEntity.ok(notasCategoriaService.listarTodos());
     }
 
@@ -31,8 +31,15 @@ public class NotasCategoriaController {
 
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<NotasCategoriaRespostaDTO> atualizarTudo(@PathVariable Integer id, @RequestBody NotasCategoriaRequisicaoDTO notasCategoriaDTO){
+        return notasCategoriaService.atualizarTudo(id, notasCategoriaDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping
-    public ResponseEntity<NotasCategoriaRespostaDTO> criarCategoria(@RequestBody NotasCategoriaRequisicaoDTO notasCategoriaDTO){
+    public ResponseEntity<NotasCategoriaRespostaDTO> criar(@RequestBody NotasCategoriaRequisicaoDTO notasCategoriaDTO){
         return ResponseEntity.ok(notasCategoriaService.criar(notasCategoriaDTO));
     }
 
