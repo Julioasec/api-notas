@@ -1,5 +1,6 @@
 package com.controle_de_gastos.notas_api.service;
 
+import com.controle_de_gastos.notas_api.dto.projecao.NotaSimplesProjecaoDTO;
 import com.controle_de_gastos.notas_api.repository.MetodoPagamentoRepository;
 import com.controle_de_gastos.notas_api.repository.NotaMetodoPagametoJuncaoRepository;
 import com.controle_de_gastos.notas_api.repository.NotaRepository;
@@ -28,13 +29,16 @@ public class NotaMetodoPagamentoJuncaoService {
 
 
     public NotaMetodoPagamentoRespostaDTO toRespostaDTO(NotaMetodoPagamentoJuncao  notaMetodoPagamentoJuncao) {
-           NotaRespostaDTO notaRespostaDTO = notaService.toRespostaDTO(notaMetodoPagamentoJuncao.getNota());
            MetodoPagamentoRespostaDTO metodoPagamentoRespostaDTO = metodoPagamentoService.toRespostaDTO(notaMetodoPagamentoJuncao.getMetodoPagamento());
            Double valorPago = notaMetodoPagamentoJuncao.getValorPago();
 
             return new NotaMetodoPagamentoRespostaDTO(
                     notaMetodoPagamentoJuncao.getId(),
-                    notaRespostaDTO,
+                    new NotaSimplesProjecaoDTO(
+                            notaMetodoPagamentoJuncao.getNota().getId(),
+                            notaMetodoPagamentoJuncao.getNota().getData(),
+                            notaMetodoPagamentoJuncao.getNota().getTotal()
+                    ),
                     metodoPagamentoRespostaDTO,
                     valorPago
             );
@@ -71,7 +75,11 @@ public class NotaMetodoPagamentoJuncaoService {
                 .map(this::toRespostaDTO);
     }
 
-    public void deletarPorId(Integer id){
+    public boolean deletarPorId(Integer id){
+        Optional<NotaMetodoPagamentoJuncao> nMPJuncao = notaMetodoPagametoJuncaoRepository.findById(id);
+        if(nMPJuncao.isEmpty()) return false;
+
         notaMetodoPagametoJuncaoRepository.deleteById(id);
+        return true;
     }
 }

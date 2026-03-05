@@ -37,8 +37,14 @@ public class NotasMetodoPagamentoJuncaoController {
     }
 
     @DeleteMapping("/{id}")
-    public void deletarPorId(@PathVariable Integer id){
-        notaMetodoPagamentoJuncaoService.deletarPorId(id);
+    public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
+        boolean isDeletado = notaMetodoPagamentoJuncaoService.deletarPorId(id);
+        if (isDeletado){
+            return ResponseEntity.noContent().build();
+        }else{
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
 }
