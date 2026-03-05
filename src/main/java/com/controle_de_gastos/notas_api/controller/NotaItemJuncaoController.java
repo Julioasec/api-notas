@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/nota-item")
@@ -29,13 +28,16 @@ public class NotaItemJuncaoController {
     }
 
     @PostMapping
-    public ResponseEntity<NotaItemRespostaDTO> salvarJuncao(NotaItemRequisicaoDTO notaItemDTO){
-        return ResponseEntity.status(201).body(notaItemJuncaoService.salvarJuncao(notaItemDTO));
+    public ResponseEntity<NotaItemRespostaDTO> salvarJuncao(@RequestBody NotaItemRequisicaoDTO notaItemDTO){
+        return ResponseEntity.status(201).body(notaItemJuncaoService.criar(notaItemDTO));
     }
 
     @DeleteMapping("/{id}")
-    public void deletarPorId(@PathVariable Integer id){
-        notaItemJuncaoService.deletarPorId(id);
+    public ResponseEntity<Void> deletarPorId(@PathVariable Integer id){
+        boolean isDeletado = notaItemJuncaoService.desassociar(id);
+        if (isDeletado) return ResponseEntity.noContent().build();
+        else return ResponseEntity.notFound().build();
+
     }
 
 }
