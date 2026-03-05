@@ -35,13 +35,26 @@ public class NotasCategoriaService {
 
 
     public NotasCategoriaRespostaDTO criar(NotasCategoriaRequisicaoDTO notasCategoriaDTO){
-              NotasCategoria notasCategoria = new NotasCategoria();
-              notasCategoria.setNome(notasCategoriaDTO.nome());
+              NotasCategoria notasCategoria = NotasCategoria.builder()
+                      .nome(notasCategoriaDTO.nome())
+                      .build();
               return toRespostaDTO(notasCategoriaRepository.save(notasCategoria));
 
     }
 
-    public void deletarPorId(Integer id){
+    public Optional<NotasCategoriaRespostaDTO> atualizarTudo(Integer id, NotasCategoriaRequisicaoDTO categoriaDTO){
+            Optional<NotasCategoria> notasCategoria = notasCategoriaRepository.findById(id);
+            if(notasCategoria.isEmpty()) return Optional.empty();
+
+            notasCategoria.get().setNome(categoriaDTO.nome());
+            return Optional.of(toRespostaDTO(notasCategoriaRepository.save(notasCategoria.get())));
+    }
+    public boolean deletarPorId(Integer id){
+        Optional<NotasCategoria> notasCategoria = notasCategoriaRepository.findById(id);
+        if(notasCategoria.isEmpty()) return false;
+        if(!notasCategoria.get().getNotas().isEmpty()) throw new IllegalStateException("Nao é possível deletar, existem dependências");
+
         notasCategoriaRepository.deleteById(id);
+        return true;
     }
 }
