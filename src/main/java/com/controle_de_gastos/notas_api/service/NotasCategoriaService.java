@@ -35,8 +35,9 @@ public class NotasCategoriaService {
 
 
     public NotasCategoriaRespostaDTO criar(NotasCategoriaRequisicaoDTO notasCategoriaDTO){
-              NotasCategoria notasCategoria = new NotasCategoria();
-              notasCategoria.setNome(notasCategoriaDTO.nome());
+              NotasCategoria notasCategoria = NotasCategoria.builder()
+                      .nome(notasCategoriaDTO.nome())
+                      .build();
               return toRespostaDTO(notasCategoriaRepository.save(notasCategoria));
 
     }
