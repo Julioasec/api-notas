@@ -57,7 +57,7 @@ public class NotaItemJuncaoService {
                 .map(this::toRespostaDTO);
     }
 
-    public NotaItemRespostaDTO criar(NotaItemRequisicaoDTO notaItemDTO){
+    public NotaItemRespostaDTO associar(NotaItemRequisicaoDTO notaItemDTO){
 
         Nota nota = notaRepository.findById(notaItemDTO.idNota())
                     .orElseThrow(()->new RuntimeException("Nota não encontrada"));
@@ -65,13 +65,13 @@ public class NotaItemJuncaoService {
         Item item = itemRepository.findById(notaItemDTO.idItem())
                 .orElseThrow(()->new RuntimeException("Item não encontrado"));
 
-        NotaItemJuncao notaItemJuncao = new NotaItemJuncao();
-
-        notaItemJuncao.setNota(nota);
-        notaItemJuncao.setItem(item);
-        notaItemJuncao.setQuantidade(notaItemDTO.quantidade());
-        notaItemJuncao.setValorUnitario(notaItemDTO.valorUnitario());
-
+        NotaItemJuncao notaItemJuncao = NotaItemJuncao.builder()
+                .nota(nota)
+                .item(item)
+                .quantidade(notaItemDTO.quantidade())
+                .valorUnitario(notaItemDTO.valorUnitario())
+                .build();
+        
         notaItemJuncao.getNota().getNotaItemJuncaos().add(notaItemJuncao);
         notaItemJuncao.getItem().getNotaItemJuncaos().add(notaItemJuncao);
 

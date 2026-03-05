@@ -6,6 +6,7 @@ import lombok.*;
 @Entity
 @Setter
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "notas_itens")

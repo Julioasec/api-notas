@@ -28,8 +28,8 @@ public class NotaItemJuncaoController {
     }
 
     @PostMapping
-    public ResponseEntity<NotaItemRespostaDTO> salvarJuncao(@RequestBody NotaItemRequisicaoDTO notaItemDTO){
-        return ResponseEntity.status(201).body(notaItemJuncaoService.criar(notaItemDTO));
+    public ResponseEntity<NotaItemRespostaDTO> associar(@RequestBody NotaItemRequisicaoDTO notaItemDTO){
+        return ResponseEntity.status(201).body(notaItemJuncaoService.associar(notaItemDTO));
     }
 
     @DeleteMapping("/{id}")
