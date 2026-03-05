@@ -1,5 +1,6 @@
 package com.controle_de_gastos.notas_api.controller;
 
+import com.controle_de_gastos.notas_api.dto.requisicao.ParcelamentoRequisicaoDTO;
 import com.controle_de_gastos.notas_api.dto.resposta.ParcelamentoRespostaDTO;
 import com.controle_de_gastos.notas_api.service.ParcelamentoService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,13 @@ public class ParcelamentoController {
         @GetMapping("/{id}")
         public ResponseEntity<ParcelamentoRespostaDTO> listarPorId(@PathVariable Integer id){
             return parcelamentoService.buscarPorId(id)
+                    .map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        }
+
+        @PutMapping("/{id}")
+        public ResponseEntity<ParcelamentoRespostaDTO> atualizarTudo(@PathVariable Integer id, @RequestBody ParcelamentoRequisicaoDTO parcelamentoDTO){
+            return parcelamentoService.atualizarTudo(id, parcelamentoDTO)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
         }

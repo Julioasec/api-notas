@@ -53,6 +53,17 @@ public class ParcelamentoService {
                     .map(this::toRespostaDTO);
     }
 
+    public Optional<ParcelamentoRespostaDTO> atualizarTudo(Integer id, ParcelamentoRequisicaoDTO dto){
+            Optional<Parcelamento> parcelamento = parcelamentoRepository.findById(id);
+            if (parcelamento.isEmpty()) return Optional.empty();
+
+            parcelamento.get().setParcela(dto.numeroParcela());
+            parcelamento.get().setDataPagamento(dto.dataPagamento());
+            parcelamento.get().setValorParcela(dto.valorParcela());
+            parcelamento.get().setPago(dto.pago());
+            return Optional.of(toRespostaDTO(parcelamento.get()));
+
+    }
 
     public ParcelamentoRespostaDTO associar(ParcelamentoRequisicaoDTO parcelamentoRequisicaoDTO, Integer idNota){
             Nota nota = notaRepository.findById(idNota)
