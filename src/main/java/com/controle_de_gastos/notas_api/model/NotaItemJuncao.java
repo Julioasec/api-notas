@@ -6,11 +6,13 @@ import lombok.*;
 @Entity
 @Setter
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "notas_itens")
 public class NotaItemJuncao {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_notas_itens")
     private Integer id;
     private Integer quantidade;
