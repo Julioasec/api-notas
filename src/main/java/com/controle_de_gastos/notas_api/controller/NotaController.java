@@ -51,6 +51,20 @@ public class NotaController {
         return ResponseEntity.status(201).body(parcelamentoService.associar(parcelamentoDTO, notaId));
     }
 
+    @DeleteMapping("/{notaId}/parcelamento/{parcelamentoId}")
+    public ResponseEntity<Void> deletarParcela(@PathVariable Integer notaId,@PathVariable Integer parcelamentoId ){
+        boolean isDeletado;
+        try{
+           isDeletado = parcelamentoService.deletarPorId(notaId, parcelamentoId);
+
+        }catch (Exception ex){
+            return ResponseEntity.status(403).build();
+        }
+
+        if (isDeletado) return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
+    }
+
     @DeleteMapping
     public void deletarPorId(Integer id){
         notaService.deletarPorId(id);

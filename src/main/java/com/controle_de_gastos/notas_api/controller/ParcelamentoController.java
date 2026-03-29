@@ -37,5 +37,8 @@ public class ParcelamentoController {
                     .orElse(ResponseEntity.notFound().build());
         }
 
-        //post está no NotaController
+        //post e delete em NotaController
+
+
+
 }

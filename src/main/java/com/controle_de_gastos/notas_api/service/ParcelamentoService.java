@@ -78,7 +78,14 @@ public class ParcelamentoService {
             return toRespostaDTO(parcelamentoRepository.save(parcelamento));
     }
 
-    public void deletarPorId(Integer id){
-             parcelamentoRepository.deleteById(id);
+    public boolean deletarPorId(Integer idNota,  Integer idParcela){
+             Optional<Parcelamento> parcelamento = parcelamentoRepository.findById(idParcela);
+            if (parcelamento.isEmpty()) return false;
+            if(!parcelamento.get().getNota().getId().equals(idNota)){
+                throw new RuntimeException("Parcela não pertence a nota informada");
+            }
+
+            parcelamentoRepository.deleteById(idParcela);
+            return true;
     }
 }
