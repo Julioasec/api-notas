@@ -69,7 +69,7 @@ public class ParcelamentoService {
             Nota nota = notaRepository.findById(idNota)
                     .orElseThrow(()->new RuntimeException("Nota não encontrada"));
 
-            Parcelamento parcelamento = new Parcelamento();
+            Parcelamento parcelamento = Parcelamento.builder().build();
             parcelamento.setNota(nota);
             parcelamento.setParcela(parcelamentoRequisicaoDTO.numeroParcela());
             parcelamento.setDataPagamento(parcelamentoRequisicaoDTO.dataPagamento());
