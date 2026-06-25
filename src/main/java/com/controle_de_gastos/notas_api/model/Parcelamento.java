@@ -9,7 +9,9 @@ import java.time.LocalDate;
 
 
 @Entity
-@Data
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Parcelamento {

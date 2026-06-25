@@ -8,6 +8,7 @@ import com.controle_de_gastos.notas_api.dto.requisicao.ParcelamentoRequisicaoDTO
 import com.controle_de_gastos.notas_api.service.NotaService;
 import com.controle_de_gastos.notas_api.service.ParcelamentoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -46,8 +47,22 @@ public class NotaController {
     }
 
     @PostMapping("/{notaId}/parcelamento")
-    public ParcelamentoRespostaDTO associarParcelamento(@RequestBody ParcelamentoRequisicaoDTO parcelamentoDTO, @PathVariable Integer notaId){
-        return parcelamentoService.associar(parcelamentoDTO, notaId);
+    public ResponseEntity<ParcelamentoRespostaDTO> associarParcelamento(@RequestBody ParcelamentoRequisicaoDTO parcelamentoDTO, @PathVariable Integer notaId){
+        return ResponseEntity.status(201).body(parcelamentoService.associar(parcelamentoDTO, notaId));
+    }
+
+    @DeleteMapping("/{notaId}/parcelamento/{parcelamentoId}")
+    public ResponseEntity<Void> deletarParcela(@PathVariable Integer notaId,@PathVariable Integer parcelamentoId ){
+        boolean isDeletado;
+        try{
+           isDeletado = parcelamentoService.deletarPorId(notaId, parcelamentoId);
+
+        }catch (Exception ex){
+            return ResponseEntity.status(403).build();
+        }
+
+        if (isDeletado) return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping

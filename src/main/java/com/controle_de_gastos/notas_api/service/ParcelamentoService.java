@@ -53,12 +53,23 @@ public class ParcelamentoService {
                     .map(this::toRespostaDTO);
     }
 
+    public Optional<ParcelamentoRespostaDTO> atualizarTudo(Integer id, ParcelamentoRequisicaoDTO dto){
+            Optional<Parcelamento> parcelamento = parcelamentoRepository.findById(id);
+            if (parcelamento.isEmpty()) return Optional.empty();
+
+            parcelamento.get().setParcela(dto.numeroParcela());
+            parcelamento.get().setDataPagamento(dto.dataPagamento());
+            parcelamento.get().setValorParcela(dto.valorParcela());
+            parcelamento.get().setPago(dto.pago());
+            return Optional.of(toRespostaDTO(parcelamento.get()));
+
+    }
 
     public ParcelamentoRespostaDTO associar(ParcelamentoRequisicaoDTO parcelamentoRequisicaoDTO, Integer idNota){
             Nota nota = notaRepository.findById(idNota)
                     .orElseThrow(()->new RuntimeException("Nota não encontrada"));
 
-            Parcelamento parcelamento = new Parcelamento();
+            Parcelamento parcelamento = Parcelamento.builder().build();
             parcelamento.setNota(nota);
             parcelamento.setParcela(parcelamentoRequisicaoDTO.numeroParcela());
             parcelamento.setDataPagamento(parcelamentoRequisicaoDTO.dataPagamento());
@@ -67,7 +78,14 @@ public class ParcelamentoService {
             return toRespostaDTO(parcelamentoRepository.save(parcelamento));
     }
 
-    public void deletarPorId(Integer id){
-             parcelamentoRepository.deleteById(id);
+    public boolean deletarPorId(Integer idNota,  Integer idParcela){
+             Optional<Parcelamento> parcelamento = parcelamentoRepository.findById(idParcela);
+            if (parcelamento.isEmpty()) return false;
+            if(!parcelamento.get().getNota().getId().equals(idNota)){
+                throw new RuntimeException("Parcela não pertence a nota informada");
+            }
+
+            parcelamentoRepository.deleteById(idParcela);
+            return true;
     }
 }
